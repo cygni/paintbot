@@ -224,7 +224,7 @@ public class WorldState {
 
     public int[] listPositionWithOwner(String playerId){
         return IntStream.range(0, getSize())
-                .filter( position -> getTile(position).getOwnerID().equals(playerId))
+                .filter( position -> playerId.equals(getTile(position).getOwnerID()))
                 .toArray();
     }
 

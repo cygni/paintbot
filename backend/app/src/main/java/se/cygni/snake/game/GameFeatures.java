@@ -53,7 +53,7 @@ public class GameFeatures {
 
     private int startBombs = 0;
 
-    private int gameDurationInSeconds = 180;
+    private int gameDurationInSeconds = 20; //TODO Dont forget to set this back to something reasonable
 
     /**
      * Enforces limits on some values
