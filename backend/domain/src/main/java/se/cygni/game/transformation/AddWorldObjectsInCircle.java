@@ -4,7 +4,7 @@ import se.cygni.game.Coordinate;
 import se.cygni.game.Tile;
 import se.cygni.game.WorldState;
 import se.cygni.game.random.XORShiftRandom;
-import se.cygni.game.worldobject.SnakePart;
+import se.cygni.game.worldobject.Character;
 import se.cygni.game.worldobject.WorldObject;
 
 import java.util.Collections;
@@ -64,9 +64,9 @@ public class AddWorldObjectsInCircle implements WorldTransformation {
             }
 
             emptyPositions.remove(tileNo);
-            if (wo instanceof SnakePart) {
-                SnakePart snakePart = (SnakePart) wo;
-                snakePart.setPosition(tileNo);
+            if (wo instanceof Character) {
+                Character character = (Character) wo;
+                character.setPosition(tileNo);
             }
             tiles[tileNo] = new Tile(wo);
             rotated += rotation;

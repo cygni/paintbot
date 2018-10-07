@@ -7,17 +7,20 @@ import se.cygni.snake.api.model.StunReason;
 import se.cygni.snake.api.type.GameMessageType;
 
 @GameMessageType
-public class SnakeDeadEvent extends GameMessage {
+public class CharacterStunnedEvent extends GameMessage {
 
     private final StunReason stunReason;
+    private final int durationInTicks;
     private final String playerId;
     private final int x, y;
     private final String gameId;
     private final long gameTick;
 
+
     @JsonCreator
-    public SnakeDeadEvent(
+    public CharacterStunnedEvent(
             @JsonProperty("stunReason") StunReason stunReason,
+            @JsonProperty("durationInTicks") int durationInTicks,
             @JsonProperty("playerId") String playerId,
             @JsonProperty("x") int x,
             @JsonProperty("y") int y,
@@ -25,6 +28,7 @@ public class SnakeDeadEvent extends GameMessage {
             @JsonProperty("gameTick") long gameTick) {
 
         this.stunReason = stunReason;
+        this.durationInTicks = durationInTicks;
         this.playerId = playerId;
         this.x = x;
         this.y = y;
@@ -32,13 +36,14 @@ public class SnakeDeadEvent extends GameMessage {
         this.gameTick = gameTick;
     }
 
-    public SnakeDeadEvent(SnakeDeadEvent sde) {
-        this.stunReason = sde.getStunReason();
-        this.playerId = sde.getPlayerId();
-        this.x = sde.getX();
-        this.y = sde.getY();
-        this.gameId = sde.getGameId();
-        this.gameTick = sde.getGameTick();
+    public CharacterStunnedEvent(CharacterStunnedEvent cse) {
+        this.stunReason = cse.getStunReason();
+        this.durationInTicks = cse.getDurationInTicks();
+        this.playerId = cse.getPlayerId();
+        this.x = cse.getX();
+        this.y = cse.getY();
+        this.gameId = cse.getGameId();
+        this.gameTick = cse.getGameTick();
     }
 
     /**
@@ -91,13 +96,18 @@ public class SnakeDeadEvent extends GameMessage {
 
     @Override
     public String toString() {
-        return "SnakeDeadEvent{" +
+        return "CharacterStunnedEvent{" +
                 "stunReason=" + stunReason +
                 ", playerId='" + playerId + '\'' +
                 ", x=" + x +
                 ", y=" + y +
                 ", gameId='" + gameId + '\'' +
                 ", gameTick=" + gameTick +
+                ", durationInTicks=" + durationInTicks +
                 '}';
+    }
+
+    public int getDurationInTicks() {
+        return durationInTicks;
     }
 }

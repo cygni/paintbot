@@ -9,9 +9,6 @@ public class GameFeatures {
     // Maximum noof players in this game
     private int maxNoofPlayers = 10;
 
-    // The starting length of a snake
-    private int startSnakeLength = 1;
-
     // The time clients have to respond with a new move
     private int timeInMsPerTick = 250;
 
@@ -19,73 +16,55 @@ public class GameFeatures {
     private boolean obstaclesEnabled = true;
 
     // Randomly place food
-    private boolean foodEnabled = true;
-
-    // If a snake manages to nibble on the tail
-    // of another snake it will consume that tail part.
-    // I.e. the nibbling snake will grow one and
-    // victim will loose one.
-    private boolean headToTailConsumes = true;
-
-    // Only valid if headToTailConsumes is active.
-    // When tailConsumeGrows is set to true the
-    // consuming snake will grow when eating
-    // another snake.
-    private boolean tailConsumeGrows = false;
+    private boolean bombsEnabled = true;
 
     // Likelihood (in percent) that a new food will be
     // added to the world
-    private int addFoodLikelihood = 15;
+    private int addBombLikelihood = 15;
 
     // Likelihood (in percent) that a
     // food will be removed from the world
-    private int removeFoodLikelihood = 5;
+    private int removeBombLikelihood = 5;
 
-    // Snake grow every N world ticks.
-    // 0 for disabled
-    private int spontaneousGrowthEveryNWorldTick = 3;
 
     // Indicates that this is a training game,
     // Bots will be added to fill up remaining players.
     private boolean trainingGame = true;
 
     // Points given per length unit the Snake has
-    private int pointsPerLength = 1;
+    private int pointsPerTileOwned = 1;
 
-    // Points given per Food item consumed
-    private int pointsPerFood = 2;
 
     // Points given per caused death (i.e. another
     // snake collides with yours)
-    private int pointsPerCausedDeath = 5;
+    private int pointsPerCausedStun = 5;
 
-    // Points given when a snake nibbles the tail
-    // of another snake
-    private int pointsPerNibble = 10;
 
-    // Number of rounds a tail is protected after nibble
-    private int noofRoundsTailProtectedAfterNibble = 3;
+    // Number of rounds a character is protected after stun
+    private int noOfTicksInvulnerableAfterStun = 3;
 
+    // Number of rounds a character is stunned
+
+    private int noOfTicksStunned = 3;
     // The starting count for obstacles
+
     private int startObstacles = 5;
+    // The starting count for bomb
 
-    // The starting count for food
-    private int startFood = 0;
+    private int startBombs = 0;
 
+    private int gameDurationInSeconds = 180;
 
     /**
      * Enforces limits on some values
      */
     public void applyValidation() {
-        startSnakeLength = Math.min(10, startSnakeLength);
-        startSnakeLength = Math.max(1, startSnakeLength);
-
         maxNoofPlayers = Math.min(20, maxNoofPlayers);
         maxNoofPlayers = Math.max(2, maxNoofPlayers);
 
-        spontaneousGrowthEveryNWorldTick = spontaneousGrowthEveryNWorldTick < 2 ? 2 : spontaneousGrowthEveryNWorldTick;
+        // spontaneousGrowthEveryNWorldTick = spontaneousGrowthEveryNWorldTick < 2 ? 2 : spontaneousGrowthEveryNWorldTick;
         startObstacles = Math.max(0, startObstacles);
-        startFood = Math.max(0, startFood);
+        startBombs = Math.max(0, startBombs);
     }
 
     public int getWidth() {
@@ -96,20 +75,24 @@ public class GameFeatures {
         return height;
     }
 
+    public int getGameDurationInSeconds() {
+        return gameDurationInSeconds;
+    }
+
+    public int getNoOfTicksStunned() {
+        return noOfTicksStunned;
+    }
+
+    public void setNoOfTicksStunned(int noOfTicksStunned) {
+        this.noOfTicksStunned = noOfTicksStunned;
+    }
+
     public int getMaxNoofPlayers() {
         return maxNoofPlayers;
     }
 
     public void setMaxNoofPlayers(int maxNoofPlayers) {
         this.maxNoofPlayers = maxNoofPlayers;
-    }
-
-    public int getStartSnakeLength() {
-        return startSnakeLength;
-    }
-
-    public void setStartSnakeLength(int startSnakeLength) {
-        this.startSnakeLength = startSnakeLength;
     }
 
     public int getTimeInMsPerTick() {
@@ -128,52 +111,28 @@ public class GameFeatures {
         this.obstaclesEnabled = obstaclesEnabled;
     }
 
-    public boolean isFoodEnabled() {
-        return foodEnabled;
+    public boolean isBombsEnabled() {
+        return bombsEnabled;
     }
 
-    public void setFoodEnabled(boolean foodEnabled) {
-        this.foodEnabled = foodEnabled;
+    public void setBombsEnabled(boolean bombsEnabled) {
+        this.bombsEnabled = bombsEnabled;
     }
 
-    public boolean isHeadToTailConsumes() {
-        return headToTailConsumes;
+    public int getAddBombLikelihood() {
+        return addBombLikelihood;
     }
 
-    public void setHeadToTailConsumes(boolean headToTailConsumes) {
-        this.headToTailConsumes = headToTailConsumes;
+    public void setAddBombLikelihood(int addBombLikelihood) {
+        this.addBombLikelihood = addBombLikelihood;
     }
 
-    public boolean isTailConsumeGrows() {
-        return tailConsumeGrows;
+    public int getRemoveBombLikelihood() {
+        return removeBombLikelihood;
     }
 
-    public void setTailConsumeGrows(boolean tailConsumeGrows) {
-        this.tailConsumeGrows = tailConsumeGrows;
-    }
-
-    public int getAddFoodLikelihood() {
-        return addFoodLikelihood;
-    }
-
-    public void setAddFoodLikelihood(int addFoodLikelihood) {
-        this.addFoodLikelihood = addFoodLikelihood;
-    }
-
-    public int getRemoveFoodLikelihood() {
-        return removeFoodLikelihood;
-    }
-
-    public void setRemoveFoodLikelihood(int removeFoodLikelihood) {
-        this.removeFoodLikelihood = removeFoodLikelihood;
-    }
-
-    public int getSpontaneousGrowthEveryNWorldTick() {
-        return spontaneousGrowthEveryNWorldTick;
-    }
-
-    public void setSpontaneousGrowthEveryNWorldTick(int spontaneousGrowthEveryNWorldTick) {
-        this.spontaneousGrowthEveryNWorldTick = spontaneousGrowthEveryNWorldTick;
+    public void setRemoveBombLikelihood(int removeBombLikelihood) {
+        this.removeBombLikelihood = removeBombLikelihood;
     }
 
     public boolean isTrainingGame() {
@@ -184,44 +143,28 @@ public class GameFeatures {
         this.trainingGame = trainingGame;
     }
 
-    public int getPointsPerLength() {
-        return pointsPerLength;
+    public int getPointsPerTileOwned() {
+        return pointsPerTileOwned;
     }
 
-    public void setPointsPerLength(int pointsPerLength) {
-        this.pointsPerLength = pointsPerLength;
+    public void setPointsPerTileOwned(int pointsPerTileOwned) {
+        this.pointsPerTileOwned = pointsPerTileOwned;
     }
 
-    public int getPointsPerFood() {
-        return pointsPerFood;
+    public int getPointsPerCausedStun() {
+        return pointsPerCausedStun;
     }
 
-    public void setPointsPerFood(int pointsPerFood) {
-        this.pointsPerFood = pointsPerFood;
+    public void setPointsPerCausedStun(int pointsPerCausedStun) {
+        this.pointsPerCausedStun = pointsPerCausedStun;
     }
 
-    public int getPointsPerCausedDeath() {
-        return pointsPerCausedDeath;
+    public int getNoOfTicksInvulnerableAfterStun() {
+        return noOfTicksInvulnerableAfterStun;
     }
 
-    public void setPointsPerCausedDeath(int pointsPerCausedDeath) {
-        this.pointsPerCausedDeath = pointsPerCausedDeath;
-    }
-
-    public int getPointsPerNibble() {
-        return pointsPerNibble;
-    }
-
-    public void setPointsPerNibble(int pointsPerNibble) {
-        this.pointsPerNibble = pointsPerNibble;
-    }
-
-    public int getNoofRoundsTailProtectedAfterNibble() {
-        return noofRoundsTailProtectedAfterNibble;
-    }
-
-    public void setNoofRoundsTailProtectedAfterNibble(int noofRoundsTailProtectedAfterNibble) {
-        this.noofRoundsTailProtectedAfterNibble = noofRoundsTailProtectedAfterNibble;
+    public void setNoOfTicksInvulnerableAfterStun(int noOfTicksInvulnerableAfterStun) {
+        this.noOfTicksInvulnerableAfterStun = noOfTicksInvulnerableAfterStun;
     }
 
     public int getStartObstacles() {
@@ -232,11 +175,11 @@ public class GameFeatures {
         this.startObstacles = startObstacles;
     }
 
-    public int getStartFood() {
-        return startFood;
+    public int getStartBombs() {
+        return startBombs;
     }
 
-    public void setStartFood(int startFood) {
-        this.startFood = startFood;
+    public void setStartBombs(int startBombs) {
+        this.startBombs = startBombs;
     }
 }

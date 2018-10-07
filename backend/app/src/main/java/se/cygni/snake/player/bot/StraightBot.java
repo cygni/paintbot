@@ -3,8 +3,8 @@ package se.cygni.snake.player.bot;
 import com.google.common.eventbus.EventBus;
 import se.cygni.game.random.XORShiftRandom;
 import se.cygni.snake.api.event.MapUpdateEvent;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.api.model.Map;
-import se.cygni.snake.api.model.SnakeDirection;
 import se.cygni.snake.api.request.RegisterMove;
 import se.cygni.snake.client.MapUtil;
 
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class StraightBot extends BotPlayer {
 
-    SnakeDirection lastDirection;
+    CharacterAction lastDirection;
     private XORShiftRandom random = new XORShiftRandom();
 
     public StraightBot(String playerId, EventBus incomingEventbus) {
@@ -39,11 +39,11 @@ public class StraightBot extends BotPlayer {
         MapUtil mapUtil = new MapUtil(map, playerId);
 
 
-        SnakeDirection chosenDirection = lastDirection;
-        List<SnakeDirection> directions = new ArrayList<>();
+        CharacterAction chosenDirection = lastDirection;
+        List<CharacterAction> directions = new ArrayList<>();
 
         if (!mapUtil.canIMoveInDirection(lastDirection)) {
-            directions = Arrays.stream(SnakeDirection.values()).filter( direction ->
+            directions = Arrays.stream(CharacterAction.values()).filter(direction ->
                 mapUtil.canIMoveInDirection(direction)
             ).collect(Collectors.toList());
 
@@ -60,9 +60,9 @@ public class StraightBot extends BotPlayer {
 
     }
 
-    private SnakeDirection getRandomDirection() {
-        int max = SnakeDirection.values().length-1;
+    private CharacterAction getRandomDirection() {
+        int max = CharacterAction.values().length-1;
 
-        return SnakeDirection.values()[random.nextInt(max)];
+        return CharacterAction.values()[random.nextInt(max)];
     }
 }

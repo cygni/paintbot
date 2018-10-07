@@ -1,17 +1,17 @@
 package se.cygni.game.exception;
 
-import se.cygni.game.worldobject.SnakeHead;
+import se.cygni.game.worldobject.CharacterImpl;
 
 public class SnakeCollision extends CollisionException {
 
-    private final SnakeHead collisionWith;
+    private final CharacterImpl collisionWith;
 
-    public SnakeCollision(int position, SnakeHead head) {
+    public SnakeCollision(int position, CharacterImpl head) {
         super(position);
         this.collisionWith = head;
     }
 
-    public SnakeHead getCollisionWith() {
+    public CharacterImpl getCollisionWith() {
         return collisionWith;
     }
 }

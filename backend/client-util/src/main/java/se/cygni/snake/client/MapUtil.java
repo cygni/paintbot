@@ -1,6 +1,5 @@
 package se.cygni.snake.client;
 
-import org.apache.commons.lang3.ArrayUtils;
 import se.cygni.snake.api.model.*;
 
 import java.util.Arrays;
@@ -12,11 +11,11 @@ public class MapUtil {
     private final Map map;
     private final int mapSize;
     private final String playerId;
-    private final java.util.Map<String, SnakeInfo> snakeInfoMap;
+    private final java.util.Map<String, CharacterInfo> characterInfoMap;
     private final java.util.Map<String, BitSet> snakeSpread;
-    private final BitSet foods;
+    private final BitSet bombs;
     private final BitSet obstacles;
-    private final BitSet snakes;
+    private final BitSet characters;
 
 
     public MapUtil(Map map, String playerId) {
@@ -24,19 +23,19 @@ public class MapUtil {
         this.mapSize = map.getHeight() * map.getWidth();
 
         this.playerId = playerId;
-        snakeInfoMap = new HashMap<>();
+        characterInfoMap = new HashMap<>();
         snakeSpread = new HashMap<>();
 
         int mapLength = map.getHeight() * map.getWidth();
-        foods = new BitSet(mapLength);
+        bombs = new BitSet(mapLength);
         obstacles = new BitSet(mapLength);
-        snakes = new BitSet(mapLength);
+        characters = new BitSet(mapLength);
 
-        populateSnakeInfo();
+        populateCharacterInfo();
         populateStaticTileBits();
     }
 
-    public boolean canIMoveInDirection(SnakeDirection direction) {
+    public boolean canIMoveInDirection(CharacterAction direction) {
         try {
             MapCoordinate myPos = getMyPosition();
             MapCoordinate myNewPos = myPos.translateByDirection(direction);
@@ -48,30 +47,21 @@ public class MapUtil {
     }
 
     /**
-     * Returns an array of MapCoordinate for the snake with the
-     * supplied playerId.
-     * <p>
-     * The first MapCoordinate always points to the MapSnakeHead and
-     * the last to the snakes MapSnakeBody tail part.
+     * Returns an array of coordinates painted in the provided player's colour.
      *
      * @param playerId
-     * @return an array of MapCoordinate for the snake with matching playerId
+     * @return an array of MapCoordinate coloured by the player with matching playerId
      */
-    public MapCoordinate[] getSnakeSpread(String playerId) {
-        return translatePositions(
-                snakeInfoMap.get(playerId).getPositions());
+    public MapCoordinate[] getPlayerColouredPositions(String playerId) {
+        return translatePositions(characterInfoMap.get(playerId).getColouredPositions());
     }
 
-    public int getPlayerLength(String playerId) {
-        return snakeInfoMap.get(playerId)
-                .getLength();
-    }
 
     /**
      * @return An array containing all MapCoordinates where there's Food
      */
-    public MapCoordinate[] listCoordinatesContainingFood() {
-        return translatePositions(map.getFoodPositions());
+    public MapCoordinate[] listCoordinatesContainingBombs() {
+        return translatePositions(map.getBombPositions());
     }
 
     /**
@@ -101,15 +91,15 @@ public class MapUtil {
         if (isPositionOutOfBounds(position))
             return false;
 
-        return !(obstacles.get(position) || snakes.get(position));
+        return !(obstacles.get(position) || characters.get(position));
     }
 
     /**
-     * @return The MapCoordinate of your snake's head.
+     * @return The MapCoordinate of your character
      */
     public MapCoordinate getMyPosition() {
         return translatePosition(
-                snakeInfoMap.get(playerId).getPositions()[0]);
+                characterInfoMap.get(playerId).getPosition());
     }
 
     /**
@@ -138,16 +128,16 @@ public class MapUtil {
             throw new RuntimeException(errorMessage);
         }
 
-        if (foods.get(position)) {
-            return new MapFood();
+        if (bombs.get(position)) {
+            return new MapBomb();
         }
 
         if (obstacles.get(position)) {
             return new MapObstacle();
         }
 
-        if (snakes.get(position)) {
-            return getSnakePart(position);
+        if (characters.get(position)) {
+            return getCharacter(position);
         }
 
         return new MapEmpty();
@@ -202,52 +192,34 @@ public class MapUtil {
                 .toArray();
     }
 
-    private TileContent getSnakePart(int position) {
+    private TileContent getCharacter(int position) {
         String playerId = getPlayerIdAtPosition(position);
-
-        SnakeInfo snakeInfo = snakeInfoMap.get(playerId);
-
-        int order = ArrayUtils.indexOf(snakeInfo.getPositions(), position);
-
-        if (order == 0) {
-            return new MapSnakeHead(snakeInfo.getName(), playerId);
-        }
-
-        if (order == snakeInfo.getLength() - 1) {
-            return new MapSnakeBody(true, playerId, order);
-        }
-        return new MapSnakeBody(false, playerId, order);
+        CharacterInfo characterInfo = characterInfoMap.get(playerId);
+        return new MapCharacter(characterInfo.getName(), playerId);
     }
 
     private String getPlayerIdAtPosition(int position) {
-        for (SnakeInfo snakeInfo : map.getSnakeInfos()) {
+        for (CharacterInfo characterInfo : map.getCharacterInfos()) {
             if (snakeSpread
-                    .get(snakeInfo.getId())
+                    .get(characterInfo.getId())
                     .get(position)) {
 
-                return snakeInfo.getId();
+                return characterInfo.getId();
             }
         }
         throw new RuntimeException("No snake at position: " + position);
     }
 
-    private void populateSnakeInfo() {
-        for (SnakeInfo snakeInfo : map.getSnakeInfos()) {
-            snakeInfoMap.put(snakeInfo.getId(), snakeInfo);
-
-            BitSet snakePositions = new BitSet(map.getHeight() * map.getWidth());
-            for (int pos : snakeInfo.getPositions()) {
-                snakes.set(pos);
-                snakePositions.set(pos);
-            }
-
-            snakeSpread.put(snakeInfo.getId(), snakePositions);
+    private void populateCharacterInfo() {
+        for (CharacterInfo characterInfo : map.getCharacterInfos()) {
+            characterInfoMap.put(characterInfo.getId(), characterInfo);
+            characters.set(characterInfo.getPosition());
         }
     }
 
     private void populateStaticTileBits() {
-        for (int pos : map.getFoodPositions()) {
-            foods.set(pos);
+        for (int pos : map.getBombPositions()) {
+            bombs.set(pos);
         }
         for (int pos : map.getObstaclePositions()) {
             obstacles.set(pos);

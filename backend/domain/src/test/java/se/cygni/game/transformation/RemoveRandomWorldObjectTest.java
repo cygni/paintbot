@@ -3,7 +3,7 @@ package se.cygni.game.transformation;
 import org.junit.Test;
 import se.cygni.game.WorldState;
 import se.cygni.game.testutil.SnakeTestUtil;
-import se.cygni.game.worldobject.Food;
+import se.cygni.game.worldobject.Bomb;
 import se.cygni.game.worldobject.Obstacle;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -14,13 +14,13 @@ public class RemoveRandomWorldObjectTest {
     @Test
     public void testRemoveObstacle() throws Exception {
         WorldState ws = SnakeTestUtil.createWorld(Obstacle.class, 10, 10, 9, 12, 18);
-        ws = SnakeTestUtil.replaceWorldObjectAt(ws, new Food(), 10);
+        ws = SnakeTestUtil.replaceWorldObjectAt(ws, new Bomb(), 10);
 
         RemoveRandomWorldObject<Obstacle> removeTransformation = new RemoveRandomWorldObject<>(Obstacle.class);
 
         ws = removeTransformation.transform(ws);
 
-        assertArrayEquals(new int[]{10}, ws.listFoodPositions());
+        assertArrayEquals(new int[]{10}, ws.listBombPositions());
         assertEquals(2, ws.listObstaclePositions().length);
     }
 
@@ -28,18 +28,18 @@ public class RemoveRandomWorldObjectTest {
     public void testNothingChangesIfObjectTypeDoesntExists() throws Exception {
         WorldState ws = SnakeTestUtil.createWorld(Obstacle.class, 10, 10, 9, 12, 18);
 
-        RemoveRandomWorldObject<Food> removeTransformation = new RemoveRandomWorldObject<>(Food.class);
+        RemoveRandomWorldObject<Bomb> removeTransformation = new RemoveRandomWorldObject<>(Bomb.class);
 
         ws = removeTransformation.transform(ws);
 
         assertArrayEquals(new int[]{9, 12, 18}, ws.listObstaclePositions());
-        assertEquals(0, ws.listFoodPositions().length);
+        assertEquals(0, ws.listBombPositions().length);
     }
 
     @Test
     public void testTransformWithNulls() throws Exception {
         WorldState ws = SnakeTestUtil.createWorld(Obstacle.class, 10, 10, 9, 12, 18);
-        RemoveRandomWorldObject<Food> removeTransformation = new RemoveRandomWorldObject<>(null);
+        RemoveRandomWorldObject<Bomb> removeTransformation = new RemoveRandomWorldObject<>(null);
         ws = removeTransformation.transform(ws);
     }
 }

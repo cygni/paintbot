@@ -7,12 +7,13 @@ import org.junit.Test;
 import se.cygni.game.Tile;
 import se.cygni.game.TileMultipleContent;
 import se.cygni.game.WorldState;
-import se.cygni.game.enums.Direction;
+import se.cygni.game.enums.Action;
 import se.cygni.game.testutil.SnakeTestUtil;
 import se.cygni.game.transformation.KeepOnlyObjectsOfType;
 import se.cygni.game.transformation.KeepOnlySnakeWithId;
-import se.cygni.game.transformation.MoveSnake;
+import se.cygni.game.transformation.PerformCharacterAction;
 import se.cygni.game.worldobject.*;
+import se.cygni.game.worldobject.Character;
 import se.cygni.snake.api.model.GameSettings;
 import se.cygni.snake.api.request.RegisterPlayer;
 
@@ -68,20 +69,20 @@ public class GameEngineTest {
     public void testStateMerge() throws Exception {
         WorldState ws = new WorldState(10, 10);
 
-        SnakePart[] parts1 = SnakeTestUtil.createSnake("test1", "id1", 22, 32);
-        SnakePart[] parts2 = SnakeTestUtil.createSnake("test2", "id2", 42, 43);
+        Character[] parts1 = SnakeTestUtil.createSnake("test1", "id1", 22, 32);
+        Character[] parts2 = SnakeTestUtil.createSnake("test2", "id2", 42, 43);
 
 
         ws = SnakeTestUtil.addSnake(ws, parts1);
         ws = SnakeTestUtil.addSnake(ws, parts2);
 
-        MoveSnake m1 = new MoveSnake(ws.getSnakeHeadForBodyAt(22), Direction.UP);
-        MoveSnake m2 = new MoveSnake(ws.getSnakeHeadForBodyAt(42), Direction.DOWN);
-        MoveSnake[] moves = {m1, m2};
+        PerformCharacterAction m1 = new PerformCharacterAction(ws.getCharacterAtPosition(22), Action.UP);
+        PerformCharacterAction m2 = new PerformCharacterAction(ws.getCharacterAtPosition(42), Action.DOWN);
+        PerformCharacterAction[] moves = {m1, m2};
 
         int noofSnakes = 2;
 
-        KeepOnlyObjectsOfType worldBaseLine = new KeepOnlyObjectsOfType(new Class[] {Empty.class, Food.class, Obstacle.class});
+        KeepOnlyObjectsOfType worldBaseLine = new KeepOnlyObjectsOfType(new Class[] {Empty.class, Bomb.class, Obstacle.class});
 
         List<WorldState> worldStates = new ArrayList<>();
         worldStates.add(worldBaseLine.transform(ws));
@@ -97,10 +98,10 @@ public class GameEngineTest {
         WorldState newState = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
         System.out.println("done");
 
-        assertEquals(52, newState.getSnakeHeadForBodyAt(52).getPosition());
-        assertArrayEquals(new int[] {52, 42}, newState.getSnakeSpread(newState.getSnakeHeadForBodyAt(52)));
-        assertEquals(12, newState.getSnakeHeadForBodyAt(12).getPosition());
-        assertArrayEquals(new int[] {12, 22}, newState.getSnakeSpread(newState.getSnakeHeadForBodyAt(12)));
+        assertEquals(52, newState.getCharacterAtPosition(52).getPosition());
+        assertArrayEquals(new int[] {52, 42}, newState.getCharacterPosition(newState.getCharacterAtPosition(52)));
+        assertEquals(12, newState.getCharacterAtPosition(12).getPosition());
+        assertArrayEquals(new int[] {12, 22}, newState.getCharacterPosition(newState.getCharacterAtPosition(12)));
     }
 
 

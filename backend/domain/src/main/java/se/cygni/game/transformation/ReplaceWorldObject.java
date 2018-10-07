@@ -6,7 +6,7 @@ import se.cygni.game.exception.TransformationException;
 import se.cygni.game.worldobject.WorldObject;
 
 /**
- * Adds a Food object at random free Tile
+ * Adds a Bomb object at random free Tile
  */
 public class ReplaceWorldObject implements WorldTransformation {
 

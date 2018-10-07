@@ -3,7 +3,7 @@ package se.cygni.snake.api.request;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import se.cygni.snake.api.GameMessage;
-import se.cygni.snake.api.model.SnakeDirection;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.api.type.GameMessageType;
 
 @GameMessageType
@@ -11,13 +11,13 @@ public class RegisterMove extends GameMessage {
 
     private final long gameTick;
     private final String gameId;
-    private final SnakeDirection direction;
+    private final CharacterAction direction;
 
     @JsonCreator
     public RegisterMove(
             @JsonProperty("gameId") String gameId,
             @JsonProperty("gameTick") long gameTick,
-            @JsonProperty("direction") SnakeDirection direction) {
+            @JsonProperty("direction") CharacterAction direction) {
 
         this.gameId = gameId;
         this.gameTick = gameTick;
@@ -32,7 +32,7 @@ public class RegisterMove extends GameMessage {
         return gameTick;
     }
 
-    public SnakeDirection getDirection() {
+    public CharacterAction getDirection() {
         return direction;
     }
 }

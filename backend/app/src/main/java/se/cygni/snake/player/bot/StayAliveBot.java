@@ -3,7 +3,7 @@ package se.cygni.snake.player.bot;
 import com.google.common.eventbus.EventBus;
 import se.cygni.snake.api.event.MapUpdateEvent;
 import se.cygni.snake.api.model.Map;
-import se.cygni.snake.api.model.SnakeDirection;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.api.request.RegisterMove;
 import se.cygni.snake.client.MapCoordinate;
 import se.cygni.snake.client.MapUtil;
@@ -28,7 +28,7 @@ public class StayAliveBot extends BotPlayer {
 
     private static final int HOW_MANY_TILES_CAN_I_SEE = 3;
 
-    private SnakeDirection currentDirection = null;
+    private CharacterAction currentDirection = null;
 
     public StayAliveBot(String playerId, EventBus incomingEventbus) {
         super(playerId, incomingEventbus);
@@ -58,10 +58,10 @@ public class StayAliveBot extends BotPlayer {
         MapCoordinate myPosition = mapUtil.getMyPosition();
         List<PotentialDirection> directions = new ArrayList<>(4);
 
-        for (SnakeDirection snakeDirection : PotentialDirection.POSSIBLE_DIRECTIONS) {
-            if (!PotentialDirection.isOppositeDirection(currentDirection, snakeDirection) && !isDirectionBlocked(mapUtil, snakeDirection)) {
-                PotentialDirection potentialDirection = new PotentialDirection(snakeDirection);
-                if (currentDirection != null && currentDirection == snakeDirection) {
+        for (CharacterAction characterAction : PotentialDirection.POSSIBLE_DIRECTIONS) {
+            if (!PotentialDirection.isOppositeDirection(currentDirection, characterAction) && !isDirectionBlocked(mapUtil, characterAction)) {
+                PotentialDirection potentialDirection = new PotentialDirection(characterAction);
+                if (currentDirection != null && currentDirection == characterAction) {
                     potentialDirection.goingThisWayAnyway();
                 }
                 directions.add(potentialDirection);
@@ -75,8 +75,8 @@ public class StayAliveBot extends BotPlayer {
         return directions;
     }
 
-    private boolean isDirectionBlocked(final MapUtil mapUtil, final SnakeDirection snakeDirection) {
-        MapCoordinate coordinate = possibleNewPosition(mapUtil.getMyPosition(), snakeDirection, 1);
+    private boolean isDirectionBlocked(final MapUtil mapUtil, final CharacterAction characterAction) {
+        MapCoordinate coordinate = possibleNewPosition(mapUtil.getMyPosition(), characterAction, 1);
         return !mapUtil.isTileAvailableForMovementTo(coordinate);
     }
 }

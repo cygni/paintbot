@@ -7,7 +7,7 @@ import se.cygni.game.worldobject.Empty;
 import se.cygni.game.worldobject.WorldObject;
 
 /**
- * Adds a Food object at random free Tile
+ * Adds a Bomb object at random free Tile
  */
 public class RemoveRandomWorldObject<T extends WorldObject> implements WorldTransformation {
 

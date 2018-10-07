@@ -1,6 +1,8 @@
 package se.cygni.game;
 
 import se.cygni.game.worldobject.*;
+import se.cygni.game.worldobject.Character;
+import se.cygni.game.worldobject.CharacterImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +45,8 @@ public class TileMultipleContent {
         }
 
         if (contents.size() == 2 &&
-                containsType(Food.class) && containsType(SnakeHead.class)) {
-            return getFirstContentOfType(SnakeHead.class);
+                containsType(Bomb.class) && containsType(CharacterImpl.class)) {
+            return getFirstContentOfType(CharacterImpl.class);
         }
 
         if (contents.size() == 1) {
@@ -83,7 +85,7 @@ public class TileMultipleContent {
         }
 
         if (contents.size() == 2 &&
-                containsType(Food.class) && containsType(SnakeHead.class)) {
+                containsType(Bomb.class) && containsType(CharacterImpl.class)) {
             return true;
         }
 
@@ -109,12 +111,12 @@ public class TileMultipleContent {
         contents.remove(getFirstContentOfType(type));
     }
 
-    public List<SnakeHead> listOffendingSnakeHeads() {
-        return listContentsOfType(SnakeHead.class);
+    public List<CharacterImpl> listOffendingSnakeHeads() {
+        return listContentsOfType(CharacterImpl.class);
     }
 
     public List<String> listOffendingSnakeHeadIds() {
-        return listContentsOfType(SnakeHead.class)
+        return listContentsOfType(CharacterImpl.class)
                 .stream()
                 .map(snakeHead -> snakeHead.getPlayerId())
                 .collect(Collectors.toList());
@@ -155,44 +157,24 @@ public class TileMultipleContent {
         List<String> snakeIds = new ArrayList<>();
 
         for (WorldObject wo : contents) {
-            if (wo instanceof SnakePart) {
-                snakeIds.add(((SnakePart) wo).getPlayerId());
+            if (wo instanceof Character) {
+                snakeIds.add(((Character) wo).getPlayerId());
             }
         }
         return snakeIds;
     }
 
-    public boolean containsExactlyOneHeadAndOneTail() {
+    //Check if a tile contains two character at the same time (useful to know if collisons are to be handled)
+    public boolean containsCharacterCollision() {
         if (size() != 2)
             return false;
 
         WorldObject wo1 = contents.get(0);
         WorldObject wo2 = contents.get(1);
 
-        SnakeHead head = null;
-        SnakeBody tail = null;
+        CharacterImpl character = null;
 
-        if (wo1 instanceof SnakeHead)
-            head = (SnakeHead) wo1;
-        else if (wo2 instanceof SnakeHead)
-            head = (SnakeHead) wo2;
-
-        if (wo1 instanceof SnakeBody) {
-            SnakeBody body = (SnakeBody) wo1;
-            if (body.isTail()) {
-                tail = body;
-            }
-        } else if (wo2 instanceof SnakeBody) {
-            SnakeBody body = (SnakeBody) wo2;
-            if (body.isTail()) {
-                tail = body;
-            }
-        }
-
-        if (head == null || tail == null)
-            return false;
-
-        return true;
+        return wo1 instanceof CharacterImpl && wo2 instanceof CharacterImpl;
     }
 
     private <T extends WorldObject> T getFirstContentOfType(Class<T> type) {

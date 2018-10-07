@@ -6,6 +6,7 @@ import se.cygni.game.WorldState;
 import se.cygni.game.testutil.SnakeTestUtil;
 import se.cygni.game.transformation.AddWorldObjectAtRandomPosition;
 import se.cygni.game.worldobject.*;
+import se.cygni.game.worldobject.CharacterImpl;
 import se.cygni.snake.api.GameMessageParser;
 import se.cygni.snake.api.event.MapUpdateEvent;
 import se.cygni.snake.api.model.*;
@@ -26,7 +27,7 @@ public class WorldStateConverterTest {
 
     @Test
     public void testConvertWorldStateWithFood() throws Exception {
-        testConversionWithType(Food.class);
+        testConversionWithType(Bomb.class);
     }
 
     @Test @Ignore
@@ -47,11 +48,11 @@ public class WorldStateConverterTest {
 
         // Snake Python
         String snakeName = "python";
-        SnakeHead head = new SnakeHead(snakeName, "id_python", 101);
+        CharacterImpl head = new CharacterImpl(snakeName, "id_python", 101);
         SnakeBody body1 = new SnakeBody("id_python", 116);
         SnakeBody body2 = new SnakeBody("id_python", 115);
 
-        head.setNextSnakePart(body1);
+        head.setNextCharacter(body1);
         body1.setNextSnakePart(body2);
 
         ws = SnakeTestUtil.replaceWorldObjectAt(ws, head, head.getPosition());
@@ -60,12 +61,12 @@ public class WorldStateConverterTest {
 
         // Snake Cobra
         String snakeName2 = "cobra";
-        SnakeHead head2 = new SnakeHead(snakeName2, "id_cobra", 109);
+        CharacterImpl head2 = new CharacterImpl(snakeName2, "id_cobra", 109);
         SnakeBody body21 = new SnakeBody("id_cobra", 108);
         SnakeBody body22 = new SnakeBody("id_cobra", 123);
         SnakeBody body23 = new SnakeBody("id_cobra", 138);
 
-        head2.setNextSnakePart(body21);
+        head2.setNextCharacter(body21);
         body21.setNextSnakePart(body22);
         body22.setNextSnakePart(body23);
 
@@ -82,7 +83,7 @@ public class WorldStateConverterTest {
 
         // 5 Foods
         for (int x=0; x<10; x++) {
-            AddWorldObjectAtRandomPosition ar = new AddWorldObjectAtRandomPosition(new Food());
+            AddWorldObjectAtRandomPosition ar = new AddWorldObjectAtRandomPosition(new Bomb());
             ws = ar.transform(ws);
         }
 
@@ -100,13 +101,13 @@ public class WorldStateConverterTest {
         MapUpdateEvent mueReparsed = (MapUpdateEvent) GameMessageParser.decodeMessage(mapUpdateStr);
         Map reparsedMap = mueReparsed.getMap();
 
-        SnakeInfo sn1 = map.getSnakeInfos()[0];
-        SnakeInfo sn2 = map.getSnakeInfos()[1];
+        CharacterInfo sn1 = map.getCharacterInfos()[0];
+        CharacterInfo sn2 = map.getCharacterInfos()[1];
 
-        assertArrayEquals(new int[] {101,116,115}, sn1.getPositions());
-        assertArrayEquals(new int[] {109,108,123,138}, sn2.getPositions());
+        assertArrayEquals(new int[] {101,116,115}, sn1.getPosition());
+        assertArrayEquals(new int[] {109,108,123,138}, sn2.getPosition());
 
-        assertEquals(10, reparsedMap.getFoodPositions().length);
+        assertEquals(10, reparsedMap.getBombPositions().length);
         assertEquals(10, reparsedMap.getObstaclePositions().length);
 
     }
@@ -116,11 +117,11 @@ public class WorldStateConverterTest {
         WorldState ws = new WorldState(3, 4);
 
         String snakeName = "junit";
-        SnakeHead head = new SnakeHead(snakeName, "id", 5);
+        CharacterImpl head = new CharacterImpl(snakeName, "id", 5);
         SnakeBody body1 = new SnakeBody("id", 4);
         SnakeBody body2 = new SnakeBody("id", 3);
 
-        head.setNextSnakePart(body1);
+        head.setNextCharacter(body1);
         body1.setNextSnakePart(body2);
 
         ws = SnakeTestUtil.replaceWorldObjectAt(ws, head, 5);  // 5 => (2,1)
@@ -143,12 +144,12 @@ public class WorldStateConverterTest {
         Map reparsedMap = mueReparsed.getMap();
 
         // Assert snakeinfo
-        assertEquals(1, reparsedMap.getSnakeInfos().length);
-        SnakeInfo si = reparsedMap.getSnakeInfos()[0];
+        assertEquals(1, reparsedMap.getCharacterInfos().length);
+        CharacterInfo si = reparsedMap.getCharacterInfos()[0];
         assertEquals(3, si.getLength());
         assertEquals("junit", si.getName());
         assertEquals("id", si.getId());
-        assertArrayEquals(new int[]{5,4,3}, si.getPositions());
+        assertArrayEquals(new int[]{5,4,3}, si.getPosition());
 
 
     }
@@ -182,20 +183,20 @@ public class WorldStateConverterTest {
         if (clazz == Obstacle.class) {
             assertArrayEquals(new int[] {4}, reparsedMap.getObstaclePositions());
         } else {
-            assertArrayEquals(new int[] {4}, reparsedMap.getFoodPositions());
+            assertArrayEquals(new int[] {4}, reparsedMap.getBombPositions());
 
         }
 
         // No snakeinfo
-        assertEquals(0, map.getSnakeInfos().length);
+        assertEquals(0, map.getCharacterInfos().length);
     }
 
     private Class getCorrespondingMapType(WorldObject obj) {
         if (obj instanceof Obstacle)
             return MapObstacle.class;
 
-        if (obj instanceof Food)
-            return MapFood.class;
+        if (obj instanceof Bomb)
+            return MapBomb.class;
 
         if (obj instanceof Empty)
             return MapEmpty.class;

@@ -9,7 +9,7 @@ public interface SnakeClient {
 
     void onMapUpdate(MapUpdateEvent mapUpdateEvent);
 
-    void onSnakeDead(SnakeDeadEvent snakeDeadEvent);
+    void onSnakeDead(CharacterStunnedEvent characterStunnedEvent);
 
     void onGameResult(GameResultEvent gameResultEvent);
 

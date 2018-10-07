@@ -87,10 +87,7 @@ public class PlayerManager {
     public IPlayer getPlayer(String playerId) {
         synchronized (mutex) {
             Optional<IPlayer> optionalPlayer = players.stream().filter(player -> player.getPlayerId().equals(playerId)).findFirst();
-            if (optionalPlayer.isPresent()) {
-                return optionalPlayer.get();
-            }
-            return null;
+            return optionalPlayer.orElse(null);
         }
     }
 
@@ -104,9 +101,7 @@ public class PlayerManager {
 
     public Set<IPlayer> toSet() {
         synchronized (mutex) {
-            Set<IPlayer> copy = new HashSet<>();
-            copy.addAll(players);
-            return copy;
+            return new HashSet<>(players);
         }
     }
 

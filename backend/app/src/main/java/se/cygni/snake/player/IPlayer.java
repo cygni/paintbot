@@ -9,8 +9,8 @@ public interface IPlayer extends Comparable<IPlayer> {
     default void onGameMessage(GameMessage gameMessage) {
         if (gameMessage instanceof  MapUpdateEvent) {
             onWorldUpdate((MapUpdateEvent)gameMessage);
-        } else if (gameMessage instanceof  SnakeDeadEvent) {
-            onSnakeDead((SnakeDeadEvent)gameMessage);
+        } else if (gameMessage instanceof CharacterStunnedEvent) {
+            onCharacterStunned((CharacterStunnedEvent)gameMessage);
         } else if (gameMessage instanceof  GameResultEvent) {
             onGameResult((GameResultEvent)gameMessage);
         } else if (gameMessage instanceof  GameEndedEvent) {
@@ -24,7 +24,7 @@ public interface IPlayer extends Comparable<IPlayer> {
 
     void onWorldUpdate(MapUpdateEvent mapUpdateEvent);
 
-    void onSnakeDead(SnakeDeadEvent snakeDeadEvent);
+    void onCharacterStunned(CharacterStunnedEvent characterStunnedEvent);
 
     void onGameResult(GameResultEvent gameResultEvent);
 
@@ -46,7 +46,7 @@ public interface IPlayer extends Comparable<IPlayer> {
 
     void outOfTournament();
 
-    void dead(long gameTick);
+    void stunned(long gameTick);
 
     void revive();
 

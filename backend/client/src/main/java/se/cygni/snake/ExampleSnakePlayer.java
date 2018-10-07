@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.cygni.snake.api.event.*;
 import se.cygni.snake.api.exception.InvalidPlayerName;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.api.model.GameMode;
 import se.cygni.snake.api.model.GameSettings;
 import se.cygni.snake.api.model.PlayerPoints;
-import se.cygni.snake.api.model.SnakeDirection;
 import se.cygni.snake.api.response.PlayerRegistered;
 import se.cygni.snake.api.util.GameSettingsUtils;
 import se.cygni.snake.client.AnsiPrinter;
@@ -33,7 +33,7 @@ public class ExampleSnakePlayer extends BaseSnakeClient {
     private int port = 80;
     private GameMode gameMode = GameMode.TRAINING;
 
-    SnakeDirection lastDirection;
+    CharacterAction lastDirection;
 
     public static void main(String[] args) {
 
@@ -73,20 +73,20 @@ public class ExampleSnakePlayer extends BaseSnakeClient {
         MapUtil mapUtil = new MapUtil(mapUpdateEvent.getMap(), getPlayerId());
 
 
-        SnakeDirection chosenDirection = lastDirection;
-        List<SnakeDirection> directions = new ArrayList<>();
+        CharacterAction chosenDirection = lastDirection;
+        List<CharacterAction> directions = new ArrayList<>();
 
 
         if (!mapUtil.canIMoveInDirection(lastDirection)) {
             // Let's see in which directions I can move
-            if (mapUtil.canIMoveInDirection(SnakeDirection.LEFT))
-                directions.add(SnakeDirection.LEFT);
-            if (mapUtil.canIMoveInDirection(SnakeDirection.RIGHT))
-                directions.add(SnakeDirection.RIGHT);
-            if (mapUtil.canIMoveInDirection(SnakeDirection.UP))
-                directions.add(SnakeDirection.UP);
-            if (mapUtil.canIMoveInDirection(SnakeDirection.DOWN))
-                directions.add(SnakeDirection.DOWN);
+            if (mapUtil.canIMoveInDirection(CharacterAction.LEFT))
+                directions.add(CharacterAction.LEFT);
+            if (mapUtil.canIMoveInDirection(CharacterAction.RIGHT))
+                directions.add(CharacterAction.RIGHT);
+            if (mapUtil.canIMoveInDirection(CharacterAction.UP))
+                directions.add(CharacterAction.UP);
+            if (mapUtil.canIMoveInDirection(CharacterAction.DOWN))
+                directions.add(CharacterAction.DOWN);
 
             // Choose a random direction
             if (!directions.isEmpty())
@@ -99,8 +99,8 @@ public class ExampleSnakePlayer extends BaseSnakeClient {
         lastDirection = chosenDirection;
     }
 
-    private SnakeDirection getRandomDirection() {
-        return SnakeDirection.values()[random.nextInt(4)];
+    private CharacterAction getRandomDirection() {
+        return CharacterAction.values()[random.nextInt(4)];
     }
 
     @Override
@@ -117,10 +117,10 @@ public class ExampleSnakePlayer extends BaseSnakeClient {
     }
 
     @Override
-    public void onSnakeDead(SnakeDeadEvent snakeDeadEvent) {
+    public void onSnakeDead(CharacterStunnedEvent characterStunnedEvent) {
         log.info("A snake {} died by {}",
-                snakeDeadEvent.getPlayerId(),
-                snakeDeadEvent.getDeathReason() + " at tick: " + snakeDeadEvent.getGameTick());
+                characterStunnedEvent.getPlayerId(),
+                characterStunnedEvent.getStunReason() + " at tick: " + characterStunnedEvent.getGameTick());
     }
 
     @Override

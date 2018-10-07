@@ -3,7 +3,7 @@ package se.cygni.game.transformation;
 import org.junit.Assert;
 import org.junit.Test;
 import se.cygni.game.WorldState;
-import se.cygni.game.worldobject.SnakeHead;
+import se.cygni.game.worldobject.CharacterImpl;
 import se.cygni.game.worldobject.WorldObject;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class AddWorldObjectsInCircleTest {
     private static List<WorldObject> stuff(int number){
         Collection<WorldObject> ret = new ArrayList<>();
         for(int i = 0; i < number; ++i){
-            ret.add(new SnakeHead(stuffCounter+"troll"+i, stuffCounter+"TROLL"+ i,0));
+            ret.add(new CharacterImpl(stuffCounter+"troll"+i, stuffCounter+"TROLL"+ i,0));
         }
         assert ret.size() == number;
         stuffCounter++;

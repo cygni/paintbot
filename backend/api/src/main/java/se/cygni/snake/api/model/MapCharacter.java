@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MapSnakeHead implements TileContent {
+public class MapCharacter implements TileContent {
 
-    public static final String CONTENT = "snakehead";
+    public static final String CONTENT = "character";
 
     final String name;
     final String playerId;
 
     @JsonCreator
-    public MapSnakeHead(
+    public MapCharacter(
             @JsonProperty("name") String name,
             @JsonProperty("playerId") String playerId)
     {
@@ -35,6 +35,6 @@ public class MapSnakeHead implements TileContent {
 
     @JsonIgnore
     public String toDisplay() {
-        return "SH";
+        return "C";
     }
 }

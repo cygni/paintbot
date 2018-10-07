@@ -35,7 +35,7 @@ public class IPlayerComparatorTest {
         p2.addPoints(PointReason.NIBBLE, 10);
         assertEquals(-1, new IPlayerComparator().compare(p1, p2));
 
-        p2.dead(32);
+        p2.stunned(32);
         assertEquals(-1, new IPlayerComparator().compare(p1, p2));
     }
 }

@@ -1,41 +1,40 @@
 package se.cygni.snake.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SnakeInfo {
+public class CharacterInfo {
 
     final String name;
     final int points;
     final String id;
-    final int[] positions;
-    final int tailProtectedForGameTicks;
+    final int position;
+    final int[] colouredPositions;
+    final int stunnedForGameTicks;
+    //TODO: Also include invulnerable state ticks?
 
     @JsonCreator
-    public SnakeInfo(
+    public CharacterInfo(
             @JsonProperty("name") String name,
             @JsonProperty("points") int points,
-            @JsonProperty("playerId")String playerId,
-            @JsonProperty("positions") int[] positions,
-            @JsonProperty("tailProtectedForGameTicks") int tailProtectedForGameTicks
+            @JsonProperty("playerId") String playerId,
+            @JsonProperty("position") int position,
+            @JsonProperty("colouredPositions") int[] colouredPositions,
+            @JsonProperty("stunnedForGameTicks") int stunnedForGameTicks
     )
     {
         this.name = name;
         this.points = points;
         this.id = playerId;
-        this.positions = positions;
-        this.tailProtectedForGameTicks = tailProtectedForGameTicks;
+        this.position = position;
+        this.colouredPositions = colouredPositions;
+        this.stunnedForGameTicks = stunnedForGameTicks;
     }
 
     public String getName() {
         return name;
     }
 
-    @JsonIgnore
-    public int getLength() {
-        return positions.length;
-    }
 
     public int getPoints() {
         return points;
@@ -45,16 +44,15 @@ public class SnakeInfo {
         return id;
     }
 
-    public int getTailProtectedForGameTicks() {
-        return tailProtectedForGameTicks;
+    public int getPosition() {
+        return position;
     }
 
-    @JsonIgnore
-    public boolean isAlive() {
-        return getLength() > 0;
+    public int getStunnedForGameTicks() {
+        return stunnedForGameTicks;
     }
 
-    public int[] getPositions() {
-        return positions;
+    public int[] getColouredPositions() {
+        return colouredPositions;
     }
 }

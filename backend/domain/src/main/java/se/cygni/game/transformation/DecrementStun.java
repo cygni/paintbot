@@ -6,7 +6,7 @@ import se.cygni.game.worldobject.CharacterImpl;
 
 import java.util.stream.IntStream;
 
-public class DecrementTailProtection implements WorldTransformation {
+public class DecrementStun implements WorldTransformation {
 
     @Override
     public WorldState transform(WorldState currentWorld) {

@@ -1,19 +1,21 @@
 package se.cygni.game.worldobject;
 
 
-public class SnakeHead implements SnakePart {
+public class CharacterImpl implements Character {
 
     private final String name;
     private final String playerId;
     private int points;
     private int position;
-    private int tailProtectedForGameTicks;
-    private SnakePart nextSnakePart = null;
+    private boolean isCarryingBomb;
+    private int isStunnedForTicks;
 
-    public SnakeHead(String name, String playerId, int position) {
+    public CharacterImpl(String name, String playerId, int position) {
         this.name = name;
         this.playerId = playerId;
         this.position = position;
+        this.isCarryingBomb = false;
+        this.isStunnedForTicks = 0;
     }
 
     public int getPoints() {
@@ -22,26 +24,6 @@ public class SnakeHead implements SnakePart {
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    @Override
-    public boolean isHead() {
-        return true;
-    }
-
-    @Override
-    public boolean isTail() {
-        return getNextSnakePart() == null;
-    }
-
-    @Override
-    public SnakePart getNextSnakePart() {
-        return nextSnakePart;
-    }
-
-    @Override
-    public void setNextSnakePart(SnakePart nextSnakePart) {
-        this.nextSnakePart = nextSnakePart;
     }
 
     public String getName() {
@@ -56,32 +38,30 @@ public class SnakeHead implements SnakePart {
         this.position = position;
     }
 
-    public int getTailProtectedForGameTicks() {
-        return tailProtectedForGameTicks;
-    }
-
-    public void setTailProtectedForGameTicks(int tailProtectedForGameTicks) {
-        this.tailProtectedForGameTicks = tailProtectedForGameTicks;
-    }
-
-    public void decrementTailProtection() {
-        if (tailProtectedForGameTicks > 0) {
-            tailProtectedForGameTicks--;
-        }
-    }
-
-    public int getLength() {
-        int length = 0;
-        SnakePart part = this;
-        while (part != null) {
-            length++;
-            part = part.getNextSnakePart();
-        }
-
-        return length;
-    }
-
     public String getPlayerId() {
         return playerId;
+    }
+
+    public boolean isCarryingBomb() {
+        return isCarryingBomb;
+    }
+
+    public void setCarryingBomb(boolean carryingBomb) {
+        isCarryingBomb = carryingBomb;
+    }
+
+    public int getIsStunnedForTicks() {
+        return isStunnedForTicks;
+    }
+
+    public void setIsStunnedForTicks(int isStunnedForTicks) {
+        this.isStunnedForTicks = isStunnedForTicks;
+    }
+
+    @Override
+    public void decrementStun() {
+        if(isStunnedForTicks > 0) {
+            isStunnedForTicks--;
+        }
     }
 }

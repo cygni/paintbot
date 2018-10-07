@@ -23,10 +23,10 @@ public class RemotePlayer extends BasePlayer {
     }
 
     @Override
-    public void onSnakeDead(SnakeDeadEvent sde) {
-        SnakeDeadEvent snakeDeadEvent = new SnakeDeadEvent(sde);
-        snakeDeadEvent.setReceivingPlayerId(player.getPlayerId());
-        outgoingEventBus.post(snakeDeadEvent);
+    public void onCharacterStunned(CharacterStunnedEvent sde) {
+        CharacterStunnedEvent characterStunnedEvent = new CharacterStunnedEvent(sde);
+        characterStunnedEvent.setReceivingPlayerId(player.getPlayerId());
+        outgoingEventBus.post(characterStunnedEvent);
     }
 
     @Override

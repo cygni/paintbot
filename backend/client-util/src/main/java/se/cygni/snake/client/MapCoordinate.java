@@ -1,6 +1,6 @@
 package se.cygni.snake.client;
 
-import se.cygni.snake.api.model.SnakeDirection;
+import se.cygni.snake.api.model.CharacterAction;
 
 public class MapCoordinate {
     public final int x;
@@ -11,7 +11,7 @@ public class MapCoordinate {
         this.y = y;
     }
 
-    public MapCoordinate translateByDirection(SnakeDirection direction) {
+    public MapCoordinate translateByDirection(CharacterAction direction) {
         switch (direction) {
             case DOWN:
                 return translateBy(0, 1);

@@ -6,16 +6,16 @@ import se.cygni.snake.api.model.StunReason;
 
 import static org.junit.Assert.*;
 
-public class SnakeDeadEventTest {
+public class CharacterStunnedEventTest {
 
     @Test
     public void testSerializationSnakeDeadEvent() throws Exception {
-        SnakeDeadEvent sde = new SnakeDeadEvent(StunReason.CollisionWithWall, "playerId", 5, 10, "6666", 99);
+        CharacterStunnedEvent sde = new CharacterStunnedEvent(StunReason.CollisionWithWall, "playerId", 5, 10, "6666", 99, durationInTicks);
         TestUtil.populateBaseData(sde, "rPlayerId");
 
         String serialized = GameMessageParser.encodeMessage(sde);
 
-        SnakeDeadEvent parsedSde = (SnakeDeadEvent)GameMessageParser.decodeMessage(serialized);
+        CharacterStunnedEvent parsedSde = (CharacterStunnedEvent)GameMessageParser.decodeMessage(serialized);
 
         assertEquals(StunReason.CollisionWithWall, parsedSde.getStunReason());
         assertEquals("playerId", parsedSde.getPlayerId());

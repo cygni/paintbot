@@ -2,9 +2,9 @@ package se.cygni.snake.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class MapFood implements TileContent {
+public class MapBomb implements TileContent {
 
-    public static final String CONTENT = "food";
+    public static final String CONTENT = "bomb";
 
     @Override
     public String getContent() {
@@ -13,6 +13,6 @@ public class MapFood implements TileContent {
 
     @JsonIgnore
     public String toDisplay() {
-        return "F";
+        return "B";
     }
 }

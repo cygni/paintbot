@@ -1,6 +1,6 @@
 package se.cygni.snake.player.bot.snakey;
 
-import se.cygni.snake.api.model.SnakeDirection;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.client.MapCoordinate;
 
 import java.util.*;
@@ -53,7 +53,7 @@ public class SnakeState {
     }
 
     //Creates a new, possible state from a given state and a direction of movement
-    public SnakeState createFutureState(SnakeDirection dir){
+    public SnakeState createFutureState(CharacterAction dir){
 
         Snake newSelf = new Snake(self);
         newSelf.setDir(dir);
@@ -81,7 +81,7 @@ public class SnakeState {
         if(canSnakeMoveInDirection(snake, snake.getDir())){
             snake.stepOnePos();
         } else {
-            SnakeDirection possibleDir = estimateFoeDirection(snake);
+            CharacterAction possibleDir = estimateFoeDirection(snake);
             if(possibleDir == null){
                 snake.kill();
             } else {
@@ -95,9 +95,9 @@ public class SnakeState {
         return isKilledFoeState;
     }
 
-    private SnakeDirection estimateFoeDirection(Snake foe){
-        ArrayList<SnakeDirection> possibleDirections = new ArrayList<>();
-        for(SnakeDirection dir : SnakeDirection.values()){
+    private CharacterAction estimateFoeDirection(Snake foe){
+        ArrayList<CharacterAction> possibleDirections = new ArrayList<>();
+        for(CharacterAction dir : CharacterAction.values()){
             if(canSnakeMoveInDirection(foe, dir)){
                 possibleDirections.add(dir);
             }
@@ -112,30 +112,30 @@ public class SnakeState {
         return null;
     }
 
-    private SnakeDirection findTargetDirection(Snake foe){
+    private CharacterAction findTargetDirection(Snake foe){
         MapCoordinate playerHead = self.getHead();
         MapCoordinate foeHead = foe.getHead();
-        SnakeDirection foeDir = foe.getDir();
-        if(foeDir.equals(SnakeDirection.DOWN) ||foeDir.equals(SnakeDirection.UP)){
+        CharacterAction foeDir = foe.getDir();
+        if(foeDir.equals(CharacterAction.DOWN) ||foeDir.equals(CharacterAction.UP)){
             if(playerHead.x <= foeHead.x){
-                return SnakeDirection.LEFT;
+                return CharacterAction.LEFT;
             } else {
-                return SnakeDirection.RIGHT;
+                return CharacterAction.RIGHT;
             }
         } else {
             if(playerHead.y <= foeHead.y){
-                return SnakeDirection.UP;
+                return CharacterAction.UP;
             } else {
-                return SnakeDirection.DOWN;
+                return CharacterAction.DOWN;
             }
         }
     }
 
-    public boolean canIMoveInDirection(SnakeDirection dir){
+    public boolean canIMoveInDirection(CharacterAction dir){
         return canSnakeMoveInDirection(self, dir);
     }
 
-    private boolean isMoveOutOfBounds(Snake snake, SnakeDirection dir){
+    private boolean isMoveOutOfBounds(Snake snake, CharacterAction dir){
         MapCoordinate head = snake.getHead();
         switch (dir){
             case LEFT:
@@ -152,7 +152,7 @@ public class SnakeState {
     }
 
 
-    private boolean canSnakeMoveInDirection(Snake snake, SnakeDirection dir){
+    private boolean canSnakeMoveInDirection(Snake snake, CharacterAction dir){
         MapCoordinate snakeHead = snake.getHead();
 
         if(isMoveOutOfBounds(snake, dir)){
@@ -175,7 +175,7 @@ public class SnakeState {
     }
 
     //TODO: Generalize this for any snake?
-    public int getOpenSpacesinDir(SnakeDirection dir){
+    public int getOpenSpacesinDir(CharacterAction dir){
         visitedTiles = new HashSet<>();
         SnakeState futureState = createFutureState(dir);
         HashSet<MapCoordinate> obstacles = getTotalSet();

@@ -35,7 +35,7 @@ public abstract class BasePlayer implements IPlayer {
     }
 
     @Override
-    public void dead(long gameTick) {
+    public void stunned(long gameTick) {
         alive = false;
         diedAtGameTick = gameTick;
     }
@@ -62,7 +62,7 @@ public abstract class BasePlayer implements IPlayer {
 
     @Override
     public void lostConnection(long gameTick) {
-        dead(gameTick);
+        stunned(gameTick);
         connected = false;
     }
 

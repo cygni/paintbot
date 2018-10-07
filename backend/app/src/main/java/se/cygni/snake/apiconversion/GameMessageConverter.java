@@ -2,7 +2,7 @@ package se.cygni.snake.apiconversion;
 
 import se.cygni.game.WorldState;
 import se.cygni.snake.api.event.*;
-import se.cygni.snake.api.model.DeathReason;
+import se.cygni.snake.api.model.StunReason;
 import se.cygni.snake.game.GameFeatures;
 import se.cygni.snake.game.GameResult;
 import se.cygni.snake.player.IPlayer;
@@ -18,8 +18,8 @@ public class GameMessageConverter {
                 WorldStateConverter.convertWorldState(worldState, gameTick, players));
     }
 
-    public static SnakeDeadEvent onPlayerDied(DeathReason reason, String playerId, int x, int y, String gameId, long gameTick) {
-        return new SnakeDeadEvent(reason, playerId, x, y, gameId, gameTick);
+    public static CharacterStunnedEvent onPlayerStunned(StunReason reason, int durationInTicks, String playerId, int x, int y, String gameId, long gameTick) {
+        return new CharacterStunnedEvent(reason, durationInTicks, playerId, x, y, gameId, gameTick);
     }
 
     public static GameEndedEvent onGameEnded(String playerWinnerId, String playerWinnerName, String gameId, long gameTick, WorldState worldState, Set<IPlayer> players) {

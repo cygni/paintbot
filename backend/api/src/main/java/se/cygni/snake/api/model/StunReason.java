@@ -1,10 +1,8 @@
 package se.cygni.snake.api.model;
 
-public enum DeathReason {
-
+public enum StunReason {
     CollisionWithWall,
     CollisionWithObstacle,
-    CollisionWithSnake,
-    CollisionWithSelf
-
+    CollisionWithCharacter,
+    CaughtByBombExplosion,
 }

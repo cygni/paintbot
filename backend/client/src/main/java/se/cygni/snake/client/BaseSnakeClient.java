@@ -17,7 +17,7 @@ import se.cygni.snake.api.exception.InvalidMessage;
 import se.cygni.snake.api.exception.InvalidPlayerName;
 import se.cygni.snake.api.model.GameMode;
 import se.cygni.snake.api.model.GameSettings;
-import se.cygni.snake.api.model.SnakeDirection;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.api.request.ClientInfo;
 import se.cygni.snake.api.request.RegisterMove;
 import se.cygni.snake.api.request.RegisterPlayer;
@@ -57,7 +57,7 @@ public abstract class BaseSnakeClient extends TextWebSocketHandler implements Sn
         sendMessage(startGame);
     }
 
-    public void registerMove(long gameTick, SnakeDirection direction) {
+    public void registerMove(long gameTick, CharacterAction direction) {
         RegisterMove registerMove = new RegisterMove(lastGameId, gameTick, direction);
         registerMove.setReceivingPlayerId(playerId);
         sendMessage(registerMove);
@@ -192,8 +192,8 @@ public abstract class BaseSnakeClient extends TextWebSocketHandler implements Sn
             if (gameMessage instanceof GameStartingEvent)
                 this.onGameStarting((GameStartingEvent) gameMessage);
 
-            if (gameMessage instanceof SnakeDeadEvent)
-                this.onSnakeDead((SnakeDeadEvent) gameMessage);
+            if (gameMessage instanceof CharacterStunnedEvent)
+                this.onSnakeDead((CharacterStunnedEvent) gameMessage);
 
             if (gameMessage instanceof GameResultEvent) {
                 this.onGameResult((GameResultEvent) gameMessage);

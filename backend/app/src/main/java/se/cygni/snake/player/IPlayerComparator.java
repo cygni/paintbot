@@ -19,7 +19,7 @@ public class IPlayerComparator implements Comparator<IPlayer> {
     public int compare(IPlayer o1, IPlayer o2) {
         // Note reversed order!
 
-        // First alive or dead
+        // First alive or stunned
         if (o2.isAlive() && !o1.isAlive())
             return 1;
 
@@ -38,7 +38,7 @@ public class IPlayerComparator implements Comparator<IPlayer> {
                 return reasonCpm;
         }
 
-        // Then when died (they must both be dead if we got this far)
+        // Then when died (they must both be stunned if we got this far)
         int deathTickCp = Long.compare(o2.getDiedAtTick(), o1.getDiedAtTick());
         if (deathTickCp != 0)
             return deathTickCp;

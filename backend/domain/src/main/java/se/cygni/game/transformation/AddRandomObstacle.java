@@ -11,6 +11,7 @@ import se.cygni.game.worldobject.Obstacle;
 
 import java.util.Random;
 
+//TODO: Generate a proper maze instead of a few obstacles
 public class AddRandomObstacle implements WorldTransformation {
 
     private static Logger log = LoggerFactory

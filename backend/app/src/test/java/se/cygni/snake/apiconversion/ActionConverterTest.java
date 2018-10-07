@@ -2,7 +2,7 @@ package se.cygni.snake.apiconversion;
 
 import org.junit.Test;
 
-public class DirectionConverterTest {
+public class ActionConverterTest {
     @Test
     public void toDirection() throws Exception {
 

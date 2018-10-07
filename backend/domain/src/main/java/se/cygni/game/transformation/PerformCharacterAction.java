@@ -1,103 +1,82 @@
 package se.cygni.game.transformation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.cygni.game.Tile;
 import se.cygni.game.WorldState;
-import se.cygni.game.enums.Direction;
-import se.cygni.game.exception.ObstacleCollision;
-import se.cygni.game.exception.SnakeCollision;
+import se.cygni.game.enums.Action;
 import se.cygni.game.exception.TransformationException;
-import se.cygni.game.exception.WallCollision;
 import se.cygni.game.worldobject.*;
+import se.cygni.game.worldobject.Character;
+import se.cygni.game.worldobject.CharacterImpl;
 
-public class MoveSnake implements WorldTransformation {
+public class PerformCharacterAction implements WorldTransformation {
 
-    private SnakeHead snakeHead;
-    private Direction direction;
-    private boolean forceGrowth;
-    private boolean consumedFood;
-    private boolean allowNibble;
-    private boolean growthExecuted;
+    private static final Logger log = LoggerFactory.getLogger(PerformCharacterAction.class);
 
-    public MoveSnake(SnakeHead snakeHead, Direction direction) {
-        this(snakeHead, direction, false);
-    }
 
-    public MoveSnake(SnakeHead snakeHead, Direction direction, boolean forceGrowth) {
-        this.snakeHead = snakeHead;
-        this.direction = direction;
-        this.forceGrowth = forceGrowth;
+    private CharacterImpl character;
+    private Action action;
+    private boolean pickedUpBomb;
+
+    public PerformCharacterAction(CharacterImpl character, Action action) {
+        this.character = character;
+        this.action = action;
     }
 
     @Override
     public WorldState transform(WorldState currentWorld) throws TransformationException {
-        if (snakeHead == null) {
-            throw new TransformationException("SnakeHead is null!!");
+        if (character == null) {
+            throw new TransformationException("CharacterImpl is null!!");
         }
 
-        if (direction == null) {
-            throw new TransformationException("Direction is null!");
+        if (action == null) {
+            throw new TransformationException("Action is null!");
         }
 
-        int snakeHeadPos = snakeHead.getPosition();
-        int targetSnakePos = 0;
-
-        // Snake tries to move out of bounds
-        try {
-            targetSnakePos = currentWorld.getPositionForAdjacent(snakeHeadPos, direction);
-        } catch (RuntimeException re) {
-            throw new WallCollision(snakeHeadPos);
+        int characterPosition = character.getPosition();
+        int targetCharacterPosition = characterPosition;
+        
+        if(action.isMovement()){
+            try {
+                targetCharacterPosition = currentWorld.getPositionForAdjacent(characterPosition, action);
+            } catch (RuntimeException re) {
+                log.debug("Character {} run into a wall", character.getPlayerId());
+            }
         }
+        
 
         // Target tile is not empty, check what's in it (rember that this
         // move is in a World where only this Snake exists).
-        if (!currentWorld.isTileEmpty(targetSnakePos)) {
+        if (!currentWorld.isTileEmpty(targetCharacterPosition)) {
 
-            Tile targetTile = currentWorld.getTile(targetSnakePos);
+            Tile targetTile = currentWorld.getTile(targetCharacterPosition);
             WorldObject targetContent = targetTile.getContent();
 
-            if (targetContent instanceof Obstacle)
-                throw new ObstacleCollision(targetSnakePos);
-
-            if (targetContent instanceof SnakePart) {
-                throw new SnakeCollision(targetSnakePos, snakeHead);
-            }
-            if (targetContent instanceof Food) {
-                consumedFood = true;
+            //TODO: Potentially handle player collisions
+            if (targetContent instanceof Bomb) {
+                pickedUpBomb = true;
             }
         }
 
         Tile[] tiles = currentWorld.getTiles();
 
-        growthExecuted = consumedFood || forceGrowth;
-        updateSnakeBody(tiles, targetSnakePos, snakeHead, growthExecuted);
+        updateCharacterState(tiles, targetCharacterPosition, character, pickedUpBomb);
 
         return new WorldState(currentWorld.getWidth(), currentWorld.getHeight(), tiles);
     }
 
-    public boolean isGrowthExecuted() {
-        return growthExecuted;
+    public boolean isBombPickedUp() {
+        return pickedUpBomb;
     }
 
-    public boolean isFoodConsumed() {
-        return consumedFood;
-    }
-
-    private void updateSnakeBody(Tile[] tiles, int targetPosition, SnakePart snakePart, boolean grow) {
-        int currentPosition = snakePart.getPosition();
-
-        tiles[targetPosition] = new Tile(snakePart);
-        snakePart.setPosition(targetPosition);
-
-        if (snakePart.isTail()) {
-            if (grow) {
-                SnakeBody newTail = new SnakeBody(snakePart.getPlayerId(), currentPosition);
-                tiles[currentPosition] = new Tile(newTail);
-                snakePart.setNextSnakePart(newTail);
-            } else {
-                tiles[currentPosition] = new Tile();
-            }
-        } else {
-            updateSnakeBody(tiles, currentPosition, snakePart.getNextSnakePart(), grow);
+    private void updateCharacterState(Tile[] tiles, int targetPosition, Character character, boolean hasPickedUpBomb) {
+        Tile currentTile = tiles[character.getPosition()];
+        tiles[character.getPosition()] = new Tile(new Empty(), currentTile.getOwnerID());
+        tiles[targetPosition] = new Tile(character, character.getPlayerId());
+        character.setPosition(targetPosition);
+        if(hasPickedUpBomb) {
+            character.setCarryingBomb(true);
         }
     }
 }

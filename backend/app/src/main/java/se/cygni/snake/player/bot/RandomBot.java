@@ -3,8 +3,8 @@ package se.cygni.snake.player.bot;
 import com.google.common.eventbus.EventBus;
 import se.cygni.game.random.XORShiftRandom;
 import se.cygni.snake.api.event.MapUpdateEvent;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.api.model.Map;
-import se.cygni.snake.api.model.SnakeDirection;
 import se.cygni.snake.api.request.RegisterMove;
 import se.cygni.snake.client.MapUtil;
 
@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class RandomBot extends BotPlayer {
 
-    private SnakeDirection myLastDirection;
+    private CharacterAction myLastDirection;
     private XORShiftRandom random = new XORShiftRandom();
 
     public RandomBot(String playerId, EventBus incomingEventbus) {
@@ -32,8 +32,8 @@ public class RandomBot extends BotPlayer {
 
         MapUtil mapUtil = new MapUtil(map, playerId);
 
-        SnakeDirection rndDirection = getRandomDirection();
-        List<SnakeDirection> validDirections = getValidDirections(mapUtil);
+        CharacterAction rndDirection = getRandomDirection();
+        List<CharacterAction> validDirections = getValidDirections(mapUtil);
         if (validDirections.size() > 0) {
             rndDirection = getRandomDirection(validDirections);
         }
@@ -44,11 +44,11 @@ public class RandomBot extends BotPlayer {
         incomingEventbus.post(registerMove);
     }
 
-    private List<SnakeDirection> getValidDirections(MapUtil mapUtil) {
+    private List<CharacterAction> getValidDirections(MapUtil mapUtil) {
 
-        List<SnakeDirection> validDirections = new ArrayList<>();
+        List<CharacterAction> validDirections = new ArrayList<>();
 
-        for (SnakeDirection direction : SnakeDirection.values()) {
+        for (CharacterAction direction : CharacterAction.values()) {
             if (mapUtil.canIMoveInDirection(direction))
                 validDirections.add(direction);
         }
@@ -56,7 +56,7 @@ public class RandomBot extends BotPlayer {
         return validDirections;
     }
 
-    private SnakeDirection getRandomDirection(List<SnakeDirection> directions) {
+    private CharacterAction getRandomDirection(List<CharacterAction> directions) {
 
         // Let's prefer the last direction if it is available
         if (directions.contains(myLastDirection)) {
@@ -72,9 +72,9 @@ public class RandomBot extends BotPlayer {
         return directions.get(random.nextInt(max));
     }
 
-    private SnakeDirection getRandomDirection() {
-        int max = SnakeDirection.values().length-1;
+    private CharacterAction getRandomDirection() {
+        int max = CharacterAction.values().length-1;
 
-        return SnakeDirection.values()[random.nextInt(max)];
+        return CharacterAction.values()[random.nextInt(max)];
     }
 }

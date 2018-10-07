@@ -110,7 +110,7 @@ public class HistoricalPlayer implements IPlayer {
     }
 
     @Override
-    public void dead(long gameTick) {
+    public void stunned(long gameTick) {
     }
 
     @Override
@@ -135,7 +135,7 @@ public class HistoricalPlayer implements IPlayer {
     }
 
     @Override
-    public void onSnakeDead(SnakeDeadEvent snakeDeadEvent) {
+    public void onCharacterStunned(CharacterStunnedEvent characterStunnedEvent) {
     }
 
     @Override

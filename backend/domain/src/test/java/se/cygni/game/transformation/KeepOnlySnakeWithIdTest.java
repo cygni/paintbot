@@ -4,9 +4,8 @@ import org.junit.Test;
 import se.cygni.game.Tile;
 import se.cygni.game.WorldState;
 import se.cygni.game.exception.TransformationException;
+import se.cygni.game.worldobject.CharacterImpl;
 import se.cygni.game.worldobject.Empty;
-import se.cygni.game.worldobject.SnakeBody;
-import se.cygni.game.worldobject.SnakeHead;
 
 import static org.junit.Assert.*;
 
@@ -19,26 +18,26 @@ public class KeepOnlySnakeWithIdTest {
     @Test
     public void testTransformSnakeHeadsOnly() throws TransformationException {
         Tile[] tiles = new WorldState(3, 3).getTiles();
-        tiles[2] = new Tile(new SnakeHead("a", "a", 2));
-        tiles[6] = new Tile(new SnakeHead("b", "b", 6));
-        tiles[8] = new Tile(new SnakeHead("b", "b", 6));
+        tiles[2] = new Tile(new CharacterImpl("a", "a", 2));
+        tiles[6] = new Tile(new CharacterImpl("b", "b", 6));
+        tiles[8] = new Tile(new CharacterImpl("b", "b", 6));
 
         WorldState worldState = new WorldState(3, 3, tiles);
 
         KeepOnlySnakeWithId keepOnlySnakeWithId = new KeepOnlySnakeWithId("a");
         WorldState updatedWorldState = keepOnlySnakeWithId.transform(worldState);
 
-        assertNotNull(updatedWorldState.getSnakeHeadById("a"));
+        assertNotNull(updatedWorldState.getCharacterById("a"));
 
         try {
-            updatedWorldState.getSnakeHeadById("b");
+            updatedWorldState.getCharacterById("b");
             fail("Snake 'b' should have been removed from the board");
         } catch (IllegalArgumentException iae) {
             // What we expect!
         }
 
         try {
-            updatedWorldState.getSnakeHeadById("c");
+            updatedWorldState.getCharacterById("c");
             fail("Snake 'c' should have been removed from the board");
         } catch (IllegalArgumentException iae) {
             // What we expect!
@@ -48,9 +47,9 @@ public class KeepOnlySnakeWithIdTest {
     @Test(expected = TransformationException.class)
     public void testTransformCheckingNullId() throws TransformationException {
         Tile[] tiles = new WorldState(3, 3).getTiles();
-        tiles[2] = new Tile(new SnakeHead("a", "a", 2));
-        tiles[6] = new Tile(new SnakeHead("b", "b", 6));
-        tiles[8] = new Tile(new SnakeHead("b", "b", 6));
+        tiles[2] = new Tile(new CharacterImpl("a", "a", 2));
+        tiles[6] = new Tile(new CharacterImpl("b", "b", 6));
+        tiles[8] = new Tile(new CharacterImpl("b", "b", 6));
 
         WorldState worldState = new WorldState(3, 3, tiles);
 
@@ -72,15 +71,15 @@ public class KeepOnlySnakeWithIdTest {
         WorldState updatedWorldState = keepOnlySnakeWithId.transform(worldState);
         Tile[] updatedTiles = updatedWorldState.getTiles();
 
-        assertNotNull(updatedWorldState.getSnakeHeadById("a"));
+        assertNotNull(updatedWorldState.getCharacterById("a"));
 
-        assertTrue(updatedTiles[6].getContent() instanceof SnakeHead);
+        assertTrue(updatedTiles[6].getContent() instanceof CharacterImpl);
         assertTrue(updatedTiles[12].getContent() instanceof SnakeBody);
         assertTrue(updatedTiles[18].getContent() instanceof SnakeBody);
         assertTrue(updatedTiles[24].getContent() instanceof SnakeBody);
 
         try {
-            updatedWorldState.getSnakeHeadById("b");
+            updatedWorldState.getCharacterById("b");
             fail("Snake 'b' should have been removed from the board");
         } catch (IllegalArgumentException iae) {
             // What we expect!
@@ -92,7 +91,7 @@ public class KeepOnlySnakeWithIdTest {
         assertTrue(updatedTiles[27].getContent() instanceof Empty);
 
         try {
-            updatedWorldState.getSnakeHeadById("c");
+            updatedWorldState.getCharacterById("c");
             fail("Snake 'c' should have been removed from the board");
         } catch (IllegalArgumentException iae) {
             // What we expect!
@@ -114,8 +113,8 @@ public class KeepOnlySnakeWithIdTest {
         SnakeBody body1 = new SnakeBody(id, body2, position + 6);
         tiles[body1.getPosition()] = new Tile(body1);
 
-        SnakeHead snakeHead = new SnakeHead(name, id, position);
-        tiles[snakeHead.getPosition()] = new Tile(snakeHead);
-        snakeHead.setNextSnakePart(body1);
+        CharacterImpl character = new CharacterImpl(name, id, position);
+        tiles[character.getPosition()] = new Tile(character);
+        character.setNextCharacter(body1);
     }
 }

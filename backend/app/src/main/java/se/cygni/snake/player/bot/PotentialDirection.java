@@ -10,7 +10,7 @@ import se.cygni.snake.api.model.*;
  */
 public class PotentialDirection implements Comparable<PotentialDirection> {
 
-    public static SnakeDirection[] POSSIBLE_DIRECTIONS = {SnakeDirection.UP, SnakeDirection.DOWN, SnakeDirection.LEFT, SnakeDirection.RIGHT};
+    public static CharacterAction[] POSSIBLE_DIRECTIONS = {CharacterAction.UP, CharacterAction.DOWN, CharacterAction.LEFT, CharacterAction.RIGHT};
 
     private static final Logger log = LoggerFactory.getLogger(PotentialDirection.class);
 
@@ -21,7 +21,7 @@ public class PotentialDirection implements Comparable<PotentialDirection> {
     static final int DEFAULT_SNAKE_TAIL_SCORE = 0;
     static final int DEFAULT_OUT_OF_BOUNDS_SCORE = -100;
 
-    private final SnakeDirection direction;
+    private final CharacterAction direction;
 
     private int keepGoingScore = DEFAULT_KEEP_GOING_SCORE;
     private int emptyScore = DEFAULT_EMPTY_SCORE;
@@ -32,11 +32,11 @@ public class PotentialDirection implements Comparable<PotentialDirection> {
 
     private Integer score = 0;
 
-    public PotentialDirection(final SnakeDirection direction) {
+    public PotentialDirection(final CharacterAction direction) {
         this.direction = direction;
     }
 
-    public SnakeDirection getDirection() {
+    public CharacterAction getDirection() {
         return direction;
     }
 
@@ -57,16 +57,16 @@ public class PotentialDirection implements Comparable<PotentialDirection> {
                 if (getSnakeTailScore() > 0 && tileContent instanceof MapSnakeBody) {
                     MapSnakeBody mapSnakeBody = (MapSnakeBody) tileContent;
                     if (mapSnakeBody.isTail() && !mapSnakeBody.getPlayerId().equals(playerId)) {
-                        SnakeInfo snake = findSnake(gameMap, mapSnakeBody.getPlayerId());
-                        if (snake != null && snake.getTailProtectedForGameTicks() > 0) {
+                        CharacterInfo snake = findSnake(gameMap, mapSnakeBody.getPlayerId());
+                        /*if (snake != null && snake.getTailProtectedForGameTicks() > 0) {
                             scoreToAdd = -scoreToAdd;  // Don't eat protected snakes!
-                        } else {
-                            scoreToAdd = getSnakeTailScore();  // Don't care how far away, we want to eat!
-                        }
+                        } else {*/
+                        scoreToAdd = getSnakeTailScore();  // Don't care how far away, we want to eat!
+                        //}
                     } else {  // Not the tail
                         scoreToAdd = getAvoidScore() / distanceFromSnake;
                     }
-                } else { // SnakeHead
+                } else { // CharacterImpl
                     scoreToAdd = (2 * getAvoidScore()) / distanceFromSnake;  // Really want to avoid heads!
                 }
                 break;
@@ -79,10 +79,10 @@ public class PotentialDirection implements Comparable<PotentialDirection> {
         this.score += scoreToAdd;
     }
 
-    private SnakeInfo findSnake(final Map gameMap, final String playerId) {
-        for (SnakeInfo snakeInfo : gameMap.getSnakeInfos()) {
-            if (snakeInfo.getId().equals(playerId)) {
-                return snakeInfo;
+    private CharacterInfo findSnake(final Map gameMap, final String playerId) {
+        for (CharacterInfo characterInfo : gameMap.getCharacterInfos()) {
+            if (characterInfo.getId().equals(playerId)) {
+                return characterInfo;
             }
         }
         return null;
@@ -149,27 +149,27 @@ public class PotentialDirection implements Comparable<PotentialDirection> {
         this.score = this.score + getOutOfBoundsScore();
     }
 
-    public static boolean isOppositeDirection(final SnakeDirection currentDirection, final SnakeDirection potentialDirection) {
+    public static boolean isOppositeDirection(final CharacterAction currentDirection, final CharacterAction potentialDirection) {
         boolean oppositeDirection = false;
         if (currentDirection != null) {
             switch (currentDirection) {
                 case UP:
-                    oppositeDirection = potentialDirection == SnakeDirection.DOWN;
+                    oppositeDirection = potentialDirection == CharacterAction.DOWN;
                     break;
                 case DOWN:
-                    oppositeDirection = potentialDirection == SnakeDirection.UP;
+                    oppositeDirection = potentialDirection == CharacterAction.UP;
                     break;
 
                 case LEFT:
-                    oppositeDirection = potentialDirection == SnakeDirection.RIGHT;
+                    oppositeDirection = potentialDirection == CharacterAction.RIGHT;
                     break;
 
                 case RIGHT:
-                    oppositeDirection = potentialDirection == SnakeDirection.LEFT;
+                    oppositeDirection = potentialDirection == CharacterAction.LEFT;
                     break;
 
                 default:
-                    throw new RuntimeException("Unknown Direction: " + potentialDirection.toString());
+                    throw new RuntimeException("Unknown Action: " + potentialDirection.toString());
             }
         }
         return oppositeDirection;

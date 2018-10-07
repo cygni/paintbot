@@ -8,7 +8,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @EnableWebSocket
 public class SnakeServerApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {

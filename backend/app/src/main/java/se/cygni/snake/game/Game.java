@@ -6,7 +6,7 @@ import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.cygni.game.Player;
-import se.cygni.game.enums.Direction;
+import se.cygni.game.enums.Action;
 import se.cygni.game.random.XORShiftRandom;
 import se.cygni.snake.api.event.GameLinkEvent;
 import se.cygni.snake.api.exception.InvalidPlayerName;
@@ -18,7 +18,7 @@ import se.cygni.snake.api.request.RegisterPlayer;
 import se.cygni.snake.api.request.StartGame;
 import se.cygni.snake.api.response.PlayerRegistered;
 import se.cygni.snake.api.util.MessageUtils;
-import se.cygni.snake.apiconversion.DirectionConverter;
+import se.cygni.snake.apiconversion.ActionConverter;
 import se.cygni.snake.apiconversion.GameSettingsConverter;
 import se.cygni.snake.event.InternalGameEvent;
 import se.cygni.snake.player.IPlayer;
@@ -103,7 +103,7 @@ public class Game {
     public void registerMove(RegisterMove registerMove) {
         long gameTick = registerMove.getGameTick();
         String playerId = registerMove.getReceivingPlayerId();
-        Direction direction = DirectionConverter.toDirection(registerMove.getDirection());
+        Action action = ActionConverter.toDirection(registerMove.getDirection());
 
         if (!gameId.equals(registerMove.getGameId())) {
             log.warn("Player: {}, playerId: {}, tried to register move for wrong game. Aborting that move.",
@@ -112,10 +112,10 @@ public class Game {
             return;
         }
 
-        gameEngine.registerMove(
+        gameEngine.registerAction(
                 gameTick,
                 playerId,
-                direction
+                action
         );
     }
 
@@ -172,7 +172,7 @@ public class Game {
     public void playerLostConnection(String playerId) {
         try {
             IPlayer player = playerManager.getPlayer(playerId);
-            player.dead(gameEngine.getCurrentWorldTick());
+            player.stunned(gameEngine.getCurrentWorldTick());
             log.info("Player: {} , playerId: {} lost connection and was therefore killed.", player.getName(), playerId);
         } catch (Exception e) {
             log.warn("PlayerId: {} lost connection but I could not remove her (which is OK, she probably wasn't registered in the first place)", playerId);
@@ -203,7 +203,7 @@ public class Game {
         for (int i = 0; i < gameFeatures.getMaxNoofPlayers() - 1; i++) {
             BotPlayer bot;
 
-            switch (Math.abs(botSelector.nextInt() % 5)) {
+            switch (Math.abs(botSelector.nextInt() % 3)) {
                 case 0:
                     bot = new RandomBot(UUID.randomUUID().toString(), incomingEventBus);
                     break;
@@ -212,12 +212,6 @@ public class Game {
                     break;
                 case 2:
                     bot = new StraightBot(UUID.randomUUID().toString(), incomingEventBus);
-                    break;
-                case 3:
-                    bot = new BrainySnakePlayer(UUID.randomUUID().toString(), incomingEventBus);
-                    break;
-                case 4:
-                    bot = new Snakey(UUID.randomUUID().toString(), incomingEventBus);
                     break;
                 default:
                     bot = new StraightBot(UUID.randomUUID().toString(), incomingEventBus);

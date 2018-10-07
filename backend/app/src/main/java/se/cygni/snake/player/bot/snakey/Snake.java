@@ -1,6 +1,6 @@
 package se.cygni.snake.player.bot.snakey;
 
-import se.cygni.snake.api.model.SnakeDirection;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.client.MapCoordinate;
 
 import java.util.HashSet;
@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class Snake {
 
     private final String id;
-    private SnakeDirection dir;
+    private CharacterAction dir;
     private LinkedList<MapCoordinate> snakeSpread;
     private HashSet<MapCoordinate> bodySet;
     private long lifeTime;
@@ -37,7 +37,7 @@ public class Snake {
         if(spread.length >= 2){
             dir = inferDir(spread[0], spread[1]);
         } else {
-            dir = SnakeDirection.DOWN; //Not known yet
+            dir = CharacterAction.DOWN; //Not known yet
         }
 
         for(MapCoordinate coord : spread){
@@ -49,17 +49,17 @@ public class Snake {
         this.hasEaten = false;
     }
 
-    private SnakeDirection inferDir(MapCoordinate newHead, MapCoordinate oldHead) {
+    private CharacterAction inferDir(MapCoordinate newHead, MapCoordinate oldHead) {
         if(newHead.x < oldHead.x){
-            return SnakeDirection.LEFT;
+            return CharacterAction.LEFT;
         } else if (newHead.x > oldHead.x){
-            return SnakeDirection.RIGHT;
+            return CharacterAction.RIGHT;
         } else if (newHead.y < oldHead.y){
-            return SnakeDirection.UP;
+            return CharacterAction.UP;
         } else if (newHead.y > oldHead.y){
-            return SnakeDirection.DOWN;
+            return CharacterAction.DOWN;
         }
-        return SnakeDirection.DOWN;
+        return CharacterAction.DOWN;
     }
 
 
@@ -86,7 +86,7 @@ public class Snake {
         lifeTime++;
     }
 
-    private MapCoordinate getNewPos(SnakeDirection dir) {
+    private MapCoordinate getNewPos(CharacterAction dir) {
         switch (dir){
             case DOWN:
                 return snakeSpread.getFirst().translateBy(0, 1);
@@ -107,11 +107,11 @@ public class Snake {
         return id;
     }
 
-    public SnakeDirection getDir() {
+    public CharacterAction getDir() {
         return dir;
     }
 
-    public void setDir(SnakeDirection dir) {
+    public void setDir(CharacterAction dir) {
         this.dir = dir;
     }
 

@@ -38,8 +38,8 @@ public class TileContentDeserializer extends JsonDeserializer<TileContent> {
 
         switch (content) {
             case MapObstacle.CONTENT  : return new MapObstacle();
-            case MapFood.CONTENT      : return new MapFood();
-            case MapSnakeHead.CONTENT : return new MapSnakeHead(name, playerId);
+            case MapBomb.CONTENT      : return new MapBomb();
+            case MapCharacter.CONTENT : return new MapCharacter(name, playerId);
             case MapSnakeBody.CONTENT : return new MapSnakeBody(tail, playerId, order);
             default: return new MapEmpty();
         }

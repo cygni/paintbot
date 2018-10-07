@@ -59,12 +59,12 @@ public class AnsiPrinter {
         if (active) {
             CompletableFuture cf = CompletableFuture.runAsync(() -> {
 
-                if (event.getMap().getSnakeInfos().length > event.getMap().getHeight() - 5) {
+                if (event.getMap().getCharacterInfos().length > event.getMap().getHeight() - 5) {
                     System.out.println("Sorry, too many snakes I can't render this.");
                     return;
                 }
 
-                if (event.getMap().getSnakeInfos().length > 11) {
+                if (event.getMap().getCharacterInfos().length > 11) {
                     System.out.println("Sorry, too many snakes I can't render this.");
                     return;
                 }
@@ -131,13 +131,13 @@ public class AnsiPrinter {
     private void populateSnakeColors(MapUpdateEvent event) {
         Queue<String> availableColors = getAvailableColors();
 
-        for (SnakeInfo snakeInfo : event.getMap().getSnakeInfos()) {
-            if (!playerColorMap.containsKey(snakeInfo.getId())) {
+        for (CharacterInfo characterInfo : event.getMap().getCharacterInfos()) {
+            if (!playerColorMap.containsKey(characterInfo.getId())) {
 
-                if (snakeInfo.getId().equals(event.getReceivingPlayerId())) {
-                    playerColorMap.put(snakeInfo.getId(), FG_LIGHT_GREEN);
+                if (characterInfo.getId().equals(event.getReceivingPlayerId())) {
+                    playerColorMap.put(characterInfo.getId(), FG_LIGHT_GREEN);
                 } else {
-                    playerColorMap.put(snakeInfo.getId(), availableColors.remove());
+                    playerColorMap.put(characterInfo.getId(), availableColors.remove());
                 }
             }
         }
@@ -148,7 +148,7 @@ public class AnsiPrinter {
         int offset = getOffsetForLegend(map);
         int noofStdItems = 4;
 
-        int noofPlayers = map.getSnakeInfos().length;
+        int noofPlayers = map.getCharacterInfos().length;
 
         if (!includeLegend || row < offset || row - offset > noofPlayers + noofStdItems) {
             sb.append("\n");
@@ -191,14 +191,12 @@ public class AnsiPrinter {
             return;
         }
 
-        SnakeInfo si = map.getSnakeInfos()[row - offset - 1];
+        CharacterInfo si = map.getCharacterInfos()[row - offset - 1];
         sb.append(indent)
-                .append((char) 27).append(getSnakeColor(si.getId())).append(SNAKE_PART)
+                .append((char) 27).append(getPlayerColour(si.getId())).append(SNAKE_PART)
                 .append((char) 27).append(FG_DEFAULT)
                 .append(" ").append(si.getName())
-                .append(" (l: ").append(si.getLength())
                 .append(", p:").append(si.getPoints()).append(")")
-                .append(si.isAlive() ? "" : "[RIP]")
                 .append(" id: ").append(si.getId())
                 .append("\n");
 
@@ -208,7 +206,7 @@ public class AnsiPrinter {
         return 2;
     }
 
-    private String getSnakeColor(String id) {
+    private String getPlayerColour(String id) {
         return playerColorMap.get(id);
     }
 
@@ -219,32 +217,22 @@ public class AnsiPrinter {
         for (TileContent tc : row) {
             if (tc instanceof MapSnakeBody)
                 append(
-                        getSnakeColor(((MapSnakeBody) tc)
+                        getPlayerColour(((MapSnakeBody) tc)
                                 .getPlayerId()),
                         bg_color,
                         SNAKE_PART,
                         FG_DEFAULT,
                         bg_default, sb);
 
-            else if (tc instanceof MapSnakeHead) {
-                if (getSnakeLength(
-                        ((MapSnakeHead) tc).getPlayerId(),
-                        event.getMap().getSnakeInfos()) > 1)
+            else if (tc instanceof MapCharacter) {
                     append(
-                            SNAKE_HEAD_COLOR,
-                            bg_color,
-                            SNAKE_PART,
-                            FG_DEFAULT,
-                            bg_default, sb);
-                else
-                    append(
-                            getSnakeColor(((MapSnakeHead) tc)
+                            getPlayerColour(((MapCharacter) tc)
                                     .getPlayerId()),
                             bg_color,
                             SNAKE_PART,
                             FG_DEFAULT,
                             bg_default, sb);
-            } else if (tc instanceof MapFood)
+            } else if (tc instanceof MapBomb)
                 append(
                         FOOD_COLOR,
                         bg_color,
@@ -268,13 +256,6 @@ public class AnsiPrinter {
         }
     }
 
-    private int getSnakeLength(String playerId, SnakeInfo[] snakeInfos) {
-        for (SnakeInfo si : snakeInfos) {
-            if (si.getId().equals(playerId))
-                return si.getLength();
-        }
-        return 0;
-    }
 
     private void append(
             String fgcolor,

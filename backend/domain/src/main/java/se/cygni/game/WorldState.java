@@ -1,9 +1,11 @@
 package se.cygni.game;
 
 import org.apache.commons.lang3.ArrayUtils;
-import se.cygni.game.enums.Direction;
+import se.cygni.game.enums.Action;
 import se.cygni.game.exception.OutOfBoundsException;
 import se.cygni.game.worldobject.*;
+import se.cygni.game.worldobject.Character;
+import se.cygni.game.worldobject.CharacterImpl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -74,92 +76,85 @@ public class WorldState {
     }
 
     public int getPositionOfSnakeHead(String playerId) {
-        int[] snakeHeadPositions = listPositionsWithContentOf(SnakeHead.class);
+        int[] snakeHeadPositions = listPositionsWithContentOf(CharacterImpl.class);
 
         for (int position : snakeHeadPositions) {
-            SnakeHead sh = (SnakeHead)getTile(position).getContent();
+            CharacterImpl sh = (CharacterImpl)getTile(position).getContent();
             if (sh.getPlayerId().equals(playerId))
                 return position;
         }
         return -1;
     }
 
-    public SnakeHead getSnakeHeadById(String playerId) {
-        int[] snakeHeadPositions = listPositionsWithContentOf(SnakeHead.class);
-        for (int pos : snakeHeadPositions) {
-            SnakeHead head = (SnakeHead)tiles[pos].getContent();
-            if (head.getPlayerId().equals(playerId)) {
-                return head;
+    public int getPositionOfPlayer(String playerId) {
+        return getCharacterById(playerId).getPosition();
+    }
+
+    public CharacterImpl getCharacterById(String playerId) {
+        int[] characterPositions = listPositionsWithContentOf(CharacterImpl.class);
+        for (int pos : characterPositions) {
+            CharacterImpl character = (CharacterImpl)tiles[pos].getContent();
+            if (character.getPlayerId().equals(playerId)) {
+                return character;
             }
         }
-        throw new IllegalArgumentException("Could not find SnakeHead with playerId " + playerId);
+        throw new IllegalArgumentException("Could not find CharacterImpl with playerId " + playerId);
     }
 
-    public SnakeHead getSnakeHeadForBodyAt(int position) {
-        if (! (getTile(position).getContent() instanceof SnakePart)) {
-            throw new RuntimeException("Tile at position " + position + " didn't contain a SnakePart");
+    public CharacterImpl getCharacterAtPosition(int position) {
+        if (! (getTile(position).getContent() instanceof Character)) {
+            throw new RuntimeException("Tile at position " + position + " didn't contain a Character");
         }
 
-        int[] snakeHeadPositions = listPositionsWithContentOf(SnakeHead.class);
-        for (int snakeHeadPosition : snakeHeadPositions) {
-            SnakeHead snakeHead = (SnakeHead)getTile(snakeHeadPosition).getContent();
-            int[] snakeSpread = getSnakeSpread(snakeHead);
-            if (ArrayUtils.contains(snakeSpread, position))
-                return snakeHead;
+        int[] characterPositions = listPositionsWithContentOf(CharacterImpl.class);
+        for (int characterPos : characterPositions) {
+            if(characterPos == position) {
+                return (CharacterImpl)getTile(characterPos).getContent();
+            }
         }
 
-        throw new IllegalStateException("Found SnakePart without head");
+        throw new IllegalStateException("Found Character without position");
     }
 
-    public List<String> listSnakeIds() {
+    public List<String> listCharacterIds() {
 
-        return Arrays.stream(tiles).filter(tile -> tile.getContent() instanceof SnakeHead)
+        return Arrays.stream(tiles).filter(tile -> tile.getContent() instanceof CharacterImpl)
                 .map(tile1 -> {
-                    return ((SnakeHead)tile1.getContent()).getPlayerId();
+                    return ((CharacterImpl)tile1.getContent()).getPlayerId();
                 }).collect(Collectors.toList());
     }
 
     /**
      *
-     * @param snakeHead
-     * @return an array of all positions that this snake occupies
+     * @param character
+     * @return a position that this character occupies
      */
-    public int[] getSnakeSpread(SnakeHead snakeHead) {
-        int[] snakeSpread = new int[snakeHead.getLength()];
-        int counter = 0;
-        SnakePart snakePart = (SnakePart)snakeHead;
-        while (snakePart != null) {
-            snakeSpread[counter++] = snakePart.getPosition();
-            snakePart = snakePart.getNextSnakePart();
-        }
-        return snakeSpread;
+    public int getCharacterPosition(CharacterImpl character) {
+        return character.getPosition();
     }
 
-    public int getPositionForAdjacent(int position, Direction direction) {
-        if (!hasAdjacentTile(position, direction))
-            throw new OutOfBoundsException("Tile " + direction + " from position " + position + " is out of bounds");
+    public int getPositionForAdjacent(int position, Action action) {
+        if (!hasAdjacentTile(position, action))
+            throw new OutOfBoundsException("Tile " + action + " from position " + position + " is out of bounds");
 
-        switch (direction) {
+        switch (action) {
             case DOWN:  return position + width;
             case UP:    return position - width;
             case RIGHT: return position + 1;
             case LEFT:  return position - 1;
-            default:    throw new RuntimeException("Invalid direction");
+            default:    throw new RuntimeException("Invalid action");
         }
     }
 
     /**
-     * Positions that are adjacent to a SnakeHead are
-     * considered illegal. This is because no action
-     * on these tiles should be taken since it could
-     * cause a snake to collide.
+     * Positions that are adjacent to a CharacterImpl
      *
      * @return
      */
-    public int[] listPositionsAdjacentToSnakeHeads() {
-        int[] snakeHeadPositions = listPositionsWithContentOf(SnakeHead.class);
+    public int[] listPositionsAdjacentToCharacters() {
+        int[] characterPositions = listPositionsWithContentOf(CharacterImpl.class);
 
-        return IntStream.of(snakeHeadPositions).flatMap(pos ->
+        return IntStream.of(characterPositions).flatMap(pos ->
             IntStream.of(
                     listAdjacentTiles(pos)
             )
@@ -167,7 +162,7 @@ public class WorldState {
     }
 
     public int[] listAdjacentTiles(int position) {
-        return Stream.of(Direction.values())
+        return Stream.of(Action.values())
                 .mapToInt(direction -> {
                     if (hasAdjacentTile(position, direction))
                         return getPositionForAdjacent(position, direction);
@@ -180,11 +175,11 @@ public class WorldState {
     /**
      *
      * @param position
-     * @param direction
+     * @param action
      * @return True if the adjacent is within bounds (i.e. not a wall)
      */
-    public boolean hasAdjacentTile(int position, Direction direction) {
-        switch (direction) {
+    public boolean hasAdjacentTile(int position, Action action) {
+        switch (action) {
             case UP   : return (position-width >= 0);
             case DOWN : return (position+width < getSize());
             case LEFT : return (position % width != 0);
@@ -219,17 +214,23 @@ public class WorldState {
         return listPositionsWithContentOf(Empty.class);
     }
 
-    public int[] listFoodPositions() {
-        return listPositionsWithContentOf(Food.class);
+    public int[] listBombPositions() {
+        return listPositionsWithContentOf(Bomb.class);
     }
 
     public int[] listObstaclePositions() {
         return listPositionsWithContentOf(Obstacle.class);
     }
 
+    public int[] listPositionWithOwner(String playerId){
+        return IntStream.range(0, getSize())
+                .filter( position -> getTile(position).getOwnerID().equals(playerId))
+                .toArray();
+    }
+
     public int[] listEmptyValidPositions() {
         int[] emptyPositions = listEmptyPositions();
-        int[] snakeAdjacentPositions = listPositionsAdjacentToSnakeHeads();
+        int[] snakeAdjacentPositions = listPositionsAdjacentToCharacters();
 
         return IntStream.of(emptyPositions).filter(pos ->
             !ArrayUtils.contains(snakeAdjacentPositions, pos)

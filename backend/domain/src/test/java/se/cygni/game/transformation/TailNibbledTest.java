@@ -4,8 +4,7 @@ import org.junit.Test;
 import se.cygni.game.Tile;
 import se.cygni.game.WorldState;
 import se.cygni.game.exception.TransformationException;
-import se.cygni.game.worldobject.SnakeBody;
-import se.cygni.game.worldobject.SnakeHead;
+import se.cygni.game.worldobject.CharacterImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -23,9 +22,9 @@ public class TailNibbledTest {
         TailNibbled tailNibbled = new TailNibbled("a", 3, 3);
         WorldState updatedWorldState = tailNibbled.transform(worldState);
 
-        SnakeHead snakeA = updatedWorldState.getSnakeHeadById("a");
+        CharacterImpl snakeA = updatedWorldState.getCharacterById("a");
         assertEquals(4, snakeA.getTailProtectedForGameTicks());
-        assertNull(snakeA.getNextSnakePart());
+        assertNull(snakeA.getNextCharacter());
     }
 
     @Test(expected = TransformationException.class)
@@ -50,16 +49,16 @@ public class TailNibbledTest {
         SnakeBody tailA = new SnakeBody("a", null, 3);
         tiles[tailA.getPosition()] = new Tile(tailA);
 
-        SnakeHead headA = new SnakeHead("a", "a", 0);
+        CharacterImpl headA = new CharacterImpl("a", "a", 0);
         tiles[headA.getPosition()] = new Tile(headA);
-        headA.setNextSnakePart(tailA);
+        headA.setNextCharacter(tailA);
 
         SnakeBody tailB = new SnakeBody("b", null, 4);
         tiles[tailB.getPosition()] = new Tile(tailB);
 
-        SnakeHead headB = new SnakeHead("b", "b", 4);
+        CharacterImpl headB = new CharacterImpl("b", "b", 4);
         tiles[headB.getPosition()] = new Tile(headB);
-        headB.setNextSnakePart(tailB);
+        headB.setNextCharacter(tailB);
 
         return new WorldState(3, 3, tiles);
     }

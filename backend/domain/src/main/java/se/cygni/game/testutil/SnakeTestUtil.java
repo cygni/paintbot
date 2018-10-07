@@ -2,9 +2,8 @@ package se.cygni.game.testutil;
 
 import se.cygni.game.Tile;
 import se.cygni.game.WorldState;
-import se.cygni.game.worldobject.SnakeBody;
-import se.cygni.game.worldobject.SnakeHead;
-import se.cygni.game.worldobject.SnakePart;
+import se.cygni.game.worldobject.Character;
+import se.cygni.game.worldobject.CharacterImpl;
 import se.cygni.game.worldobject.WorldObject;
 
 import java.util.Arrays;
@@ -47,36 +46,13 @@ public class SnakeTestUtil {
 
     public static WorldState addSnake(
             WorldState ws,
-            SnakePart...snakeParts) {
+            Character... characters) {
 
         Tile[] tiles = ws.getTiles();
-        for (SnakePart sp : snakeParts) {
+        for (Character sp : characters) {
             tiles[sp.getPosition()] = new Tile(sp);
         }
         return new WorldState(ws.getWidth(), ws.getHeight(), tiles);
     }
 
-    /**
-     * Creates a Snake with the head at the first position in the array
-     * @param positions
-     * @return An array of SnakePart
-     */
-    public static SnakePart[] createSnake(String name, String playerId, int...positions) {
-        SnakePart[] parts = new SnakePart[positions.length];
-
-        SnakePart previousSnakePart = null;
-        for (int pos = positions.length-1; pos >= 0; pos--) {
-            if (pos > 0) {
-                previousSnakePart = new SnakeBody(playerId, previousSnakePart, positions[pos]);
-            } else {
-                SnakeHead sh = new SnakeHead(name, playerId, positions[pos]);
-                sh.setNextSnakePart(previousSnakePart);
-                previousSnakePart = sh;
-            }
-
-            parts[pos] = previousSnakePart;
-        }
-
-        return parts;
-    }
 }

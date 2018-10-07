@@ -1,4 +1,4 @@
 package se.cygni.game.worldobject;
 
-public class Food implements WorldObject {
+public class Bomb implements WorldObject {
 }

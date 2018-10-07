@@ -11,22 +11,22 @@ import static org.junit.Assert.assertEquals;
  * @author Alan Tibbetts
  * @since 12/04/16
  */
-public class DecrementTailProtectionTest {
+public class DecrementStunTest {
 
     @Test
     public void testTransform() {
         CharacterImpl snakeA = new CharacterImpl("a", "a", 2);
-        snakeA.setTailProtectedForGameTicks(3);
+        snakeA.setIsStunnedForTicks(3);
 
         Tile[] tiles = new WorldState(3, 3).getTiles();
         tiles[2] = new Tile(snakeA);
         WorldState worldState = new WorldState(3, 3, tiles);
 
-        DecrementTailProtection decrementTailProtection = new DecrementTailProtection();
+        DecrementStun decrementStun = new DecrementStun();
 
-        WorldState updatedWorldState = decrementTailProtection.transform(worldState);
+        WorldState updatedWorldState = decrementStun.transform(worldState);
         CharacterImpl updatedCharacter = updatedWorldState.getCharacterById("a");
-        assertEquals(2, updatedCharacter.getTailProtectedForGameTicks());
+        assertEquals(2, updatedCharacter.getIsStunnedForTicks());
     }
 
     @Test
@@ -37,10 +37,10 @@ public class DecrementTailProtectionTest {
         tiles[2] = new Tile(snakeA);
         WorldState worldState = new WorldState(3, 3, tiles);
 
-        DecrementTailProtection decrementTailProtection = new DecrementTailProtection();
+        DecrementStun decrementStun = new DecrementStun();
 
-        WorldState updatedWorldState = decrementTailProtection.transform(worldState);
+        WorldState updatedWorldState = decrementStun.transform(worldState);
         CharacterImpl updatedCharacter = updatedWorldState.getCharacterById("a");
-        assertEquals(0, updatedCharacter.getTailProtectedForGameTicks());
+        assertEquals(0, updatedCharacter.getIsStunnedForTicks());
     }
 }

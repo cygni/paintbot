@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.cygni.snake.api.GameMessage;
 import se.cygni.snake.api.event.*;
-import se.cygni.snake.api.model.SnakeInfo;
+import se.cygni.snake.api.model.CharacterInfo;
 import se.cygni.snake.api.util.MessageUtils;
 import se.cygni.snake.event.InternalGameEvent;
 import se.cygni.snake.eventapi.history.GameHistory;
@@ -124,8 +124,8 @@ public class GameHistoryCache {
         if (firstMapUpdate.isPresent()) {
             MapUpdateEvent mapUpdateEvent = (MapUpdateEvent)firstMapUpdate.get().getGameMessage();
 
-            return Arrays.stream(mapUpdateEvent.getMap().getSnakeInfos())
-                    .map(SnakeInfo::getName)
+            return Arrays.stream(mapUpdateEvent.getMap().getCharacterInfos())
+                    .map(CharacterInfo::getName)
                     .collect(Collectors.toList()).toArray(new String[0]);
         }
 
@@ -148,7 +148,7 @@ public class GameHistoryCache {
         add(MapUpdateEvent.class);
         add(GameLinkEvent.class);
         add(GameStartingEvent.class);
-        add(SnakeDeadEvent.class);
+        add(CharacterStunnedEvent.class);
         add(GameEndedEvent.class);
         add(TournamentEndedEvent.class);
         add(GameResultEvent.class);

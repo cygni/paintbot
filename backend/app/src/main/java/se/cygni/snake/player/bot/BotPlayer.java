@@ -2,8 +2,8 @@ package se.cygni.snake.player.bot;
 
 import com.google.common.eventbus.EventBus;
 import se.cygni.snake.api.event.*;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.api.model.Map;
-import se.cygni.snake.api.model.SnakeDirection;
 import se.cygni.snake.api.model.TileContent;
 import se.cygni.snake.client.MapCoordinate;
 import se.cygni.snake.client.MapUtil;
@@ -27,7 +27,7 @@ public abstract class BotPlayer extends BasePlayer {
     }
 
     @Override
-    public void onSnakeDead(SnakeDeadEvent snakeDeadEvent) {
+    public void onCharacterStunned(CharacterStunnedEvent characterStunnedEvent) {
 
     }
 
@@ -75,7 +75,7 @@ public abstract class BotPlayer extends BasePlayer {
             addTileToPotentialDirection(gameMap, mapUtil, potentialDirection, i, coordinate);
 
             if (i == 1) {
-                if (potentialDirection.getDirection() == SnakeDirection.LEFT || potentialDirection.getDirection() == SnakeDirection.RIGHT) {
+                if (potentialDirection.getDirection() == CharacterAction.LEFT || potentialDirection.getDirection() == CharacterAction.RIGHT) {
                     coordinate = coordinate.translateBy(1, 0);
                     addTileToPotentialDirection(gameMap, mapUtil, potentialDirection, i, coordinate);
                     coordinate = coordinate.translateBy(-1, 0);
@@ -105,7 +105,7 @@ public abstract class BotPlayer extends BasePlayer {
      * @param howFar          how many tiles from the snake's current position
      * @return potential new coordinate
      */
-    protected MapCoordinate possibleNewPosition(final MapCoordinate currentPosition, final SnakeDirection direction, final int howFar) {
+    protected MapCoordinate possibleNewPosition(final MapCoordinate currentPosition, final CharacterAction direction, final int howFar) {
         MapCoordinate newCoordinate = currentPosition.translateBy(0, 0);
         switch (direction) {
             case DOWN:

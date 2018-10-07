@@ -3,7 +3,7 @@ package se.cygni.game.transformation;
 import se.cygni.game.Tile;
 import se.cygni.game.WorldState;
 import se.cygni.game.exception.TransformationException;
-import se.cygni.game.worldobject.SnakePart;
+import se.cygni.game.worldobject.Character;
 import se.cygni.game.worldobject.WorldObject;
 
 import java.util.stream.IntStream;
@@ -27,9 +27,9 @@ public class KeepOnlySnakeWithId implements WorldTransformation {
         IntStream.range(0, tiles.length).forEach(
                 pos -> {
                     WorldObject content = tiles[pos].getContent();
-                    if (content instanceof SnakePart) {
-                        SnakePart snakePart = (SnakePart)content;
-                        if (!playerId.equals(snakePart.getPlayerId())) {
+                    if (content instanceof Character) {
+                        Character character = (Character)content;
+                        if (!playerId.equals(character.getPlayerId())) {
                             tiles[pos] = new Tile();
                         }
                     }

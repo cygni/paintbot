@@ -3,7 +3,7 @@ package se.cygni.snake.player.bot;
 import com.google.common.eventbus.EventBus;
 import se.cygni.snake.api.event.MapUpdateEvent;
 import se.cygni.snake.api.model.Map;
-import se.cygni.snake.api.model.SnakeDirection;
+import se.cygni.snake.api.model.CharacterAction;
 import se.cygni.snake.api.request.RegisterMove;
 import se.cygni.snake.client.MapCoordinate;
 import se.cygni.snake.client.MapUtil;
@@ -24,7 +24,7 @@ public class DumbBot extends BotPlayer {
 
     private static final int HOW_MANY_TILES_CAN_I_SEE = 1;
 
-    private SnakeDirection currentDirection = null;
+    private CharacterAction currentDirection = null;
 
     public DumbBot(String playerId, EventBus incomingEventbus) {
         super(playerId, incomingEventbus);
@@ -52,10 +52,10 @@ public class DumbBot extends BotPlayer {
         MapCoordinate myPosition = mapUtil.getMyPosition();
         List<PotentialDirection> directions = new ArrayList<>(4);
 
-        for (SnakeDirection snakeDirection : PotentialDirection.POSSIBLE_DIRECTIONS) {
-            PotentialDirection potentialDirection = new PotentialDirection(snakeDirection);
+        for (CharacterAction characterAction : PotentialDirection.POSSIBLE_DIRECTIONS) {
+            PotentialDirection potentialDirection = new PotentialDirection(characterAction);
 
-            if (currentDirection != null && currentDirection == snakeDirection) {
+            if (currentDirection != null && currentDirection == characterAction) {
                 potentialDirection.goingThisWayAnyway();
             }
 
