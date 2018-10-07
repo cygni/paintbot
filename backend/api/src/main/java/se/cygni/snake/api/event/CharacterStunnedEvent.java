@@ -3,13 +3,13 @@ package se.cygni.snake.api.event;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import se.cygni.snake.api.GameMessage;
-import se.cygni.snake.api.model.DeathReason;
+import se.cygni.snake.api.model.StunReason;
 import se.cygni.snake.api.type.GameMessageType;
 
 @GameMessageType
 public class SnakeDeadEvent extends GameMessage {
 
-    private final DeathReason deathReason;
+    private final StunReason stunReason;
     private final String playerId;
     private final int x, y;
     private final String gameId;
@@ -17,14 +17,14 @@ public class SnakeDeadEvent extends GameMessage {
 
     @JsonCreator
     public SnakeDeadEvent(
-            @JsonProperty("deathReason") DeathReason deathReason,
+            @JsonProperty("stunReason") StunReason stunReason,
             @JsonProperty("playerId") String playerId,
             @JsonProperty("x") int x,
             @JsonProperty("y") int y,
             @JsonProperty("gameId") String gameId,
             @JsonProperty("gameTick") long gameTick) {
 
-        this.deathReason = deathReason;
+        this.stunReason = stunReason;
         this.playerId = playerId;
         this.x = x;
         this.y = y;
@@ -33,7 +33,7 @@ public class SnakeDeadEvent extends GameMessage {
     }
 
     public SnakeDeadEvent(SnakeDeadEvent sde) {
-        this.deathReason = sde.getDeathReason();
+        this.stunReason = sde.getStunReason();
         this.playerId = sde.getPlayerId();
         this.x = sde.getX();
         this.y = sde.getY();
@@ -45,8 +45,8 @@ public class SnakeDeadEvent extends GameMessage {
      *
      * @return the reason for this death
      */
-    public DeathReason getDeathReason() {
-        return deathReason;
+    public StunReason getStunReason() {
+        return stunReason;
     }
 
     /**
@@ -92,7 +92,7 @@ public class SnakeDeadEvent extends GameMessage {
     @Override
     public String toString() {
         return "SnakeDeadEvent{" +
-                "deathReason=" + deathReason +
+                "stunReason=" + stunReason +
                 ", playerId='" + playerId + '\'' +
                 ", x=" + x +
                 ", y=" + y +

@@ -3,7 +3,7 @@ package se.cygni.game.transformation;
 import org.junit.Test;
 import se.cygni.game.Tile;
 import se.cygni.game.WorldState;
-import se.cygni.game.worldobject.SnakeHead;
+import se.cygni.game.worldobject.CharacterImpl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,7 +15,7 @@ public class DecrementTailProtectionTest {
 
     @Test
     public void testTransform() {
-        SnakeHead snakeA = new SnakeHead("a", "a", 2);
+        CharacterImpl snakeA = new CharacterImpl("a", "a", 2);
         snakeA.setTailProtectedForGameTicks(3);
 
         Tile[] tiles = new WorldState(3, 3).getTiles();
@@ -25,13 +25,13 @@ public class DecrementTailProtectionTest {
         DecrementTailProtection decrementTailProtection = new DecrementTailProtection();
 
         WorldState updatedWorldState = decrementTailProtection.transform(worldState);
-        SnakeHead updatedSnakeHead = updatedWorldState.getSnakeHeadById("a");
-        assertEquals(2, updatedSnakeHead.getTailProtectedForGameTicks());
+        CharacterImpl updatedCharacter = updatedWorldState.getCharacterById("a");
+        assertEquals(2, updatedCharacter.getTailProtectedForGameTicks());
     }
 
     @Test
     public void testTransformWithZeroCount() {
-        SnakeHead snakeA = new SnakeHead("a", "a", 2);
+        CharacterImpl snakeA = new CharacterImpl("a", "a", 2);
 
         Tile[] tiles = new WorldState(3, 3).getTiles();
         tiles[2] = new Tile(snakeA);
@@ -40,7 +40,7 @@ public class DecrementTailProtectionTest {
         DecrementTailProtection decrementTailProtection = new DecrementTailProtection();
 
         WorldState updatedWorldState = decrementTailProtection.transform(worldState);
-        SnakeHead updatedSnakeHead = updatedWorldState.getSnakeHeadById("a");
-        assertEquals(0, updatedSnakeHead.getTailProtectedForGameTicks());
+        CharacterImpl updatedCharacter = updatedWorldState.getCharacterById("a");
+        assertEquals(0, updatedCharacter.getTailProtectedForGameTicks());
     }
 }
