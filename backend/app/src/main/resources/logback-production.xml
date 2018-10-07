@@ -1,0 +1,24 @@
+<included>
+
+    <contextName>Snake-bot-server</contextName>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+            by default -->
+        <encoder>
+            <pattern>%green(%date{HH:mm:ss.SSS}) %highlight(%-5level) %boldYellow(%logger{0}) - %highlight(%msg) %cyan([%t]) %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT" />
+        <queueSize>2048</queueSize>
+        <neverBlock>true</neverBlock>
+    </appender>
+
+    <logger name="se" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="ASYNC" />
+    </root>
+</included>
