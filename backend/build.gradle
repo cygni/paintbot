@@ -37,6 +37,10 @@ subprojects {
     //apply plugin: 'org.sonarqube'
     apply plugin: 'maven-publish'
 
+    jacoco {
+        toolVersion = "0.8.2"
+    }
+
     compileJava {
         sourceCompatibility = 11
         targetCompatibility = 11
@@ -106,5 +110,5 @@ subprojects {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
+    gradleVersion = '4.10'
 }

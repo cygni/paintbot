@@ -7,6 +7,8 @@ import se.cygni.snake.api.model.GameSettings;
 import se.cygni.snake.eventapi.ApiMessageParser;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class GameHistoryTest {
 
         assertEquals(gameId, ghReparsed.getGameId());
         assertArrayEquals(players, ghReparsed.getPlayerNames());
-        assertEquals(now, ghReparsed.getGameDate());
+        assertEquals(now.truncatedTo(ChronoUnit.MILLIS), ghReparsed.getGameDate().truncatedTo(ChronoUnit.MILLIS));
 
         GameStartingEvent gse = (GameStartingEvent)gh.getMessages().get(0);
         assertEquals(gameId, gse.getGameId());
