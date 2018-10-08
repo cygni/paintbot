@@ -1,4 +1,15 @@
-export default interface IGameState {
+declare interface ITile {
+    type: TileType
+}
+
+declare enum TileType {
+    EMPTY = 'empty-tile',
+    CHARACTER = 'character-tile',
+    OBSTACLE = 'obstacle-tile',
+    BOMB = 'bomb-tile',
+}
+
+declare interface IGameState {
     gameId: string,
     gameTick: number,
     map: IGameMap,
@@ -7,16 +18,16 @@ export default interface IGameState {
     type: EventType
 }
 
-interface IGameMap {
+declare interface IGameMap {
     width: number,
     height: number,
     bombPositions: [number],
     obstaclePositions: [number],
-    playerInfo: [IPlayerInfo],
+    characterInfo: [IPlayerInfo],
     worldTick: number
 }
 
-interface IPlayerInfo {
+declare interface IPlayerInfo {
     id: string,
     name: string,
     points: number,
@@ -24,6 +35,8 @@ interface IPlayerInfo {
     stunnedForGameTicks: number
 }
 
-enum EventType {
+declare enum EventType {
     MAP_UPDATE_EVENT = 'se.cygni.snake.api.event.MapUpdateEvent'
 }
+
+export { ITile, TileType, IGameState };

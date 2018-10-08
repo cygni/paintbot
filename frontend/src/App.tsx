@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 
-import GameBoard from './gameboard/GameBoard';
+import Game from './game/Game';
 
 class App extends React.Component {
   public render() {
@@ -10,7 +10,7 @@ class App extends React.Component {
         <header className="App-header">
           <h1 className="App-title">Welcome to xyz-bot!</h1>
         </header>
-          <GameBoard />
+          <Game />
       </div>
     );
   }
