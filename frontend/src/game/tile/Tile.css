@@ -1,0 +1,15 @@
+.empty-tile {
+    color: white;
+}
+
+.player-tile {
+    color: red;
+}
+
+.obstacle-tile {
+    color: blue;
+}
+
+.bomb-tile {
+    color: black;
+}
