@@ -2,8 +2,8 @@
     color: white;
 }
 
-.player-tile {
-    color: red;
+.character-tile {
+    border: 5px solid red;
 }
 
 .obstacle-tile {

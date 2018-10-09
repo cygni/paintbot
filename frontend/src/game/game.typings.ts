@@ -1,12 +1,20 @@
 declare interface ITile {
-    type: TileType
+    type: TileType,
+    color: string | undefined
+    coordinate: ICoordinate,
+    colorOfInhabitingPlayer: string | undefined
 }
 
-declare enum TileType {
+enum TileType {
     EMPTY = 'empty-tile',
     CHARACTER = 'character-tile',
     OBSTACLE = 'obstacle-tile',
     BOMB = 'bomb-tile',
+}
+
+declare interface ICoordinate {
+    x: number,
+    y: number
 }
 
 declare interface IGameState {
@@ -23,20 +31,28 @@ declare interface IGameMap {
     height: number,
     bombPositions: [number],
     obstaclePositions: [number],
-    characterInfo: [IPlayerInfo],
+    characterInfos: [ICharacterInfo],
     worldTick: number
 }
 
-declare interface IPlayerInfo {
+declare interface ICharacterInfo {
     id: string,
     name: string,
     points: number,
-    positions: [number],
+    position: number
+    colouredPositions: [number],
     stunnedForGameTicks: number
+}
+
+declare interface IPlayer {
+    id: string,
+    name: string,
+    points: number, 
+    colour: string
 }
 
 declare enum EventType {
     MAP_UPDATE_EVENT = 'se.cygni.snake.api.event.MapUpdateEvent'
 }
 
-export { ITile, TileType, IGameState };
+export { ITile, TileType, ICoordinate, IGameState, IGameMap, ICharacterInfo, IPlayer, EventType };

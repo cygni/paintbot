@@ -3,7 +3,7 @@ import styled, { keyframes, StyledFunction } from "styled-components"
 
 interface IProps {
     color: string;
-};
+}
 
 const paintContainer: StyledFunction<IProps & React.HTMLProps<HTMLInputElement>> = styled.div
 
