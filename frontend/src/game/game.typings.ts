@@ -1,8 +1,10 @@
 declare interface ITile {
     type: TileType,
-    color: string | undefined
+    isColoured: boolean
+    colour: string,
     coordinate: ICoordinate,
-    colorOfInhabitingPlayer: string | undefined
+    isInhabited: boolean,
+    colourOfInhabitingPlayer: string
 }
 
 enum TileType {

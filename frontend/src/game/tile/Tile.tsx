@@ -11,10 +11,8 @@ const Tile = (props: IProps) => {
     let tileInhabitant
     let tiletype;
     if (props.tile && props.tile.type ===  TileType.CHARACTER) {
-        console.log(props.tile);
-        tileInhabitant = (<Blob color={props.tile.colorOfInhabitingPlayer || "black"} rotation={"90deg"}/>)
+        tileInhabitant = (<Blob color={props.tile.colourOfInhabitingPlayer || "black"} rotation={"90deg"}/>)
         tiletype = TileType.CHARACTER.valueOf();
-        console.log(tiletype);
     }
     if(tiletype) {
         return (
