@@ -3,6 +3,7 @@ import { Rect } from 'react-konva';
 import { ICoordinate } from '../game.typings';
 
 interface IProps {
+    key: number,
     colour: string
     coordinate: ICoordinate,
     width: number,

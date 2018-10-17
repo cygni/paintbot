@@ -1,17 +1,21 @@
 // import axios, { AxiosResponse } from 'axios';
 import * as React from 'react';
-import GameBoardContainer from './board/GameBoardContainer';
 import {EventType, IBomb, ICharacter, ICharacterInfo, ICoordinate, IGameMap, IGameState, ITile, TileType } from './game.typings';
+import GameBoardContainer from './GameBoardContainer';
+
 interface IState {
     tiles: Map<string, ITile>
     currentCharacters: Map<string, ICharacter>
     previousCharacters: Map<string, ICharacter>
     bombs: IBomb[],
-    width: number,
-    height: number
 }
 
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2']
+const TILE_WIDTH = 21;
+const TILE_HEIGHT = 21;
+const EMPTY_TILE_COLOUR = '#eff2f7';
+const OBSTACLE_TILE_COLOUR = '#041126';
+
 
 export default class extends React.Component<any, IState> {
     public map: IGameMap;
@@ -25,7 +29,14 @@ export default class extends React.Component<any, IState> {
         ?
             <div id='container'>
                 <h1>XYZ-BOT</h1>
-                <GameBoardContainer tiles={this.state.tiles} characters={this.state.currentCharacters} previousCharacters={this.state.previousCharacters} bombs={this.state.bombs} width={this.state.width} height={this.state.height} tileWidth={21} tileHeight={21}/> 
+                <GameBoardContainer 
+                    tiles={this.state.tiles} 
+                    characters={this.state.currentCharacters} 
+                    previousCharacters={this.state.previousCharacters} 
+                    bombs={this.state.bombs} width={this.map.width} 
+                    height={this.map.height} tileWidth={TILE_WIDTH} 
+                    tileHeight={TILE_HEIGHT}
+                /> 
             </div>
         :
             null;
@@ -55,7 +66,12 @@ export default class extends React.Component<any, IState> {
         this.addCharacters(this.map.characterInfos);
         this.addColouredTilesForPlayers(this.map.characterInfos);
         this.addBombs(this.map.bombPositions);
-        this.setState({ tiles: this.tiles, currentCharacters: this.currentCharacters, previousCharacters: this.previousCharacters, bombs: this.bombs, width: this.map.width, height: this.map.height });
+        this.setState({ 
+            tiles: this.tiles, 
+            currentCharacters: this.currentCharacters, 
+            previousCharacters: this.previousCharacters, 
+            bombs: this.bombs, 
+        });
     }
 
     private endGame(gameState: IGameState) {
@@ -70,7 +86,7 @@ export default class extends React.Component<any, IState> {
         for(let i = 0; i < width; i++) {
             for(let j = 0; j < height; j++) {
                 const c = { x: i, y: j } as ICoordinate;
-                const tile = { coordinate: c, type: TileType.EMPTY } as ITile;
+                const tile = { coordinate: c, type: TileType.EMPTY, colour: EMPTY_TILE_COLOUR } as ITile;
                 this.tiles.set(JSON.stringify(c), tile);
             } 
         }
@@ -109,6 +125,7 @@ export default class extends React.Component<any, IState> {
             const obstacleTile = {} as ITile
             obstacleTile.coordinate = this.getCoordinateFromMapPosition(bombPosition);
             obstacleTile.type = TileType.OBSTACLE;
+            obstacleTile.colour = OBSTACLE_TILE_COLOUR;
 
             this.tiles.set(JSON.stringify(obstacleTile.coordinate), obstacleTile);
         });

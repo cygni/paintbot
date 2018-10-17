@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Layer, Stage } from 'react-konva';
-import { IBomb, ICharacter, ICoordinate, ITile} from '../game.typings';
-import Bomb from '../tile/Bomb';
-import Character from '../tile/Character';
-import TileContainer from '../tile/TileContainer';
+import { IBomb, ICharacter, ICoordinate, ITile} from './game.typings';
+import Bomb from './tile/Bomb';
+import Character from './tile/Character';
+import StandardTile from './tile/StandardTile';
 
 interface IProps {
     tiles: Map<string, ITile>,
@@ -42,7 +42,7 @@ export default class GameBoardContainer extends React.Component<IProps> {
         const tiles = Array.from(this.props.tiles.values());
         return tiles.map((tile, index) =>{
             tile.coordinate = this.getBoardCoordinate(tile.coordinate);
-            return <TileContainer key={index} tile={tile} width={this.props.tileWidth} height={this.props.tileHeight}/>
+            return <StandardTile key={index} coordinate={tile.coordinate} colour={tile.colour} width={this.props.tileWidth} height={this.props.tileHeight}/>
         });
     }
 
