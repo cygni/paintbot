@@ -1,18 +1,13 @@
 declare interface ITile {
     type: TileType,
-    isColoured: boolean
     colour: string,
     coordinate: ICoordinate,
-    isInhabited: boolean,
-    colourOfInhabitingPlayer: string,
-    playerId: string
 }
 
 enum TileType {
     EMPTY = 'empty-tile',
-    CHARACTER = 'character-tile',
+    COLOURED = 'coloured-tile',
     OBSTACLE = 'obstacle-tile',
-    BOMB = 'bomb-tile',
 }
 
 declare interface ICoordinate {
@@ -27,6 +22,14 @@ declare interface IGameState {
     receivingPlayerId: string,
     timeStamp: number,
     type: EventType
+}
+
+declare interface IClientGameState {
+    tiles: Map<string, ITile>
+    characters: Map<string, ICharacter>
+    bombs: IBomb[],
+    width: number,
+    height: number,
 }
 
 declare interface IGameMap {
@@ -47,11 +50,17 @@ declare interface ICharacterInfo {
     stunnedForGameTicks: number
 }
 
-declare interface IPlayer {
+declare interface ICharacter {
     id: string,
     name: string,
     points: number, 
-    colour: string
+    colour: string,
+    coordinate: ICoordinate
+}
+
+declare interface IBomb {
+    coordinate: ICoordinate,
+    image: string
 }
 
 enum EventType {
@@ -59,4 +68,4 @@ enum EventType {
     GAME_ENDED_EVENT = 'se.cygni.snake.api.event.GameEndedEvent',
 }
 
-export { ITile, TileType, ICoordinate, IGameState, IGameMap, ICharacterInfo, IPlayer, EventType };
+export { ITile, TileType, IBomb, IClientGameState, ICoordinate, IGameState, IGameMap, ICharacterInfo, ICharacter, EventType };

@@ -7,7 +7,6 @@ interface IProps {
     coordinate: ICoordinate,
     width: number,
     height: number
-    opacity: number
 }
 
 export default class ColouredTile extends React.Component<IProps, any> {
@@ -20,8 +19,8 @@ export default class ColouredTile extends React.Component<IProps, any> {
                 width={this.props.width}
                 height={this.props.width}
                 fill = {this.props.colour}
-                cornerRadius = {3}
-                opacity={this.props.opacity }
+                cornerRadius = {5}
+                stroke={'black'}
             />
         );
     }

@@ -2,47 +2,44 @@ import * as Konva from 'konva';
 import * as React from 'react';
 import { Circle, Group } from 'react-konva';
 import { ICoordinate } from '../game.typings';
-import './Tile.css';
 
 interface IProps {
+    key: number,
     colour: string
     coordinate: ICoordinate
     width: number,
     height: number,
     playerId: string;
+    previousCoordinate: ICoordinate
 }
 
-interface IState {
-    coordinate: ICoordinate
-}
-
-export default class CharacterTile extends React.Component<IProps, IState> {
+export default class Character extends React.Component<IProps> {
 
     public character: Konva.Group;
 
-    public constructor(props: IProps) {
-        super(props);
-        this.state = {
-            coordinate: { x: 0, y: 0 }
-        }
+    public componentDidUpdate() {
+        this.animate();
     }
 
-    public componentDidMount() {
-        this.character.to({
+    public shouldComponentUpdate(nextProps: IProps) {
+        return this.props.coordinate.x !== nextProps.coordinate.x || this.props.coordinate.y !== nextProps.coordinate.y;
+    }
+
+    public animate() {
+        const tween = new Konva.Tween({
+            node: this.character,
             x: this.props.coordinate.x,
             y: this.props.coordinate.y,
-            duration: 0.8
+            duration: 0.5,
+            easing: Konva.Easings.EaseInOut
         });
-        sessionStorage.removeItem(this.props.playerId);
-        sessionStorage.setItem(this.props.playerId, JSON.stringify(this.props.coordinate));
-        this.setState({ coordinate: this.props.coordinate });
+
+        tween.play();
     }
 
     public render() {
-        const lastPosition = JSON.parse(sessionStorage.getItem(this.props.playerId) || '{}');
-        const coordinate = Object.keys(lastPosition).length > 0 ? lastPosition: this.props.coordinate;
         return (
-            <Group x={coordinate.x} y={coordinate.y} width={this.props.width} height={this.props.height}
+            <Group x={this.props.previousCoordinate.x} y={this.props.previousCoordinate.y} width={this.props.width} height={this.props.height}
                 ref={ (node: Konva.Group) => { 
                     if(node !== null) {
                         this.character = node;
