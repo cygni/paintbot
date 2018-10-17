@@ -9,6 +9,7 @@
   },
   "rules": {
     "no-console": false,
-    "jsx-no-string-ref": false
+    "jsx-no-string-ref": false,
+    "object-literal-sort-keys": false
   }
 }

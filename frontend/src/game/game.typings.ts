@@ -4,7 +4,8 @@ declare interface ITile {
     colour: string,
     coordinate: ICoordinate,
     isInhabited: boolean,
-    colourOfInhabitingPlayer: string
+    colourOfInhabitingPlayer: string,
+    playerId: string
 }
 
 enum TileType {
@@ -53,8 +54,9 @@ declare interface IPlayer {
     colour: string
 }
 
-declare enum EventType {
-    MAP_UPDATE_EVENT = 'se.cygni.snake.api.event.MapUpdateEvent'
+enum EventType {
+    MAP_UPDATE_EVENT = 'se.cygni.snake.api.event.MapUpdateEvent',
+    GAME_ENDED_EVENT = 'se.cygni.snake.api.event.GameEndedEvent',
 }
 
 export { ITile, TileType, ICoordinate, IGameState, IGameMap, ICharacterInfo, IPlayer, EventType };

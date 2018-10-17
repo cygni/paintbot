@@ -1,44 +1,57 @@
-import axios, { AxiosResponse } from 'axios';
+// import axios, { AxiosResponse } from 'axios';
 import * as React from 'react';
 import GameBoardContainer from './board/GameBoardContainer';
-import {ICharacterInfo, ICoordinate, IGameMap, IGameState, IPlayer, ITile, TileType } from './game.typings';
+import {EventType, ICharacterInfo, ICoordinate, IGameMap, IGameState, IPlayer, ITile, TileType } from './game.typings';
 
 interface IState {
-    tiles: Map<ICoordinate, ITile>
+    tiles: Map<string, ITile>
     width: number,
     height: number
 }
 
-const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#7c0cb5']
+const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2']
 
 export default class extends React.Component<any, IState> {
-    public tiles = new Map<ICoordinate, ITile>();
+    public tiles = new Map<string, ITile>();
     public players = new Map<string, IPlayer>();
-    constructor(props: any) {
-        super(props);
-    }
 
     public render() {
         return this.state && this.state.tiles 
         ?
-            <GameBoardContainer tiles={this.state.tiles} width={this.state.width} height={this.state.height} tileWidth={23} tileHeight={23}/> 
+            <div id='container'>
+            <h1>XYZ-BOT</h1>
+                <GameBoardContainer tiles={this.state.tiles} width={this.state.width} height={this.state.height} tileWidth={23} tileHeight={21}/> 
+            </div>
         :
             null;
     }
 
-    public async componentDidMount() {
-        const response: AxiosResponse<IGameState> = await axios.get('http://localhost:8080/state');
-        this.handleChange(response.data);
+    public componentDidMount() {
+        const ws = new WebSocket('ws://localhost:8999');
+        ws.onmessage = (evt: MessageEvent) => this.handleChange(evt);
     }
 
-    private handleChange(gameState: IGameState) {
+    private handleChange(evt: MessageEvent) {
+        const gameState = JSON.parse(evt.data) as unknown as IGameState;
+        if(gameState.type === EventType.MAP_UPDATE_EVENT) {
+            this.updateMap(gameState);
+        }
+        if(gameState.type === EventType.GAME_ENDED_EVENT) {
+            this.endGame(gameState);
+        }
+    }
+
+    private updateMap(gameState: IGameState) {
         const map = gameState.map; 
         const characterInfos = map.characterInfos as ICharacterInfo[];
-
         this.initializeTiles(map.width, map.height);
         this.createPlayers(map);
         this.createTiles(map, characterInfos);
         this.setState({ tiles: this.tiles, width: gameState.map.width, height: gameState.map.height });
+    }
+
+    private endGame(gameState: IGameState) {
+        sessionStorage.clear();
     }
 
     private initializeTiles(width: number, height: number) {
@@ -46,7 +59,7 @@ export default class extends React.Component<any, IState> {
             for(let j = 0; j < height; j++) {
                 const c = { x: i, y: j } as ICoordinate;
                 const tile = { coordinate: c, type: TileType.EMPTY } as ITile;
-                this.tiles.set(c, tile);
+                this.tiles.set(JSON.stringify(c), tile);
             } 
         }
     }
@@ -65,14 +78,13 @@ export default class extends React.Component<any, IState> {
 
     private createTiles(map: IGameMap, characterInfos: ICharacterInfo[]) {
         characterInfos.forEach(c => { this.mapCharacterInfoToTile(c, map) });
-
-        this.createBombTiles(map);
         this.createObstacleTiles(map);
+        this.createBombTiles(map);
     }
 
     private mapCharacterInfoToTile(c: ICharacterInfo, map: IGameMap) {
-        this.createPlayerTile(c.position, c.id, map);
         this.createColouredTilesForPlayer(c.colouredPositions, c.id, map);
+        this.createPlayerTile(c.position, c.id, map);
     }
 
     private createPlayerTile(position: number, playerId: string, map: IGameMap): void {
@@ -80,8 +92,9 @@ export default class extends React.Component<any, IState> {
         playerTile.coordinate = this.getCoordinateFromMapPosition(position, map);
         const player = this.players.get(playerId);
         playerTile.colourOfInhabitingPlayer = player? player.colour: '';
+        playerTile.playerId = player ? player.id: '';
         playerTile.type = TileType.CHARACTER;
-        this.tiles.set(playerTile.coordinate, playerTile);
+        this.tiles.set(JSON.stringify(playerTile.coordinate), playerTile);
         
     }
 
@@ -95,7 +108,7 @@ export default class extends React.Component<any, IState> {
             colouredTile.isInhabited = player !== undefined;
             colouredTile.colour = player ? player.colour: '';
 
-            this.tiles.set(colouredTile.coordinate, colouredTile);
+            this.tiles.set(JSON.stringify(colouredTile.coordinate), colouredTile);
         });
     }
 
@@ -105,7 +118,7 @@ export default class extends React.Component<any, IState> {
             bombTile.coordinate = this.getCoordinateFromMapPosition(bombPosition, map);
             bombTile.type = TileType.BOMB;
 
-            this.tiles.set(bombTile.coordinate, bombTile);
+            this.tiles.set(JSON.stringify(bombTile.coordinate), bombTile);
         });
     }
 
@@ -115,7 +128,7 @@ export default class extends React.Component<any, IState> {
             obstacleTile.coordinate = this.getCoordinateFromMapPosition(bombPosition, map);
             obstacleTile.type = TileType.OBSTACLE;
 
-            this.tiles.set(obstacleTile.coordinate, obstacleTile);
+            this.tiles.set(JSON.stringify(obstacleTile.coordinate), obstacleTile);
         });
     }
 
