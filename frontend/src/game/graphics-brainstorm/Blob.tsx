@@ -12,7 +12,6 @@ const Container = styled.div`
   height: 5rem;
   width: 5rem;
   position: relative;
-  display: inline-block;
 `
 
 const bounce = keyframes`

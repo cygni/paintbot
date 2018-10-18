@@ -27,6 +27,7 @@ export default class Bomb extends React.Component<IProps> {
         this.image.src = this.props.bomb.image;
     }
 
+
     public componentWillUnmount() {
         this.bomb.destroy();
     }
@@ -48,6 +49,7 @@ export default class Bomb extends React.Component<IProps> {
                         }
                     }
                 }
+
             />
         );
     }
