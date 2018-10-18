@@ -16,13 +16,16 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom --watchAll",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "prettier": "yarn run prettier:src",
+    "prettier:src": "prettier --parser typescript --trailing-comma all --single-quote --write 'src/**/*.ts' 'src/**/*.tsx'"
   },
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
+    "prettier": "^1.10.2",
     "fs": "0.0.1-security",
     "typescript": "^3.0.3",
     "tslint": "5.7.0"

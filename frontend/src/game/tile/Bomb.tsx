@@ -1,15 +1,16 @@
 import * as Konva from 'konva';
 import * as React from 'react';
-import { Image as KonvaImage }  from 'react-konva';
+import { Image as KonvaImage } from 'react-konva';
 import { IBomb } from '../game.typings';
 
 interface IProps {
-    bomb: IBomb
-    width: number,
-    height: number
+    bomb: IBomb;
+    width: number;
+    height: number;
 }
 
 export default class Bomb extends React.Component<IProps> {
+
     public image: HTMLImageElement;
     public bomb: Konva.Image;
 
@@ -19,21 +20,22 @@ export default class Bomb extends React.Component<IProps> {
     }
 
     public shouldComponentUpdate(nextProps: IProps) {
-        return nextProps.bomb.coordinate.x !== this.props.bomb.coordinate.x 
-            || nextProps.bomb.coordinate.y !== this.props.bomb.coordinate.y 
+        return (
+            nextProps.bomb.coordinate.x !== this.props.bomb.coordinate.x ||
+            nextProps.bomb.coordinate.y !== this.props.bomb.coordinate.y
+        );
     }
 
     public componentDidMount() {
         this.image.src = this.props.bomb.image;
     }
 
-
     public componentWillUnmount() {
         this.bomb.destroy();
     }
 
     public render() {
-        return(
+        return (
             <KonvaImage
                 image={this.image}
                 x={this.props.bomb.coordinate.x}
@@ -42,9 +44,9 @@ export default class Bomb extends React.Component<IProps> {
                 height={this.props.width}
                 perfectDrawEnabled={false}
                 listening={false}
-                ref= {
+                ref={
                     (node: Konva.Image) => {
-                        if(node !== null) {
+                        if (node !== null) {
                             this.bomb = node;
                         }
                     }

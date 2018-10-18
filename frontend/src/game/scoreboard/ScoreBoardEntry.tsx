@@ -3,8 +3,9 @@ import { ICharacter } from '../game.typings';
 import './ScoreBoard.css';
 
 interface IProps {
-    player: ICharacter
+  player: ICharacter;
 }
+
 export default class ScoreBoardEntry extends React.Component<IProps> {
 
     public shouldComponentUpdate(nextProps: IProps) {
