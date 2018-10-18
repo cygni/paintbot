@@ -1,4 +1,3 @@
-// import axios, { AxiosResponse } from 'axios';
 import * as React from 'react';
 import {EventType, IBomb, ICharacter, ICharacterInfo, ICoordinate, IGameMap, IGameState, ITile, TileType } from './game.typings';
 import GameBoardContainer from './GameBoardContainer';
@@ -12,13 +11,12 @@ interface IState {
 }
 
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2']
-const TILE_WIDTH = 21;
-const TILE_HEIGHT = 21;
+const WINDOW_WIDTH = window.innerWidth // Tile size is adapted to size of window when app is loaded
 const EMPTY_TILE_COLOUR = '#eff2f7';
 const OBSTACLE_TILE_COLOUR = '#041126';
 
 
-export default class extends React.Component<any, IState> {
+export default class GameContainer extends React.Component<any, IState> {
     public map: IGameMap;
     public tiles = new Map<string, ITile>();
     public currentCharacters = new Map<string, ICharacter>();
@@ -27,19 +25,24 @@ export default class extends React.Component<any, IState> {
     public ws: WebSocket = new WebSocket('ws://localhost:8999');
 
     public render() {
+        const TILE_SIZE = this.map? WINDOW_WIDTH / this.map.width / 1.7 : 0;
         return this.state && this.state.tiles 
-        ?
-            <div className='container'>
+        ?   
+            <div>
                 <h1>XYZ-BOT</h1>
-                <ScoreBoardContainer players={this.state.currentCharacters} />
-                <GameBoardContainer
-                    tiles={this.state.tiles} 
-                    characters={this.state.currentCharacters} 
-                    previousCharacters={this.state.previousCharacters} 
-                    bombs={this.state.bombs} width={this.map.width} 
-                    height={this.map.height} tileWidth={TILE_WIDTH} 
-                    tileHeight={TILE_HEIGHT}
-                /> 
+                <div className='container'>
+                    <ScoreBoardContainer players={this.state.currentCharacters} />
+                    <GameBoardContainer
+                        tiles={this.state.tiles} 
+                        characters={this.state.currentCharacters} 
+                        previousCharacters={this.state.previousCharacters} 
+                        bombs={this.state.bombs} 
+                        width={this.map.width} 
+                        height={this.map.height} 
+                        tileWidth={TILE_SIZE} 
+                        tileHeight={TILE_SIZE}
+                    /> 
+                </div>
             </div>
         :
             null;
@@ -64,8 +67,10 @@ export default class extends React.Component<any, IState> {
     }
 
     private updateMap(gameState: IGameState) {
-        this.map = gameState.map; 
-        this.addEmptyTiles(this.map.width, this.map.height);
+        this.map = gameState.map;
+        if(this.tiles.size < 1) { 
+            this.addEmptyTiles(this.map.width, this.map.height);
+        }
         this.addObstacleTiles(this.map.obstaclePositions);
         // Save the previous characters and their positions to enable animation from previous position to next
         this.previousCharacters = new Map(this.currentCharacters);

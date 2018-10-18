@@ -28,7 +28,7 @@ export default class GameBoardContainer extends React.Component<IProps> {
 
     public render() {
         return (
-            <Stage width={this.BOARD_WIDTH} height={this.BOARD_HEIGHT}>
+            <Stage className={'stage'} width={this.BOARD_WIDTH} height={this.BOARD_HEIGHT}>
                 <Layer>
                     {this.getTileComponents()}
                     {this.getCharacterComponents()}

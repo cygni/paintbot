@@ -15,6 +15,15 @@ export default class ColouredTile extends React.Component<IProps, any> {
 
     public tile: Konva.Rect;
 
+    public shouldComponentUpdate(nextProps: IProps) {
+        return( 
+            nextProps.colour !== this.props.colour ||
+            nextProps.coordinate.x !== this.props.coordinate.x ||
+            nextProps.coordinate.y !== this.props.coordinate.y
+        );
+            
+    }
+
     public componentDidMount() {
         this.tile.fill(this.props.colour);
     }
