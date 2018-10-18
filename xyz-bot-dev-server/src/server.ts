@@ -1,9 +1,7 @@
 import * as express from 'express';
 import * as http from 'http';
 import * as WebSocket from 'ws';
-import states from './data';
 import * as fs from 'fs';
-import { SSL_OP_EPHEMERAL_RSA } from 'constants';
 
 const app = express();
 
