@@ -8,18 +8,32 @@ interface IProps {
     height: number
 }
 
-const Bomb = (props: IProps) => {
-    const image  = new Image();
-    image.src = props.bomb.image;
-    return(
-        <KonvaImage
-            image={image}
-            x={props.bomb.coordinate.x}
-            y={props.bomb.coordinate.y}
-            width={props.width}
-            height={props.width}
-        />
-    );
-}
+export default class Bomb extends React.Component<IProps> {
+    public image: HTMLImageElement;
 
-export default Bomb;
+    public constructor(props: IProps) {
+        super(props);
+        this.image = new Image();
+    }
+
+    public shouldComponentUpdate(nextProps: IProps) {
+        return nextProps.bomb.coordinate.x !== this.props.bomb.coordinate.x 
+            || nextProps.bomb.coordinate.y !== this.props.bomb.coordinate.y 
+    }
+
+    public componentDidMount() {
+        this.image.src = this.props.bomb.image;
+    }
+
+    public render() {
+        return(
+            <KonvaImage
+                image={this.image}
+                x={this.props.bomb.coordinate.x}
+                y={this.props.bomb.coordinate.y}
+                width={this.props.width}
+                height={this.props.width}
+            />
+        );
+    }
+}

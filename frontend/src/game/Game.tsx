@@ -23,6 +23,7 @@ export default class extends React.Component<any, IState> {
     public currentCharacters = new Map<string, ICharacter>();
     public previousCharacters = new Map<string, ICharacter>();
     public bombs: IBomb[] = [];
+    public ws: WebSocket;
 
     public render() {
         return this.state && this.state.tiles 
@@ -43,8 +44,8 @@ export default class extends React.Component<any, IState> {
     }
 
     public componentDidMount() {
-        const ws = new WebSocket('ws://localhost:8999');
-        ws.onmessage = (evt: MessageEvent) => this.onUpdateFromServer(evt);
+        this.ws = new WebSocket('ws://localhost:8999');
+        this.ws.onmessage = (evt: MessageEvent) => this.onUpdateFromServer(evt);
     }
 
     private onUpdateFromServer(evt: MessageEvent) {
@@ -80,6 +81,8 @@ export default class extends React.Component<any, IState> {
         this.previousCharacters.clear();
         this.map = {} as IGameMap;
         this.bombs = [];
+        this.ws.close();
+        
     }
 
     private addEmptyTiles(width: number, height: number) {
@@ -114,7 +117,7 @@ export default class extends React.Component<any, IState> {
         bombPositions.forEach(bombPosition => {
             const bomb = {} as IBomb
             bomb.coordinate = this.getCoordinateFromMapPosition(bombPosition);
-            bomb.image = 'resources/bomb.jpg';
+            bomb.image = 'resources/bomb.png';
 
             this.bombs.push(bomb);
         });
