@@ -25,7 +25,7 @@ export default class ColouredTile extends React.Component<IProps, any> {
     }
 
     public componentDidMount() {
-        this.tile.fill(this.props.colour);
+        this.animate();
     }
 
     public componentDidUpdate() {
@@ -35,9 +35,9 @@ export default class ColouredTile extends React.Component<IProps, any> {
     public animate() {
         const tween = new Konva.Tween({
             node: this.tile,
-            fill: this.props.colour,
+            opacity: 1,
             duration: 0.5,
-            easing: Konva.Easings.EaseIn
+            easing: Konva.Easings.EaseInOut
         });
 
         tween.play();
@@ -48,6 +48,8 @@ export default class ColouredTile extends React.Component<IProps, any> {
             <Rect
                 x={this.props.coordinate.x}
                 y={this.props.coordinate.y}
+                fill={this.props.colour}
+                opacity={0}
                 width={this.props.width}
                 height={this.props.width}
                 cornerRadius = {5}
