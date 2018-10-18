@@ -5,9 +5,18 @@
     width: 300px;
 }
 
+.scoreboard h1 {
+    margin-bottom: 10px;
+    font-size: 40px;
+}
+
 .scoreboard-entry {
     opacity: 1;
     padding-bottom: 10%;
     color: black;
-    font-size: 26px;
+    font-size: 32px;
+}
+
+.scoreboard-entry b {
+    background-color: rgba(0, 0, 0, 0.8);
 }
