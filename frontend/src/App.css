@@ -1,10 +1,10 @@
 .App {
   text-align: center;
-  background-image: url('./background.jpg');
-  background-repeat: no-repeat;
+  color: white;
+  background-image: url('./resources/background.jpg');
   background-size: cover;
 }
 
 .konvajs-content {
-  margin-left: 15%;
+  margin: auto;
 }

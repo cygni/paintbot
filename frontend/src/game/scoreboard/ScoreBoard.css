@@ -1,0 +1,12 @@
+.scoreboard {
+    float: left;
+    width: 15%;
+    text-align: center;
+    background-color: #586270;
+    margin-left: 10px;
+}
+
+.scoreboard-entry {
+    padding-bottom: 10%;
+    color: black;
+}

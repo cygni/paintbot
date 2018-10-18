@@ -2,6 +2,7 @@
 import * as React from 'react';
 import {EventType, IBomb, ICharacter, ICharacterInfo, ICoordinate, IGameMap, IGameState, ITile, TileType } from './game.typings';
 import GameBoardContainer from './GameBoardContainer';
+import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
 
 interface IState {
     tiles: Map<string, ITile>
@@ -23,14 +24,15 @@ export default class extends React.Component<any, IState> {
     public currentCharacters = new Map<string, ICharacter>();
     public previousCharacters = new Map<string, ICharacter>();
     public bombs: IBomb[] = [];
-    public ws: WebSocket;
+    public ws: WebSocket = new WebSocket('ws://localhost:8999');
 
     public render() {
         return this.state && this.state.tiles 
         ?
-            <div id='container'>
+            <div className='container'>
                 <h1>XYZ-BOT</h1>
-                <GameBoardContainer 
+                <ScoreBoardContainer players={this.state.currentCharacters} />
+                <GameBoardContainer
                     tiles={this.state.tiles} 
                     characters={this.state.currentCharacters} 
                     previousCharacters={this.state.previousCharacters} 
@@ -44,8 +46,11 @@ export default class extends React.Component<any, IState> {
     }
 
     public componentDidMount() {
-        this.ws = new WebSocket('ws://localhost:8999');
         this.ws.onmessage = (evt: MessageEvent) => this.onUpdateFromServer(evt);
+    }
+
+    public componentWillUnmount() {
+        this.endGame();
     }
 
     private onUpdateFromServer(evt: MessageEvent) {
@@ -54,7 +59,7 @@ export default class extends React.Component<any, IState> {
             this.updateMap(gameState);
         }
         if(gameState.type === EventType.GAME_ENDED_EVENT) {
-            this.endGame(gameState);
+            this.endGame();
         }
     }
 
@@ -75,7 +80,7 @@ export default class extends React.Component<any, IState> {
         });
     }
 
-    private endGame(gameState: IGameState) {
+    private endGame() {
         this.tiles.clear();
         this.currentCharacters.clear();
         this.previousCharacters.clear();
@@ -117,7 +122,7 @@ export default class extends React.Component<any, IState> {
         bombPositions.forEach(bombPosition => {
             const bomb = {} as IBomb
             bomb.coordinate = this.getCoordinateFromMapPosition(bombPosition);
-            bomb.image = 'resources/bomb.png';
+            bomb.image = '/images/bomb.png'
 
             this.bombs.push(bomb);
         });
