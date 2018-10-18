@@ -20,8 +20,7 @@ export default class ColouredTile extends React.Component<IProps, any> {
             nextProps.colour !== this.props.colour ||
             nextProps.coordinate.x !== this.props.coordinate.x ||
             nextProps.coordinate.y !== this.props.coordinate.y
-        );
-            
+        );          
     }
 
     public componentDidMount() {
