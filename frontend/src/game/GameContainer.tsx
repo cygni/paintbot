@@ -12,7 +12,7 @@ interface IState {
 
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2']
 const WINDOW_WIDTH = window.innerWidth // Tile size is adapted to size of window when app is loaded
-const EMPTY_TILE_COLOUR = '#eff2f7';
+// const EMPTY_TILE_COLOUR = '#eff2f7';
 const OBSTACLE_TILE_COLOUR = '#041126';
 
 
@@ -68,9 +68,7 @@ export default class GameContainer extends React.Component<any, IState> {
 
     private updateMap(gameState: IGameState) {
         this.map = gameState.map;
-        if(this.tiles.size < 1) { 
-            this.addEmptyTiles(this.map.width, this.map.height);
-        }
+        // this.addEmptyTiles(this.map.width, this.map.height);
         this.addObstacleTiles(this.map.obstaclePositions);
         // Save the previous characters and their positions to enable animation from previous position to next
         this.previousCharacters = new Map(this.currentCharacters);
@@ -95,7 +93,7 @@ export default class GameContainer extends React.Component<any, IState> {
         
     }
 
-    private addEmptyTiles(width: number, height: number) {
+   /* private addEmptyTiles(width: number, height: number) {
         for(let i = 0; i < width; i++) {
             for(let j = 0; j < height; j++) {
                 const c = { x: i, y: j } as ICoordinate;
@@ -103,7 +101,7 @@ export default class GameContainer extends React.Component<any, IState> {
                 this.tiles.set(JSON.stringify(c), tile);
             } 
         }
-    }
+    } */
 
     private addColouredTilesForPlayers(characterInfos: ICharacterInfo []) {
         characterInfos.forEach(c => { 
