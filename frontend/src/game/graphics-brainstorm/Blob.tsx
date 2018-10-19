@@ -46,11 +46,8 @@ const BlobContainer = blobContainer`
   animation: ${bounce} .5s linear infinite;
 `;
 
-export default class Blob extends React.Component<IProps> {
-  constructor(props: IProps) {
-    super(props);
-  }
 
+export default class Blob extends React.Component<IProps> {
   public render() {
     return (
       <Container>
@@ -72,3 +69,6 @@ export default class Blob extends React.Component<IProps> {
     );
   }
 }
+
+
+

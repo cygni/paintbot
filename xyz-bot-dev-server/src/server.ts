@@ -1,7 +1,7 @@
 import * as express from 'express';
+import * as fs from 'fs';
 import * as http from 'http';
 import * as WebSocket from 'ws';
-import * as fs from 'fs';
 
 const app = express();
 
@@ -19,7 +19,7 @@ wss.on('connection', async (ws: WebSocket) => {
             console.log('Sent state: ', state);
             await sleep(500);
         }
-    })
+    });
     
     ws.on('message', (message: string) => {
         console.log(`Received ${message}`);
