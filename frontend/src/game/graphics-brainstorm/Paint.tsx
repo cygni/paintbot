@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled, { keyframes, StyledFunction } from 'styled-components';
 
-interface IProps {
+interface Props {
   color: string;
 }
 
 const paintContainer: StyledFunction<
-  IProps & React.HTMLProps<HTMLInputElement>
+  Props & React.HTMLProps<HTMLInputElement>
 > = styled.div;
 
 const Container = styled.div`
@@ -42,8 +42,8 @@ const PaintContainer = paintContainer`
   animation: ${spread} 2s ease-out;
 `;
 
-export default class Paint extends React.Component<IProps> {
-  constructor(props: IProps) {
+export default class Paint extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
   }
 

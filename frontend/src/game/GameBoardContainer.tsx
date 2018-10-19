@@ -1,62 +1,61 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Layer, Stage } from 'react-konva';
-import { IBomb, ICharacter, ICoordinate, ITile } from './game.typings';
-import Bomb from './tile/Bomb';
-import Character from './tile/Character';
+import BombTile from './tile/BombTile';
+import CharacterTile from './tile/CharacterTile';
 import StandardTile from './tile/StandardTile';
+import { Bomb, Character, Coordinate, Tile } from './type';
 
-interface IProps {
-  tiles: Map<string, ITile>;
-  characters: Map<string, ICharacter>;
-  previousCharacters: Map<string, ICharacter>;
-  bombs: IBomb[];
+interface Props {
+  tiles: Map<string, Tile>;
+  characters: Map<string, Character>;
+  previousCharacters: Map<string, Character>;
+  bombs: Bomb[];
   width: number;
   height: number;
   tileWidth: number;
   tileHeight: number;
 }
 
-export default class GameBoardContainer extends React.Component<IProps> {
+export default class GameBoardContainer extends React.Component<Props> {
+  public BOARD_WIDTH: number;
+  public BOARD_HEIGHT: number;
+  public stageRef: Konva.Stage
 
-    public BOARD_WIDTH: number;
-    public BOARD_HEIGHT: number;
-    public stageRef: Konva.Stage
-
-  constructor(props: IProps) {
+  constructor(props: Props) {
     super(props);
     this.BOARD_WIDTH = this.props.width * this.props.tileWidth;
     this.BOARD_HEIGHT = this.props.height * this.props.tileHeight;
   }
 
-    public componentWillUnmount() {
-        this.stageRef.getStage().destroyChildren();
-        this.stageRef.getStage().destroy();
-        this.stageRef.destroyChildren();
-        this.stageRef.destroy();
-    }
+  public componentWillUnmount() {
+    this.stageRef.getStage().destroyChildren();
+    this.stageRef.getStage().destroy();
+    this.stageRef.destroyChildren();
+    this.stageRef.destroy();
+  }
 
-    public render() {
-        return (
-            <Stage 
-                className={'stage'} 
-                width={this.BOARD_WIDTH} 
-                height={this.BOARD_HEIGHT}
-                listening={false}
-                ref={ (stage: any) => {
-                    if(stage !== null) {
-                        this.stageRef = stage
-                    }
-                } }
-            >
-                <Layer hitGraphEnabled={false} listening={false}>
-                    {this.getTileComponents()}
-                    {this.getCharacterComponents()}
-                    {this.getBombComponents()}
-                </Layer>
-            </Stage>
-        );
-    }
+  public render() {
+    return (
+      <Stage
+        className={'stage'}
+        width={this.BOARD_WIDTH}
+        height={this.BOARD_HEIGHT}
+        listening={false}
+        ref={(stage: any) => {
+          if (stage !== null) {
+            this.stageRef = stage
+          }
+        }}
+      >
+        <Layer hitGraphEnabled={false} listening={false}>
+          {this.getTileComponents()}
+          {this.getCharacterComponents()}
+          {this.getBombComponents()}
+        </Layer>
+      </Stage>
+    );
+  }
 
   public getTileComponents() {
     const tiles = Array.from(this.props.tiles.values());
@@ -82,8 +81,8 @@ export default class GameBoardContainer extends React.Component<IProps> {
       const previousCharacterCoordinate = previousCharacter
         ? previousCharacter.coordinate
         : character.coordinate;
-      return (        
-      <Character
+      return (
+        <CharacterTile
           key={index}
           colour={character.colour}
           coordinate={character.coordinate}
@@ -100,7 +99,7 @@ export default class GameBoardContainer extends React.Component<IProps> {
     return this.props.bombs.map((bomb, index) => {
       bomb.coordinate = this.getBoardCoordinate(bomb.coordinate);
       return (
-        <Bomb
+        <BombTile
           key={index}
           bomb={bomb}
           width={this.props.tileWidth}
@@ -110,8 +109,8 @@ export default class GameBoardContainer extends React.Component<IProps> {
     });
   }
 
-  private getBoardCoordinate(coordinate: ICoordinate): ICoordinate {
-    const boardCoordinate = {} as ICoordinate;
+  private getBoardCoordinate(coordinate: Coordinate): Coordinate {
+    const boardCoordinate = {} as Coordinate;
     boardCoordinate.x = coordinate.x * this.props.tileWidth;
     boardCoordinate.y = coordinate.y * this.props.tileHeight;
 

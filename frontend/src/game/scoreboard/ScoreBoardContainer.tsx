@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { ICharacter } from '../game.typings';
+import { Character } from '../type';
 import './ScoreBoard.css';
 import ScoreBoardEntry from './ScoreBoardEntry';
 
-interface IProps {
-  players: Map<string, ICharacter>;
+interface Props {
+  players: Map<string, Character>;
 }
 
-export default class ScoreBoardContainer extends React.Component<IProps> {
+export default class ScoreBoardContainer extends React.Component<Props> {
   public getPlayers() {
     const players = Array.from(this.props.players.values());
     return players.map((player, index) => {

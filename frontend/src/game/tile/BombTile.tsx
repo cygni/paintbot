@@ -1,25 +1,25 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Image as KonvaImage } from 'react-konva';
-import { IBomb } from '../game.typings';
+import { Bomb } from '../type';
 
-interface IProps {
-    bomb: IBomb;
+interface Props {
+    bomb: Bomb;
     width: number;
     height: number;
 }
 
-export default class Bomb extends React.Component<IProps> {
+export default class BombTile extends React.Component<Props> {
 
     public image: HTMLImageElement;
     public bomb: Konva.Image;
 
-    public constructor(props: IProps) {
+    public constructor(props: Props) {
         super(props);
         this.image = new Image();
     }
 
-    public shouldComponentUpdate(nextProps: IProps) {
+    public shouldComponentUpdate(nextProps: Props) {
         return (
             nextProps.bomb.coordinate.x !== this.props.bomb.coordinate.x ||
             nextProps.bomb.coordinate.y !== this.props.bomb.coordinate.y

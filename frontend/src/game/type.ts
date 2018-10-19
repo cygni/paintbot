@@ -1,7 +1,7 @@
-declare interface ITile {
+declare interface Tile {
   type: TileType;
   colour: string;
-  coordinate: ICoordinate;
+  coordinate: Coordinate;
 }
 
 enum TileType {
@@ -10,38 +10,30 @@ enum TileType {
   OBSTACLE = 'obstacle-tile',
 }
 
-declare interface ICoordinate {
+declare interface Coordinate {
   x: number;
   y: number;
 }
 
-declare interface IGameState {
+declare interface GameState {
   gameId: string;
   gameTick: number;
-  map: IGameMap;
+  map: GameMap;
   receivingPlayerId: string;
   timeStamp: number;
   type: EventType;
 }
 
-declare interface IClientGameState {
-  tiles: Map<string, ITile>;
-  characters: Map<string, ICharacter>;
-  bombs: IBomb[];
-  width: number;
-  height: number;
-}
-
-declare interface IGameMap {
+declare interface GameMap {
   width: number;
   height: number;
   bombPositions: [number];
   obstaclePositions: [number];
-  characterInfos: [ICharacterInfo];
+  characterInfos: [CharacterInfo];
   worldTick: number;
 }
 
-declare interface ICharacterInfo {
+declare interface CharacterInfo {
   id: string;
   name: string;
   points: number;
@@ -50,16 +42,16 @@ declare interface ICharacterInfo {
   stunnedForGameTicks: number;
 }
 
-declare interface ICharacter {
+declare interface Character {
   id: string;
   name: string;
   points: number;
   colour: string;
-  coordinate: ICoordinate;
+  coordinate: Coordinate;
 }
 
-declare interface IBomb {
-  coordinate: ICoordinate;
+declare interface Bomb {
+  coordinate: Coordinate;
   image: string;
 }
 
@@ -69,14 +61,13 @@ enum EventType {
 }
 
 export {
-  ITile,
+  Tile,
   TileType,
-  IBomb,
-  IClientGameState,
-  ICoordinate,
-  IGameState,
-  IGameMap,
-  ICharacterInfo,
-  ICharacter,
+  Bomb,
+  Coordinate,
+  GameState,
+  GameMap,
+  CharacterInfo,
+  Character,
   EventType,
 };

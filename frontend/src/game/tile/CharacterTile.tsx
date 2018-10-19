@@ -1,19 +1,19 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Circle, Group } from 'react-konva';
-import { ICoordinate } from '../game.typings';
+import { Coordinate } from '../type';
 
-interface IProps {
+interface Props {
   key: number;
   colour: string;
-  coordinate: ICoordinate;
+  coordinate: Coordinate;
   width: number;
   height: number;
   playerId: string;
-  previousCoordinate: ICoordinate;
+  previousCoordinate: Coordinate;
 }
 
-export default class Character extends React.Component<IProps> {
+export default class CharacterTile extends React.Component<Props> {
   public character: Konva.Group;
 
   public componentDidMount() {
@@ -29,7 +29,7 @@ export default class Character extends React.Component<IProps> {
     this.character.cache();
   }
 
-  public shouldComponentUpdate(nextProps: IProps) {
+  public shouldComponentUpdate(nextProps: Props) {
     return (
       this.props.coordinate.x !== nextProps.coordinate.x ||
       this.props.coordinate.y !== nextProps.coordinate.y

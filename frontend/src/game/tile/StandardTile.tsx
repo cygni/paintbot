@@ -1,21 +1,21 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Rect } from 'react-konva';
-import { ICoordinate } from '../game.typings';
+import { Coordinate } from '../type';
 
-interface IProps {
+interface Props {
   key: number;
   colour: string;
-  coordinate: ICoordinate;
+  coordinate: Coordinate;
   width: number;
   height: number;
 }
 
-export default class ColouredTile extends React.Component<IProps, any> {
-
+export default class ColouredTile extends React.Component<Props> {
+  
   public tile: Konva.Rect;
 
-  public shouldComponentUpdate(nextProps: IProps) {
+  public shouldComponentUpdate(nextProps: Props) {
     return (
       nextProps.colour !== this.props.colour ||
       nextProps.coordinate.x !== this.props.coordinate.x ||

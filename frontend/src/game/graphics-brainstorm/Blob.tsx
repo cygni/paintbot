@@ -1,14 +1,13 @@
 import * as React from 'react';
 import styled, { keyframes, StyledFunction } from 'styled-components';
 
-interface IProps {
+interface Props {
   color: string;
   rotation: string;
 }
 
-const blobContainer: StyledFunction<
-  IProps & React.HTMLProps<HTMLInputElement>
-> = styled.div;
+const blobContainer: StyledFunction<Props & React.HTMLProps<HTMLInputElement>> =
+  styled.div;
 
 const Container = styled.div`
   height: 5rem;
@@ -46,8 +45,7 @@ const BlobContainer = blobContainer`
   animation: ${bounce} .5s linear infinite;
 `;
 
-
-export default class Blob extends React.Component<IProps> {
+export default class Blob extends React.Component<Props> {
   public render() {
     return (
       <Container>
@@ -69,6 +67,3 @@ export default class Blob extends React.Component<IProps> {
     );
   }
 }
-
-
-
