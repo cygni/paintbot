@@ -18,14 +18,15 @@ interface Props {
 }
 
 export default class GameBoardContainer extends React.Component<Props> {
-  public BOARD_WIDTH: number;
-  public BOARD_HEIGHT: number;
+
+  private readonly boardWidth: number;
+  private readonly boardHeight: number;
   public stageRef: Konva.Stage
 
   constructor(props: Props) {
     super(props);
-    this.BOARD_WIDTH = this.props.width * this.props.tileWidth;
-    this.BOARD_HEIGHT = this.props.height * this.props.tileHeight;
+    this.boardWidth = this.props.width * this.props.tileWidth;
+    this.boardHeight = this.props.height * this.props.tileHeight;
   }
 
   public componentWillUnmount() {
@@ -39,8 +40,8 @@ export default class GameBoardContainer extends React.Component<Props> {
     return (
       <Stage
         className={'stage'}
-        width={this.BOARD_WIDTH}
-        height={this.BOARD_HEIGHT}
+        width={this.boardWidth}
+        height={this.boardHeight}
         listening={false}
         ref={(stage: any) => {
           if (stage !== null) {
@@ -49,15 +50,15 @@ export default class GameBoardContainer extends React.Component<Props> {
         }}
       >
         <Layer hitGraphEnabled={false} listening={false}>
-          {this.getTileComponents()}
-          {this.getCharacterComponents()}
-          {this.getBombComponents()}
+          {this.renderTileComponents()}
+          {this.renderCharacterComponents()}
+          {this.renderBombComponents()}
         </Layer>
       </Stage>
     );
   }
 
-  public getTileComponents() {
+  public renderTileComponents() {
     const tiles = Array.from(this.props.tiles.values());
     return tiles.map((tile, index) => {
       tile.coordinate = this.getBoardCoordinate(tile.coordinate);
@@ -73,7 +74,7 @@ export default class GameBoardContainer extends React.Component<Props> {
     });
   }
 
-  public getCharacterComponents() {
+  public renderCharacterComponents() {
     const characters = Array.from(this.props.characters.values());
     return characters.map((character, index) => {
       character.coordinate = this.getBoardCoordinate(character.coordinate);
@@ -95,25 +96,26 @@ export default class GameBoardContainer extends React.Component<Props> {
     });
   }
 
-  public getBombComponents() {
-    return this.props.bombs.map((bomb, index) => {
+  public renderBombComponents() {
+    const {bombs, tileWidth, tileHeight} = this.props;
+    return bombs.map((bomb, index) => {
       bomb.coordinate = this.getBoardCoordinate(bomb.coordinate);
       return (
         <BombTile
           key={index}
           bomb={bomb}
-          width={this.props.tileWidth}
-          height={this.props.tileHeight}
+          width={tileWidth}
+          height={tileHeight}
         />
       );
     });
   }
 
   private getBoardCoordinate(coordinate: Coordinate): Coordinate {
-    const boardCoordinate = {} as Coordinate;
-    boardCoordinate.x = coordinate.x * this.props.tileWidth;
-    boardCoordinate.y = coordinate.y * this.props.tileHeight;
-
+    const {tileWidth, tileHeight} = this.props;
+    const boardCoordinate: Coordinate = {x : 0, y: 0};
+    boardCoordinate.x = coordinate.x * tileWidth;
+    boardCoordinate.y = coordinate.y * tileHeight;
     return boardCoordinate;
   }
 }
