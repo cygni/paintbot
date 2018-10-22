@@ -11,7 +11,7 @@ interface Props {
 
 export default class BombTile extends React.Component<Props> {
 
-    public image: HTMLImageElement;
+    private readonly image: HTMLImageElement;
     public bomb: Konva.Image;
 
     public constructor(props: Props) {
@@ -35,13 +35,14 @@ export default class BombTile extends React.Component<Props> {
     }
 
     public render() {
+        const { bomb, width, height } = this.props;
         return (
             <KonvaImage
                 image={this.image}
-                x={this.props.bomb.coordinate.x}
-                y={this.props.bomb.coordinate.y}
-                width={this.props.width}
-                height={this.props.width}
+                x={bomb.coordinate.x}
+                y={bomb.coordinate.y}
+                width={width}
+                height={height}
                 perfectDrawEnabled={false}
                 listening={false}
                 ref={
@@ -51,7 +52,6 @@ export default class BombTile extends React.Component<Props> {
                         }
                     }
                 }
-
             />
         );
     }
