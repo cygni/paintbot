@@ -1,16 +1,17 @@
 import * as React from 'react';
+import {TileColors} from "../common/Constants";
 import GameBoardContainer from './GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
 import {
-  Bomb,
-  Character,
-  CharacterInfo,
-  Coordinate,
-  EventType,
-  GameMap,
-  GameState,
-  Tile,
-  TileType,
+Bomb,
+Character,
+CharacterInfo,
+Coordinate,
+EventType,
+GameMap,
+GameState,
+Tile,
+TileType,
 } from './type';
 
 interface State {
@@ -22,8 +23,6 @@ interface State {
 
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
 const WINDOW_WIDTH = window.innerWidth; // Tile size is adapted to size of window when app is loaded
-const EMPTY_TILE_COLOUR = '#eff2f7';
-const OBSTACLE_TILE_COLOUR = '#041126';
 
 export default class GameContainer extends React.Component<any, State> {
   public map: GameMap;
@@ -108,7 +107,7 @@ export default class GameContainer extends React.Component<any, State> {
         const tile = {
           coordinate: c,
           type: TileType.EMPTY,
-          colour: EMPTY_TILE_COLOUR,
+          colour: TileColors.Empty,
         } as Tile;
         this.tiles.set(JSON.stringify(c), tile);
       }
@@ -149,7 +148,7 @@ export default class GameContainer extends React.Component<any, State> {
       const obstacleTile = {} as Tile;
       obstacleTile.coordinate = this.getCoordinateFromMapPosition(bombPosition);
       obstacleTile.type = TileType.OBSTACLE;
-      obstacleTile.colour = OBSTACLE_TILE_COLOUR;
+      obstacleTile.colour = TileColors.Obstacle;
 
       this.tiles.set(JSON.stringify(obstacleTile.coordinate), obstacleTile);
     });
