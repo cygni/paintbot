@@ -1,26 +1,36 @@
 import * as React from 'react';
-import { Character } from '../type';
-import './ScoreBoard.css';
-import ScoreBoardEntry from './ScoreBoardEntry';
+import styled from "styled-components";
+import {Header} from "../../common/Header";
+import {Character} from '../type';
+import {ScoreBoardEntry} from "./ScoreBoardEntry";
 
 interface Props {
-  players: Map<string, Character>;
+    players: Map<string, Character>;
 }
 
-export default class ScoreBoardContainer extends React.Component<Props> {
-  public getPlayers() {
-    const players = Array.from(this.props.players.values());
-    return players.map((player, index) => {
-      return <ScoreBoardEntry key={index} player={player} />;
-    });
-  }
+const Container = styled.div`
+  text-align: center;
+  background-color: #586270; 
+  margin-left: 10px;
+  width: 300px;
+`;
 
-  public render() {
-    return (
-      <div className={'scoreboard'}>
-        <h1>Scores</h1>
-        {this.getPlayers()}
-      </div>
-    );
-  }
+export default class ScoreBoardContainer extends React.Component<Props> {
+
+    public render() {
+        return (
+            <Container>
+                <Header label={"Score"}/>
+                {this.getPlayers()}
+            </Container>
+        );
+    }
+
+    private getPlayers() {
+        const players = Array.from(this.props.players.values());
+        return players.map((player, index) => {
+            return <ScoreBoardEntry key={index} player={player}/>;
+        });
+    }
+
 }

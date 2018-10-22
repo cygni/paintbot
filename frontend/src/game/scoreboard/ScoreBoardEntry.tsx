@@ -1,25 +1,31 @@
 import * as React from 'react';
+import styled from "styled-components";
+import { TextLabel } from "../../common/TextLabel";
 import { Character } from '../type';
-import './ScoreBoard.css';
 
 interface Props {
   player: Character;
 }
 
+const EntryContainer = styled.div`
+  padding-bottom: 10%;
+  color: ${(props: Props) => props.player.colour};
+`;
+
 export default class ScoreBoardEntry extends React.Component<Props> {
-  
+
   public shouldComponentUpdate(nextProps: Props) {
     return nextProps.player.points !== this.props.player.points;
   }
 
   public render() {
-    const divStyle = { color: this.props.player.colour };
+    const { player } = this.props;
+    const playerNameWithScore = `${player.name} ${player.points}`;
     return (
-      <div className={'scoreboard-entry'} style={divStyle}>
-        <b>
-          {this.props.player.name} : {this.props.player.points}
-        </b>
-      </div>
-    );
+      <EntryContainer player={player}>
+        <TextLabel style={{ fontWeight: 'bold' }}>
+          {playerNameWithScore}
+        </TextLabel>
+      </EntryContainer>);
   }
-}
+};
