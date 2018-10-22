@@ -1,17 +1,17 @@
 import * as React from 'react';
-import {TileColors} from "../common/Constants";
+import { TileColors } from "../common/Constants";
 import GameBoardContainer from './GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
 import {
-Bomb,
-Character,
-CharacterInfo,
-Coordinate,
-EventType,
-GameMap,
-GameState,
-Tile,
-TileType,
+  Bomb,
+  Character,
+  CharacterInfo,
+  Coordinate,
+  EventType,
+  GameMap,
+  GameState,
+  Tile,
+  TileType,
 } from './type';
 
 interface State {
@@ -25,11 +25,11 @@ const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
 const WINDOW_WIDTH = window.innerWidth; // Tile size is adapted to size of window when app is loaded
 
 export default class GameContainer extends React.Component<any, State> {
+
   public map: GameMap;
   public tiles = new Map<string, Tile>();
   public currentCharacters = new Map<string, Character>();
   public previousCharacters = new Map<string, Character>();
-  public bombs: Bomb[] = [];
   public ws: WebSocket = new WebSocket('ws://localhost:8999');
 
   public render() {
@@ -82,12 +82,14 @@ export default class GameContainer extends React.Component<any, State> {
     this.previousCharacters = new Map(this.currentCharacters);
     this.addCharacters(this.map.characterInfos);
     this.addColouredTilesForPlayers(this.map.characterInfos);
-    this.addBombs(this.map.bombPositions);
+
+    const bombs = this.createBombs(this.map.bombPositions);
+
     this.setState({
       tiles: this.tiles,
       currentCharacters: this.currentCharacters,
       previousCharacters: this.previousCharacters,
-      bombs: this.bombs,
+      bombs,
     });
   }
 
@@ -96,7 +98,6 @@ export default class GameContainer extends React.Component<any, State> {
     this.currentCharacters.clear();
     this.previousCharacters.clear();
     this.map = {} as GameMap;
-    this.bombs = [];
     this.ws.close();
   }
 
@@ -134,13 +135,15 @@ export default class GameContainer extends React.Component<any, State> {
     });
   }
 
-  private addBombs(bombPositions: number[]) {
+  private createBombs(bombPositions: number[]): Bomb[] {
+    const bombs: Bomb[] = [];
     bombPositions.forEach(bombPosition => {
       const bomb = {} as Bomb;
       bomb.coordinate = this.getCoordinateFromMapPosition(bombPosition);
       bomb.image = '/images/bomb.png';
-      this.bombs.push(bomb);
+      bombs.push(bomb);
     });
+    return bombs;
   }
 
   private addObstacleTiles(obstaclePositions: number[]) {
