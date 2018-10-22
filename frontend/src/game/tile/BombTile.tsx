@@ -55,4 +55,5 @@ export default class BombTile extends React.Component<Props> {
             />
         );
     }
+
 }

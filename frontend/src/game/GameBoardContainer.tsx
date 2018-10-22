@@ -18,7 +18,6 @@ interface Props {
 }
 
 export default class GameBoardContainer extends React.Component<Props> {
-
   private readonly boardWidth: number;
   private readonly boardHeight: number;
   public stageRef: Konva.Stage
@@ -97,7 +96,7 @@ export default class GameBoardContainer extends React.Component<Props> {
   }
 
   public renderBombComponents() {
-    const {bombs, tileWidth, tileHeight} = this.props;
+    const { bombs, tileWidth, tileHeight } = this.props;
     return bombs.map((bomb, index) => {
       bomb.coordinate = this.getBoardCoordinate(bomb.coordinate);
       return (
@@ -112,8 +111,8 @@ export default class GameBoardContainer extends React.Component<Props> {
   }
 
   private getBoardCoordinate(coordinate: Coordinate): Coordinate {
-    const {tileWidth, tileHeight} = this.props;
-    const boardCoordinate: Coordinate = {x : 0, y: 0};
+    const { tileWidth, tileHeight } = this.props;
+    const boardCoordinate: Coordinate = { x: 0, y: 0 };
     boardCoordinate.x = coordinate.x * tileWidth;
     boardCoordinate.y = coordinate.y * tileHeight;
     return boardCoordinate;

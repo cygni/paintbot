@@ -25,7 +25,6 @@ const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
 const WINDOW_WIDTH = window.innerWidth; // Tile size is adapted to size of window when app is loaded
 
 export default class GameContainer extends React.Component<any, State> {
-
   public map: GameMap;
   public tiles = new Map<string, Tile>();
   public currentCharacters = new Map<string, Character>();

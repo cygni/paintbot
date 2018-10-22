@@ -1,6 +1,7 @@
 import * as React from 'react';
-import styled from "styled-components";
-import { TextLabel } from "../../common/TextLabel";
+import styled from 'styled-components';
+import { Spacing } from '../../common/Spacing';
+import { TextLabel } from '../../common/TextLabel';
 import { Character } from '../type';
 
 interface Props {
@@ -8,11 +9,10 @@ interface Props {
 }
 
 interface ScoreLabelContainer {
-    playerColour: string;
+  playerColour: string;
 }
 
 const ScoreLabelContainer = styled.div`
-  padding-bottom: 10%;
   color: ${(props: ScoreLabelContainer) => props.playerColour};
 `;
 
@@ -28,9 +28,11 @@ export default class ScoreBoardEntry extends React.Component<Props> {
     return (
 
       <ScoreLabelContainer playerColour={player.colour}>
+      <Spacing num={5}>
         <TextLabel style={{fontWeight: 'bold'}}>
             {playerNameWithScore}
         </TextLabel>
+        </Spacing>
     </ScoreLabelContainer>);
   };
 }

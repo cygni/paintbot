@@ -1,11 +1,10 @@
 import * as React from 'react';
 
 interface Props {
-    style?: object;
-    children?:
-        | string
-        | undefined
-        | null;
+  style?: object;
+  children?: string | undefined | null;
 }
 
-export const TextLabel = ({style, children}: Props) => <div style={style}>{children}</div>;
+export const TextLabel = ({ style, children }: Props) => (
+  <div style={style}>{children}</div>
+);
