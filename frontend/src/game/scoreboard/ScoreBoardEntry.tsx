@@ -7,9 +7,13 @@ interface Props {
   player: Character;
 }
 
-const EntryContainer = styled.div`
+interface ScoreLabelContainer {
+    playerColour: string;
+}
+
+const ScoreLabelContainer = styled.div`
   padding-bottom: 10%;
-  color: ${(props: Props) => props.player.colour};
+  color: ${(props: ScoreLabelContainer) => props.playerColour};
 `;
 
 export default class ScoreBoardEntry extends React.Component<Props> {
@@ -22,10 +26,11 @@ export default class ScoreBoardEntry extends React.Component<Props> {
     const { player } = this.props;
     const playerNameWithScore = `${player.name} ${player.points}`;
     return (
-      <EntryContainer player={player}>
-        <TextLabel style={{ fontWeight: 'bold' }}>
-          {playerNameWithScore}
+
+      <ScoreLabelContainer playerColour={player.colour}>
+        <TextLabel style={{fontWeight: 'bold'}}>
+            {playerNameWithScore}
         </TextLabel>
-      </EntryContainer>);
-  }
-};
+    </ScoreLabelContainer>);
+  };
+}
