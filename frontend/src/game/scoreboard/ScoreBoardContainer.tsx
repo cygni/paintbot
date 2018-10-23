@@ -27,7 +27,6 @@ export default class ScoreBoardContainer extends React.Component<Props> {
         <Indent>
           <FlipMove>{this.getPlayers()}</FlipMove>
         </Indent>
-        gi{' '}
       </Container>
     );
   }
