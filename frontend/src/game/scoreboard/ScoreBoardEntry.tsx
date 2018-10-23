@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { StandardColors } from '../../common/Constants';
 import { Row } from '../../common/Row';
-import { StandardColors } from '../../common/Constants';
 import { Spacing } from '../../common/Spacing';
 import { TextLabel } from '../../common/TextLabel';
 import { Character } from '../type';
