@@ -40,7 +40,7 @@ export default class ScoreBoardContainer extends React.Component<Props> {
 
   private getPlayers() {
     const sortedPlayers = sortPlayers(this.props.players, SortOrder.DESCENDING);
-    return sortedPlayers.map((player, index) => {
+    return sortedPlayers.map((player) => {
       return <ScoreBoardEntry key={player.id} player={player} />;
     });
   }
