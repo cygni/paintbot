@@ -14,13 +14,14 @@ import {
   TileType,
 } from './type';
 
-interface Props {}
+interface Props { }
 
 interface State {
   tiles: Map<string, Tile>;
   currentCharacters: Character[];
   previousCharacters: Character[];
   bombs: Bomb[];
+  worldTick: number
 }
 
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
@@ -50,6 +51,7 @@ export default class GameContainer extends React.Component<Props, State> {
       currentCharacters: [],
       previousCharacters: [],
       bombs: [],
+      worldTick: this.map.worldTick,
     };
   }
 
@@ -59,7 +61,7 @@ export default class GameContainer extends React.Component<Props, State> {
       <div>
         <h1>XYZ-BOT</h1>
         <div className="container">
-          <ScoreBoardContainer players={this.state.currentCharacters} />
+          <ScoreBoardContainer players={this.state.currentCharacters} worldTick={this.state.worldTick} />
           <GameBoardContainer
             tiles={this.state.tiles}
             characters={this.state.currentCharacters}
@@ -105,6 +107,7 @@ export default class GameContainer extends React.Component<Props, State> {
         currentCharacters: this.createCharacters(this.map.characterInfos),
         previousCharacters: previousState.currentCharacters,
         bombs: this.createBombs(this.map.bombPositions),
+        worldTick: this.map.worldTick
       };
     });
   }
