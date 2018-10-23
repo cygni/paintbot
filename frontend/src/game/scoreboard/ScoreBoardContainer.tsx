@@ -9,7 +9,7 @@ import ScoreBoardEntry from './ScoreBoardEntry';
 import { SortOrder, sortPlayers } from './Util';
 
 interface Props {
-  players: Map<string, Character>;
+  players: Character[];
 }
 
 const Container = styled.div`
@@ -33,9 +33,8 @@ export default class ScoreBoardContainer extends React.Component<Props> {
   }
 
   private getPlayers() {
-    const playerArray = Array.from(this.props.players.values());
-    const players = sortPlayers(playerArray, SortOrder.DESCENDING);
-    return players.map((player, index) => {
+    const sortedPlayers = sortPlayers(this.props.players, SortOrder.DESCENDING);
+    return sortedPlayers.map((player, index) => {
       return <ScoreBoardEntry key={player.id} player={player} />;
     });
   }

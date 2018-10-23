@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { StandardColors } from '../../common/Constants';
+import { DefaultText } from '../../common/DefaultText';
 import { Row } from '../../common/Row';
 import { Spacing } from '../../common/Spacing';
-import { TextLabel } from '../../common/TextLabel';
 import { Character } from '../type';
 
 interface Props {
@@ -41,22 +41,22 @@ export default class ScoreBoardEntry extends React.Component<Props> {
               borderRadius: '5px',
             }}
           >
-            <TextLabel
+            <DefaultText
               style={{
                 fontWeight: 'bold',
                 padding: '10px',
               }}
             >
               {playerName}
-            </TextLabel>
-            <TextLabel
+            </DefaultText>
+            <DefaultText
               style={{
                 fontWeight: 'bold',
                 padding: '10px',
               }}
             >
               {`${playerScore}`}
-            </TextLabel>
+            </DefaultText>
           </Row>
         </Spacing>
       </ScoreLabelContainer>

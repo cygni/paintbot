@@ -8,6 +8,7 @@ interface Props {
     | undefined
     | null;
 }
+
 export const Indent = ({ num = 1, children }: Props) => {
   const paddingSize = num * 10;
   return (

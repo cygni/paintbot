@@ -8,8 +8,8 @@ import { Bomb, Character, Coordinate, Tile } from './type';
 
 interface Props {
   tiles: Map<string, Tile>;
-  characters: Map<string, Character>;
-  previousCharacters: Map<string, Character>;
+  characters: Character[];
+  previousCharacters: Character[];
   bombs: Bomb[];
   width: number;
   height: number;
@@ -74,10 +74,17 @@ export default class GameBoardContainer extends React.Component<Props> {
   }
 
   public renderCharacterComponents() {
-    const characters = Array.from(this.props.characters.values());
+    const {
+      characters,
+      previousCharacters,
+      tileWidth,
+      tileHeight,
+    } = this.props;
     return characters.map((character, index) => {
       character.coordinate = this.getBoardCoordinate(character.coordinate);
-      const previousCharacter = this.props.previousCharacters.get(character.id);
+      const previousCharacter = previousCharacters.filter(
+        c => c.id === character.id,
+      )[0];
       const previousCharacterCoordinate = previousCharacter
         ? previousCharacter.coordinate
         : character.coordinate;
@@ -86,8 +93,8 @@ export default class GameBoardContainer extends React.Component<Props> {
           key={index}
           colour={character.colour}
           coordinate={character.coordinate}
-          width={this.props.tileWidth}
-          height={this.props.tileHeight}
+          width={tileWidth}
+          height={tileHeight}
           playerId={character.id}
           previousCoordinate={previousCharacterCoordinate}
         />

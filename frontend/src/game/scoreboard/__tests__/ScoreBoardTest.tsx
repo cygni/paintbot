@@ -8,7 +8,7 @@ import { SortOrder, sortPlayers } from '../Util';
 
 describe('Verify ScoreBoardContainer', () => {
   it('should not create players if characters is empty', () => {
-    const characters = new Map();
+    const characters: Character[] = [];
     const wrapper = shallow(<ScoreBoardContainer players={characters} />);
     expect(wrapper.find(ScoreBoardEntry)).toHaveLength(0);
   });

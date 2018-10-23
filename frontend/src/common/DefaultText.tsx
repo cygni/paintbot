@@ -5,6 +5,6 @@ interface Props {
   children?: string | undefined | null;
 }
 
-export const TextLabel = ({ style, children }: Props) => (
-  <div style={style}>{children}</div>
+export const DefaultText = ({ style, children }: Props) => (
+  <span style={style}>{children}</span>
 );

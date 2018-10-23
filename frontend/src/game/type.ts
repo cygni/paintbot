@@ -27,9 +27,9 @@ declare interface GameState {
 declare interface GameMap {
   width: number;
   height: number;
-  bombPositions: [number];
-  obstaclePositions: [number];
-  characterInfos: [CharacterInfo];
+  bombPositions: number[];
+  obstaclePositions: number[];
+  characterInfos: CharacterInfo[];
   worldTick: number;
 }
 
@@ -38,7 +38,7 @@ declare interface CharacterInfo {
   name: string;
   points: number;
   position: number;
-  colouredPositions: [number];
+  colouredPositions: number[];
   stunnedForGameTicks: number;
 }
 

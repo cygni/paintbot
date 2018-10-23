@@ -10,6 +10,7 @@
   "rules": {
     "interface-name" : [true, "never-prefix"],
     "no-console": false,
+    "no-empty-interface": false,
     "jsx-no-string-ref": false,
     "object-literal-sort-keys": false
   }

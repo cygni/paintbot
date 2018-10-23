@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TileColors } from '../common/Constants';
+import { StandardColors, TileColors } from '../common/Constants';
 import GameBoardContainer from './GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
 import {
@@ -14,22 +14,44 @@ import {
   TileType,
 } from './type';
 
+interface Props {}
+
 interface State {
   tiles: Map<string, Tile>;
-  currentCharacters: Map<string, Character>;
-  previousCharacters: Map<string, Character>;
+  currentCharacters: Character[];
+  previousCharacters: Character[];
   bombs: Bomb[];
 }
 
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
 const WINDOW_WIDTH = window.innerWidth; // Tile size is adapted to size of window when app is loaded
 
-export default class GameContainer extends React.Component<any, State> {
-  public map: GameMap;
-  public tiles = new Map<string, Tile>();
-  public currentCharacters = new Map<string, Character>();
-  public previousCharacters = new Map<string, Character>();
-  public ws: WebSocket = new WebSocket('ws://localhost:8999');
+export default class GameContainer extends React.Component<Props, State> {
+  private map: GameMap;
+
+  private readonly tiles: Map<string, Tile>;
+  private readonly ws: WebSocket;
+
+  public constructor(props: Props) {
+    super(props);
+    // TODO : Move to configuration
+    this.ws = new WebSocket('ws://localhost:8999');
+    this.tiles = new Map<string, Tile>();
+    this.map = {
+      bombPositions: [],
+      width: 46,
+      height: 34,
+      characterInfos: [],
+      obstaclePositions: [],
+      worldTick: 0,
+    };
+    this.state = {
+      tiles: new Map<string, Tile>(),
+      currentCharacters: [],
+      previousCharacters: [],
+      bombs: [],
+    };
+  }
 
   public render() {
     const TILE_SIZE = this.map ? WINDOW_WIDTH / this.map.width / 1.7 : 0;
@@ -73,50 +95,52 @@ export default class GameContainer extends React.Component<any, State> {
 
   private updateMap(gameState: GameState) {
     this.map = gameState.map;
-    this.addObstacleTiles(this.map.obstaclePositions);
-    // Save the previous characters and their positions to enable animation from previous position to next
-    this.previousCharacters = new Map(this.currentCharacters);
-    this.addCharacters(this.map.characterInfos);
-    this.addColouredTilesForPlayers(this.map.characterInfos);
 
-    const bombs = this.createBombs(this.map.bombPositions);
+    this.addObstacleTiles(this.map.obstaclePositions, this.tiles);
+    this.addColouredTilesForPlayers(this.map.characterInfos, this.tiles);
 
-    this.setState({
-      tiles: this.tiles,
-      currentCharacters: this.currentCharacters,
-      previousCharacters: this.previousCharacters,
-      bombs,
+    this.setState(previousState => {
+      return {
+        tiles: this.tiles,
+        currentCharacters: this.createCharacters(this.map.characterInfos),
+        previousCharacters: previousState.currentCharacters,
+        bombs: this.createBombs(this.map.bombPositions),
+      };
     });
   }
 
   private endGame() {
-    this.tiles.clear();
-    this.currentCharacters.clear();
-    this.previousCharacters.clear();
-    this.map = {} as GameMap;
     this.ws.close();
   }
 
-  private addColouredTilesForPlayers(characterInfos: CharacterInfo[]) {
-    characterInfos.forEach(c => {
-      this.addColouredTilesForPlayer(c.colouredPositions, c.id);
+  private addColouredTilesForPlayers(
+    characterInfos: CharacterInfo[],
+    tiles: Map<string, Tile>,
+  ): void {
+    characterInfos.forEach(character => {
+      this.createColouredTilesForPlayer(character, tiles);
     });
   }
 
-  private addColouredTilesForPlayer(
-    colouredPositions: number[],
-    playerId: string,
+  private createColouredTilesForPlayer(
+    character: CharacterInfo,
+    tiles: Map<string, Tile>,
   ): void {
-    colouredPositions.forEach(colouredPosition => {
+    character.colouredPositions.forEach(colouredPosition => {
       const colouredTile = {} as Tile;
       colouredTile.coordinate = this.getCoordinateFromMapPosition(
         colouredPosition,
       );
-      colouredTile.type = TileType.COLOURED;
-      const player = this.currentCharacters.get(playerId);
-      colouredTile.colour = player ? player.colour : 'white';
 
-      this.tiles.set(JSON.stringify(colouredTile.coordinate), colouredTile);
+      colouredTile.type = TileType.COLOURED;
+      const theCharacter = this.state.currentCharacters.filter(
+        c => c.id === character.id,
+      )[0];
+      colouredTile.colour = theCharacter
+        ? theCharacter.colour
+        : StandardColors.White;
+
+      tiles.set(JSON.stringify(colouredTile.coordinate), colouredTile);
     });
   }
 
@@ -131,18 +155,21 @@ export default class GameContainer extends React.Component<any, State> {
     return bombs;
   }
 
-  private addObstacleTiles(obstaclePositions: number[]) {
+  private addObstacleTiles(
+    obstaclePositions: number[],
+    tiles: Map<string, Tile>,
+  ) {
     obstaclePositions.forEach(bombPosition => {
       const obstacleTile = {} as Tile;
       obstacleTile.coordinate = this.getCoordinateFromMapPosition(bombPosition);
       obstacleTile.type = TileType.OBSTACLE;
       obstacleTile.colour = TileColors.Obstacle;
-
-      this.tiles.set(JSON.stringify(obstacleTile.coordinate), obstacleTile);
+      tiles.set(JSON.stringify(obstacleTile.coordinate), obstacleTile);
     });
   }
 
-  private addCharacters(characterInfos: CharacterInfo[]): void {
+  private createCharacters(characterInfos: CharacterInfo[]): Character[] {
+    const characters: Character[] = [];
     characterInfos.forEach((characterInfo, index) => {
       const character = {
         colour: colours[index],
@@ -151,8 +178,9 @@ export default class GameContainer extends React.Component<any, State> {
         points: characterInfo.points,
         coordinate: this.getCoordinateFromMapPosition(characterInfo.position),
       };
-      this.currentCharacters.set(character.id, character);
+      characters.push(character);
     });
+    return characters;
   }
 
   private getCoordinateFromMapPosition(position: number): Coordinate {
