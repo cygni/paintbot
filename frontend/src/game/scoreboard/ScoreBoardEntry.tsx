@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Row } from '../../common/Row';
 import { Spacing } from '../../common/Spacing';
 import { TextLabel } from '../../common/TextLabel';
 import { Character } from '../type';
@@ -25,18 +26,36 @@ export default class ScoreBoardEntry extends React.Component<Props> {
 
   public render() {
     const { player } = this.props;
-    const playerNameWithScore = `${player.name} : ${player.points}`;
+    const playerName = player.name;
+    const playerScore = player.points;
     return (
       <ScoreLabelContainer playerColour={player.colour}>
         <Spacing num={3}>
-          <TextLabel
+          <Row
+            justifyContent={'space-between'}
             style={{
-              fontWeight: 'bold',
-              backgroundColor: '#000000',
+              display: 'flex',
+              backgroundColor: '#000',
+              borderRadius: '5px',
             }}
           >
-            {playerNameWithScore}
-          </TextLabel>
+            <TextLabel
+              style={{
+                fontWeight: 'bold',
+                padding: '10px',
+              }}
+            >
+              {playerName}
+            </TextLabel>
+            <TextLabel
+              style={{
+                fontWeight: 'bold',
+                padding: '10px',
+              }}
+            >
+              {`${playerScore}`}
+            </TextLabel>
+          </Row>
         </Spacing>
       </ScoreLabelContainer>
     );

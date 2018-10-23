@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Header } from '../../common/Header';
+import { Indent } from '../../common/Indent';
 import { Character } from '../type';
 import ScoreBoardEntry from './ScoreBoardEntry';
 
@@ -20,7 +21,7 @@ export default class ScoreBoardContainer extends React.Component<Props> {
     return (
       <Container>
         <Header label={'Score'} />
-        {this.getPlayers()}
+        <Indent>{this.getPlayers()}</Indent>
       </Container>
     );
   }
