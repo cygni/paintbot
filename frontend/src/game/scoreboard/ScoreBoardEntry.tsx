@@ -19,7 +19,6 @@ const ScoreLabelContainer = styled.div`
 `;
 
 export default class ScoreBoardEntry extends React.Component<Props> {
-
   public shouldComponentUpdate(nextProps: Props) {
     return nextProps.player.points !== this.props.player.points;
   }
@@ -28,16 +27,18 @@ export default class ScoreBoardEntry extends React.Component<Props> {
     const { player } = this.props;
     const playerNameWithScore = `${player.name} : ${player.points}`;
     return (
-
       <ScoreLabelContainer playerColour={player.colour}>
         <Spacing num={3}>
-          <TextLabel style={{
-            fontWeight: 'bold',
-            backgroundColor: '#000000'
-          }}>
+          <TextLabel
+            style={{
+              fontWeight: 'bold',
+              backgroundColor: '#000000',
+            }}
+          >
             {playerNameWithScore}
           </TextLabel>
         </Spacing>
-      </ScoreLabelContainer>);
-  };
+      </ScoreLabelContainer>
+    );
+  }
 }

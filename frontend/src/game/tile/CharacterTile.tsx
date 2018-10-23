@@ -59,9 +59,30 @@ export default class CharacterTile extends React.Component<Props> {
           }
         }}
       >
-        <Circle perfectDrawEnabled={false} offsetX={-this.props.width / 2} offsetY={-this.props.height / 2} radius={this.props.width / 2} fill={this.props.colour} stroke={'#001638'} />
-        <Circle perfectDrawEnabled={false} offsetX={-this.props.width / 2} offsetY={-this.props.height / 2} radius={this.props.width / 4} fill={this.props.colour} stroke={'#001638'} />
-        <Circle perfectDrawEnabled={false} offsetX={-this.props.width / 2} offsetY={-this.props.height / 2} radius={this.props.width / 16} fill={'#001638'} stroke={'#001638'} />
+        <Circle
+          perfectDrawEnabled={false}
+          offsetX={-this.props.width / 2}
+          offsetY={-this.props.height / 2}
+          radius={this.props.width / 2}
+          fill={this.props.colour}
+          stroke={'#001638'}
+        />
+        <Circle
+          perfectDrawEnabled={false}
+          offsetX={-this.props.width / 2}
+          offsetY={-this.props.height / 2}
+          radius={this.props.width / 4}
+          fill={this.props.colour}
+          stroke={'#001638'}
+        />
+        <Circle
+          perfectDrawEnabled={false}
+          offsetX={-this.props.width / 2}
+          offsetY={-this.props.height / 2}
+          radius={this.props.width / 16}
+          fill={'#001638'}
+          stroke={'#001638'}
+        />
       </Group>
     );
   }

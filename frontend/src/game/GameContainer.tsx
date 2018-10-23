@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TileColors } from "../common/Constants";
+import { TileColors } from '../common/Constants';
 import GameBoardContainer from './GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
 import {
@@ -33,11 +33,10 @@ export default class GameContainer extends React.Component<any, State> {
 
   public render() {
     const TILE_SIZE = this.map ? WINDOW_WIDTH / this.map.width / 1.7 : 0;
-    return this.state && this.state.tiles
-      ?
+    return this.state && this.state.tiles ? (
       <div>
         <h1>XYZ-BOT</h1>
-        <div className='container'>
+        <div className="container">
           <ScoreBoardContainer players={this.state.currentCharacters} />
           <GameBoardContainer
             tiles={this.state.tiles}
@@ -51,8 +50,7 @@ export default class GameContainer extends React.Component<any, State> {
           />
         </div>
       </div>
-      :
-      null;
+    ) : null;
   }
 
   public componentDidMount() {
@@ -105,7 +103,10 @@ export default class GameContainer extends React.Component<any, State> {
     });
   }
 
-  private addColouredTilesForPlayer(colouredPositions: number[], playerId: string): void {
+  private addColouredTilesForPlayer(
+    colouredPositions: number[],
+    playerId: string,
+  ): void {
     colouredPositions.forEach(colouredPosition => {
       const colouredTile = {} as Tile;
       colouredTile.coordinate = this.getCoordinateFromMapPosition(

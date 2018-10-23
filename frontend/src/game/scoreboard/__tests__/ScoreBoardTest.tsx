@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
-import * as React from "react";
-import ScoreBoardContainer from "../ScoreBoardContainer";
-import ScoreBoardEntry from "../ScoreBoardEntry";
+import * as React from 'react';
+import ScoreBoardContainer from '../ScoreBoardContainer';
+import ScoreBoardEntry from '../ScoreBoardEntry';
 
 describe('Verify ScoreBoardContainer', () => {
   it('should not create players if characters is empty', () => {

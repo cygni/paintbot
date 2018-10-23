@@ -12,7 +12,6 @@ interface Props {
 }
 
 export default class ColouredTile extends React.Component<Props> {
-  
   public tile: Konva.Rect;
 
   public shouldComponentUpdate(nextProps: Props) {
@@ -68,4 +67,3 @@ export default class ColouredTile extends React.Component<Props> {
     );
   }
 }
-

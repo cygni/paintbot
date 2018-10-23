@@ -20,7 +20,7 @@ interface Props {
 export default class GameBoardContainer extends React.Component<Props> {
   private readonly boardWidth: number;
   private readonly boardHeight: number;
-  private stageRef: Konva.Stage
+  private stageRef: Konva.Stage;
 
   constructor(props: Props) {
     super(props);
@@ -44,7 +44,7 @@ export default class GameBoardContainer extends React.Component<Props> {
         listening={false}
         ref={(stage: any) => {
           if (stage !== null) {
-            this.stageRef = stage
+            this.stageRef = stage;
           }
         }}
       >
