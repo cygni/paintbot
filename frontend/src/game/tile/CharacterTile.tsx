@@ -1,6 +1,7 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Circle, Group } from 'react-konva';
+import { CharacterColors } from '../../common/Constants';
 import { Coordinate } from '../type';
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export default class CharacterTile extends React.Component<Props> {
-  public character: Konva.Group;
+  private character: Konva.Group;
 
   public componentDidMount() {
     this.character.transformsEnabled('position');
@@ -65,7 +66,7 @@ export default class CharacterTile extends React.Component<Props> {
           offsetY={-this.props.height / 2}
           radius={this.props.width / 2}
           fill={this.props.colour}
-          stroke={'#001638'}
+          stroke={CharacterColors.Stroke}
         />
         <Circle
           perfectDrawEnabled={false}
@@ -73,15 +74,15 @@ export default class CharacterTile extends React.Component<Props> {
           offsetY={-this.props.height / 2}
           radius={this.props.width / 4}
           fill={this.props.colour}
-          stroke={'#001638'}
+          stroke={CharacterColors.Stroke}
         />
         <Circle
           perfectDrawEnabled={false}
           offsetX={-this.props.width / 2}
           offsetY={-this.props.height / 2}
           radius={this.props.width / 16}
-          fill={'#001638'}
-          stroke={'#001638'}
+          fill={CharacterColors.Eye}
+          stroke={CharacterColors.Stroke}
         />
       </Group>
     );

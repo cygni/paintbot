@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { ScoreBoardColors } from '../../common/Constants';
 import { Header } from '../../common/Header';
 import { Indent } from '../../common/Indent';
 import { Character } from '../type';
@@ -11,7 +12,7 @@ interface Props {
 
 const Container = styled.div`
   text-align: center;
-  background-color: rgba(88, 98, 112, 0.75);
+  background-color: ${ScoreBoardColors.Background};
   margin-left: 10px;
   width: 300px;
 `;

@@ -1,6 +1,7 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Rect } from 'react-konva';
+import { TileColors } from '../../common/Constants';
 import { Coordinate } from '../type';
 
 interface Props {
@@ -55,7 +56,7 @@ export default class ColouredTile extends React.Component<Props> {
         width={this.props.width}
         height={this.props.width}
         cornerRadius={5}
-        stroke={'black'}
+        stroke={TileColors.Stroke}
         perfectDrawEnabled={false}
         listening={false}
         ref={(node: Konva.Rect) => {
