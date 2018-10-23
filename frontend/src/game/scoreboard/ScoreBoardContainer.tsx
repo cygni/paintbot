@@ -1,9 +1,11 @@
 import * as React from 'react';
+import FlipMove from 'react-flip-move';
 import styled from 'styled-components';
 import { Header } from '../../common/Header';
 import { Indent } from '../../common/Indent';
 import { Character } from '../type';
 import ScoreBoardEntry from './ScoreBoardEntry';
+import { SortOrder, sortPlayers } from './Util';
 
 interface Props {
   players: Map<string, Character>;
@@ -21,15 +23,19 @@ export default class ScoreBoardContainer extends React.Component<Props> {
     return (
       <Container>
         <Header label={'Score'} />
-        <Indent>{this.getPlayers()}</Indent>
+        <Indent>
+          <FlipMove>{this.getPlayers()}</FlipMove>
+        </Indent>
+        gi{' '}
       </Container>
     );
   }
 
   private getPlayers() {
-    const players = Array.from(this.props.players.values());
+    const playerArray = Array.from(this.props.players.values());
+    const players = sortPlayers(playerArray, SortOrder.DESCENDING);
     return players.map((player, index) => {
-      return <ScoreBoardEntry key={index} player={player} />;
+      return <ScoreBoardEntry key={player.id} player={player} />;
     });
   }
 }

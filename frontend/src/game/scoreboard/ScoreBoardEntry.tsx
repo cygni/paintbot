@@ -17,6 +17,7 @@ const ScoreLabelContainer = styled.div`
   opacity: 1;
   color: ${(props: ScoreLabelContainer) => props.playerColour};
   font-size: 32px;
+  transition: position 0.5s linear;
 `;
 
 export default class ScoreBoardEntry extends React.Component<Props> {
