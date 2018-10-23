@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Header } from '../../common/Header';
 import { Character } from '../type';
-import { ScoreBoardEntry } from './ScoreBoardEntry';
+import ScoreBoardEntry from './ScoreBoardEntry';
 
 interface Props {
   players: Map<string, Character>;
@@ -10,7 +10,7 @@ interface Props {
 
 const Container = styled.div`
   text-align: center;
-  background-color: #586270;
+  background-color: rgba(88, 98, 112, 0.75);
   margin-left: 10px;
   width: 300px;
 `;

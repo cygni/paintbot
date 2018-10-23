@@ -13,7 +13,9 @@ interface ScoreLabelContainer {
 }
 
 const ScoreLabelContainer = styled.div`
+  opacity: 1;
   color: ${(props: ScoreLabelContainer) => props.playerColour};
+  font-size: 32px;
 `;
 
 export default class ScoreBoardEntry extends React.Component<Props> {
@@ -24,15 +26,18 @@ export default class ScoreBoardEntry extends React.Component<Props> {
 
   public render() {
     const { player } = this.props;
-    const playerNameWithScore = `${player.name} ${player.points}`;
+    const playerNameWithScore = `${player.name} : ${player.points}`;
     return (
 
       <ScoreLabelContainer playerColour={player.colour}>
-      <Spacing num={5}>
-        <TextLabel style={{fontWeight: 'bold'}}>
+        <Spacing num={3}>
+          <TextLabel style={{
+            fontWeight: 'bold',
+            backgroundColor: '#000000'
+          }}>
             {playerNameWithScore}
-        </TextLabel>
+          </TextLabel>
         </Spacing>
-    </ScoreLabelContainer>);
+      </ScoreLabelContainer>);
   };
 }

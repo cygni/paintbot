@@ -12,7 +12,7 @@ interface Props {
 export default class BombTile extends React.Component<Props> {
 
     private readonly image: HTMLImageElement;
-    public bomb: Konva.Image;
+    private bomb: Konva.Image;
 
     public constructor(props: Props) {
         super(props);

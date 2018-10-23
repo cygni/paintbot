@@ -75,7 +75,6 @@ export default class GameContainer extends React.Component<any, State> {
 
   private updateMap(gameState: GameState) {
     this.map = gameState.map;
-    // this.addEmptyTiles(this.map.width, this.map.height);
     this.addObstacleTiles(this.map.obstaclePositions);
     // Save the previous characters and their positions to enable animation from previous position to next
     this.previousCharacters = new Map(this.currentCharacters);
@@ -98,20 +97,6 @@ export default class GameContainer extends React.Component<any, State> {
     this.previousCharacters.clear();
     this.map = {} as GameMap;
     this.ws.close();
-  }
-
-  private addEmptyTiles(width: number, height: number) {
-    for (let i = 0; i < width; i++) {
-      for (let j = 0; j < height; j++) {
-        const c = { x: i, y: j } as Coordinate;
-        const tile = {
-          coordinate: c,
-          type: TileType.EMPTY,
-          colour: TileColors.Empty,
-        } as Tile;
-        this.tiles.set(JSON.stringify(c), tile);
-      }
-    }
   }
 
   private addColouredTilesForPlayers(characterInfos: CharacterInfo[]) {

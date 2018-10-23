@@ -20,7 +20,7 @@ interface Props {
 export default class GameBoardContainer extends React.Component<Props> {
   private readonly boardWidth: number;
   private readonly boardHeight: number;
-  public stageRef: Konva.Stage
+  private stageRef: Konva.Stage
 
   constructor(props: Props) {
     super(props);

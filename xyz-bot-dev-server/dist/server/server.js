@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
+const fs = require("fs");
 const http = require("http");
 const WebSocket = require("ws");
-const fs = require("fs");
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
