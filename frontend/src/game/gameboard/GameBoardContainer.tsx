@@ -107,12 +107,7 @@ export default class GameBoardContainer extends React.Component<Props> {
     return bombs.map((bomb, index) => {
       bomb.coordinate = this.getBoardCoordinate(bomb.coordinate);
       return (
-        <Bomb
-          key={index}
-          bomb={bomb}
-          width={tileWidth}
-          height={tileHeight}
-        />
+        <Bomb key={index} bomb={bomb} width={tileWidth} height={tileHeight} />
       );
     });
   }

@@ -10,9 +10,8 @@ import { SortOrder, sortPlayers } from './Util';
 
 interface Props {
   players: Character[];
-  worldTick?: number
+  worldTick?: number;
 }
-
 
 const Container = styled.div`
   text-align: center;
@@ -22,9 +21,11 @@ const Container = styled.div`
 `;
 
 export default class ScoreBoardContainer extends React.Component<Props> {
-
   public shouldComponentUpdate(nextProps: Props) {
-    return !!nextProps.worldTick && (nextProps.worldTick % 5 === 0 || nextProps.worldTick === 1);
+    return (
+      !!nextProps.worldTick &&
+      (nextProps.worldTick % 5 === 0 || nextProps.worldTick === 1)
+    );
   }
 
   public render() {
@@ -40,7 +41,7 @@ export default class ScoreBoardContainer extends React.Component<Props> {
 
   private getPlayers() {
     const sortedPlayers = sortPlayers(this.props.players, SortOrder.DESCENDING);
-    return sortedPlayers.map((player) => {
+    return sortedPlayers.map(player => {
       return <ScoreBoardEntry key={player.id} player={player} />;
     });
   }

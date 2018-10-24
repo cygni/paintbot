@@ -10,7 +10,6 @@ interface Props {
 }
 
 export default class Bomb extends React.Component<Props> {
-
   private readonly image: HTMLImageElement;
   private bomb: Konva.Image;
 

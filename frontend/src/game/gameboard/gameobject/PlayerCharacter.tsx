@@ -15,7 +15,6 @@ interface Props {
 }
 
 export default class PlayerCharacter extends React.Component<Props> {
-  
   private character: Konva.Group;
 
   public componentDidMount() {
