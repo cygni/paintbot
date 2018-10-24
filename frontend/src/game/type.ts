@@ -50,7 +50,7 @@ declare interface Character {
   coordinate: Coordinate;
 }
 
-declare interface Bomb {
+declare interface PowerUp {
   coordinate: Coordinate;
   image: string;
 }
@@ -63,7 +63,7 @@ enum EventType {
 export {
   Tile,
   TileType,
-  Bomb,
+  PowerUp,
   Coordinate,
   GameState,
   GameMap,

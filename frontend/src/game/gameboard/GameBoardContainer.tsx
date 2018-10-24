@@ -1,16 +1,16 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Layer, Stage } from 'react-konva';
-import BombTile from './tile/BombTile';
-import CharacterTile from './tile/CharacterTile';
+import { Character, Coordinate, PowerUp, Tile } from '../type';
+import Bomb from './gameobject/Bomb';
+import PlayerCharacter from './gameobject/PlayerCharacter';
 import StandardTile from './tile/StandardTile';
-import { Bomb, Character, Coordinate, Tile } from './type';
 
 interface Props {
   tiles: Map<string, Tile>;
   characters: Character[];
   previousCharacters: Character[];
-  bombs: Bomb[];
+  bombs: PowerUp[];
   width: number;
   height: number;
   tileWidth: number;
@@ -89,7 +89,7 @@ export default class GameBoardContainer extends React.Component<Props> {
         ? previousCharacter.coordinate
         : character.coordinate;
       return (
-        <CharacterTile
+        <PlayerCharacter
           key={index}
           colour={character.colour}
           coordinate={character.coordinate}
@@ -107,7 +107,7 @@ export default class GameBoardContainer extends React.Component<Props> {
     return bombs.map((bomb, index) => {
       bomb.coordinate = this.getBoardCoordinate(bomb.coordinate);
       return (
-        <BombTile
+        <Bomb
           key={index}
           bomb={bomb}
           width={tileWidth}

@@ -1,8 +1,8 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Circle, Group } from 'react-konva';
-import { CharacterColors } from '../../common/Constants';
-import { Coordinate } from '../type';
+import { CharacterColors } from '../../../common/Constants';
+import { Coordinate } from '../../type';
 
 interface Props {
   key: number;
@@ -14,7 +14,8 @@ interface Props {
   previousCoordinate: Coordinate;
 }
 
-export default class CharacterTile extends React.Component<Props> {
+export default class PlayerCharacter extends React.Component<Props> {
+  
   private character: Konva.Group;
 
   public componentDidMount() {

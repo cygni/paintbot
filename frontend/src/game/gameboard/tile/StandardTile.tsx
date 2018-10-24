@@ -1,8 +1,8 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Rect } from 'react-konva';
-import { TileColors } from '../../common/Constants';
-import { Coordinate } from '../type';
+import { TileColors } from '../../../common/Constants';
+import { Coordinate } from '../../type';
 
 interface Props {
   key: number;

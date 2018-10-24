@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { StandardColors, TileColors } from '../common/Constants';
-import GameBoardContainer from './GameBoardContainer';
+import GameBoardContainer from './gameboard/GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
 import {
-  Bomb,
   Character,
   CharacterInfo,
   Coordinate,
   EventType,
   GameMap,
   GameState,
+  PowerUp,
   Tile,
   TileType,
 } from './type';
@@ -20,7 +20,7 @@ interface State {
   tiles: Map<string, Tile>;
   currentCharacters: Character[];
   previousCharacters: Character[];
-  bombs: Bomb[];
+  bombs: PowerUp[];
   worldTick: number
 }
 
@@ -147,10 +147,10 @@ export default class GameContainer extends React.Component<Props, State> {
     });
   }
 
-  private createBombs(bombPositions: number[]): Bomb[] {
-    const bombs: Bomb[] = [];
+  private createBombs(bombPositions: number[]): PowerUp[] {
+    const bombs: PowerUp[] = [];
     bombPositions.forEach(bombPosition => {
-      const bomb = {} as Bomb;
+      const bomb = {} as PowerUp;
       bomb.coordinate = this.getCoordinateFromMapPosition(bombPosition);
       bomb.image = '/images/bomb.png';
       bombs.push(bomb);

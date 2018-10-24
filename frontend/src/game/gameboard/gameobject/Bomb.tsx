@@ -1,15 +1,16 @@
 import * as Konva from 'konva';
 import * as React from 'react';
 import { Image as KonvaImage } from 'react-konva';
-import { Bomb } from '../type';
+import { PowerUp } from '../../type';
 
 interface Props {
-  bomb: Bomb;
+  bomb: PowerUp;
   width: number;
   height: number;
 }
 
-export default class BombTile extends React.Component<Props> {
+export default class Bomb extends React.Component<Props> {
+
   private readonly image: HTMLImageElement;
   private bomb: Konva.Image;
 
