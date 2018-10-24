@@ -18,7 +18,8 @@ const Container = styled.div`
   text-align: center;
   background-color: ${ScoreBoardColors.Background};
   margin-left: 10px;
-  width: 300px;
+  display: inline-block;
+  max-width: 400px;
 `;
 
 export default class ScoreBoardContainer extends React.Component<Props> {

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { StandardColors, TileColors } from '../common/Constants';
+import { Header } from '../common/Header';
 import Config from '../Config';
 import GameBoardContainer from './gameboard/GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
@@ -63,25 +64,12 @@ export default class GameContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const TILE_SIZE = this.map ? WINDOW_WIDTH / this.map.width / 1.7 : 0;
     return this.state && this.state.tiles ? (
       <div>
-        <h1>XYZ-BOT</h1>
+        <Header label={'XYZ-BOT'} />
         <Container>
-          <ScoreBoardContainer
-            players={this.state.currentCharacters}
-            worldTick={this.state.worldTick}
-          />
-          <GameBoardContainer
-            tiles={this.state.tiles}
-            characters={this.state.currentCharacters}
-            previousCharacters={this.state.previousCharacters}
-            bombs={this.state.bombs}
-            width={this.map.width}
-            height={this.map.height}
-            tileWidth={TILE_SIZE}
-            tileHeight={TILE_SIZE}
-          />
+          {this.tryRenderScoreBoard()}
+          {this.tryRenderGameBoard()}
         </Container>
       </div>
     ) : null;
@@ -103,6 +91,35 @@ export default class GameContainer extends React.Component<Props, State> {
     if (gameState.type === EventType.GAME_ENDED_EVENT) {
       this.endGame();
     }
+  }
+
+  private tryRenderGameBoard() {
+    const TILE_SIZE = this.map ? WINDOW_WIDTH / this.map.width / 1.7 : 0;
+    return this.state.tiles.size > 0 ? (
+      <GameBoardContainer
+        tiles={this.state.tiles}
+        characters={this.state.currentCharacters}
+        previousCharacters={this.state.previousCharacters}
+        bombs={this.state.bombs}
+        width={this.map.width}
+        height={this.map.height}
+        tileWidth={TILE_SIZE}
+        tileHeight={TILE_SIZE}
+      />
+    ) : (
+      'Game is loading'
+    );
+  }
+
+  private tryRenderScoreBoard() {
+    return this.state.currentCharacters.length > 0 ? (
+      <ScoreBoardContainer
+        players={this.state.currentCharacters}
+        worldTick={this.state.worldTick}
+      />
+    ) : (
+      undefined
+    );
   }
 
   private updateMap(gameState: GameState) {
