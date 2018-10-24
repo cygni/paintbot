@@ -1,10 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { StandardColors, TileColors } from '../common/Constants';
-import { Header } from '../common/Header';
+import { Row } from '../common/Row';
 import Config from '../Config';
 import GameBoardContainer from './gameboard/GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
+import Timer from './timer/Timer';
 import {
   Character,
   CharacterInfo,
@@ -41,6 +42,7 @@ export default class GameContainer extends React.Component<Props, State> {
 
   private readonly tiles: Map<string, Tile>;
   private readonly ws: WebSocket;
+  private timer: Timer;
 
   public constructor(props: Props) {
     super(props);
@@ -66,7 +68,28 @@ export default class GameContainer extends React.Component<Props, State> {
   public render() {
     return this.state && this.state.tiles ? (
       <div>
-        <Header label={'XYZ-BOT'} />
+        <Row
+          justifyContent={'space-between'}
+          style={{
+            borderColor: '#000',
+            display: 'flex',
+            width: '55%',
+            padding: '10px',
+            fontSize: '40px',
+          }}
+        >
+          <div>XYZ-Bot</div>
+          <div>
+            <Timer
+              startTimeInMinutes={2}
+              ref={x => {
+                if (x !== null) {
+                  this.timer = x;
+                }
+              }}
+            />
+          </div>
+        </Row>
         <Container>
           {this.tryRenderScoreBoard()}
           {this.tryRenderGameBoard()}
@@ -76,6 +99,7 @@ export default class GameContainer extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
+    this.timer.start();
     this.ws.onmessage = (evt: MessageEvent) => this.onUpdateFromServer(evt);
   }
 
@@ -140,6 +164,7 @@ export default class GameContainer extends React.Component<Props, State> {
   }
 
   private endGame() {
+    this.timer.stop();
     this.ws.close();
   }
 

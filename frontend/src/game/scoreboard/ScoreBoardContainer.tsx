@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import styled from 'styled-components';
 import { ScoreBoardColors, StandardColors } from '../../common/Constants';
-import { Header } from '../../common/Header';
 import { Indent } from '../../common/Indent';
 import { Row } from '../../common/Row';
 import { Character } from '../type';
@@ -34,7 +33,7 @@ export default class ScoreBoardContainer extends React.Component<Props> {
     return (
       <Container>
         <Row style={{ backgroundColor: StandardColors.Black }}>
-          <Header label={'Score'} />
+          <h1>Score</h1>
         </Row>
         <Indent>
           <FlipMove>{this.getPlayers()}</FlipMove>
