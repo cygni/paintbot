@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { StandardColors, TileColors } from '../common/Constants';
+import Config from '../Config';
 import GameBoardContainer from './gameboard/GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
 import {
@@ -28,11 +29,11 @@ interface State {
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
 const WINDOW_WIDTH = window.innerWidth; // Tile size is adapted to size of window when app is loaded
 
-const Container = styled.div `
+const Container = styled.div`
   display: inline-flex;
   padding-top: 20px;
-  margin:auto;
-`
+  margin: auto;
+`;
 
 export default class GameContainer extends React.Component<Props, State> {
   private map: GameMap;
@@ -42,8 +43,7 @@ export default class GameContainer extends React.Component<Props, State> {
 
   public constructor(props: Props) {
     super(props);
-    // TODO : Move to configuration
-    this.ws = new WebSocket('ws://localhost:8999');
+    this.ws = new WebSocket(Config.WebSocketApiUrl);
     this.tiles = new Map<string, Tile>();
     this.map = {
       bombPositions: [],

@@ -17,9 +17,9 @@ interface Props {
   tileHeight: number;
 }
 
-const Container = styled.div `
+const Container = styled.div`
   border: 5px dashed black;
-`
+`;
 
 export default class GameBoardContainer extends React.Component<Props> {
   private readonly boardWidth: number;
@@ -34,18 +34,18 @@ export default class GameBoardContainer extends React.Component<Props> {
   public render() {
     return (
       <Container>
-      <Stage
-        className={'stage'}
-        width={this.boardWidth}
-        height={this.boardHeight}
-        listening={false}
-      >
-        <Layer hitGraphEnabled={false} listening={false}>
-          {this.renderTileComponents()}
-          {this.renderCharacterComponents()}
-          {this.renderBombComponents()}
-        </Layer>
-      </Stage>
+        <Stage
+          className={'stage'}
+          width={this.boardWidth}
+          height={this.boardHeight}
+          listening={false}
+        >
+          <Layer hitGraphEnabled={false} listening={false}>
+            {this.renderTileComponents()}
+            {this.renderCharacterComponents()}
+            {this.renderBombComponents()}
+          </Layer>
+        </Stage>
       </Container>
     );
   }
