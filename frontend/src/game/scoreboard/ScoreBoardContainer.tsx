@@ -1,5 +1,5 @@
 import * as React from 'react';
-import FlipMove from 'react-flip-move';
+import * as FlipMove from 'react-flip-move';
 import styled from 'styled-components';
 import { ScoreBoardColors } from '../../common/Constants';
 import { Header } from '../../common/Header';
