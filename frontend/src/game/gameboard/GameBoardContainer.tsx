@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Layer, Stage } from 'react-konva';
+import styled from 'styled-components';
 import { Character, Coordinate, PowerUp, Tile } from '../type';
 import Bomb from './gameobject/Bomb';
 import PlayerCharacter from './gameobject/PlayerCharacter';
@@ -16,6 +17,10 @@ interface Props {
   tileHeight: number;
 }
 
+const Container = styled.div `
+  border: 5px dashed black;
+`
+
 export default class GameBoardContainer extends React.Component<Props> {
   private readonly boardWidth: number;
   private readonly boardHeight: number;
@@ -28,6 +33,7 @@ export default class GameBoardContainer extends React.Component<Props> {
 
   public render() {
     return (
+      <Container>
       <Stage
         className={'stage'}
         width={this.boardWidth}
@@ -40,6 +46,7 @@ export default class GameBoardContainer extends React.Component<Props> {
           {this.renderBombComponents()}
         </Layer>
       </Stage>
+      </Container>
     );
   }
 

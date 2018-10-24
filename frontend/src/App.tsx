@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import './App.css';
 import GameContainer from './game/GameContainer';
 import * as background from './resources/background.jpg';
 

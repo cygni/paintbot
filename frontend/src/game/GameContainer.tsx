@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components';
 import { StandardColors, TileColors } from '../common/Constants';
 import GameBoardContainer from './gameboard/GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
@@ -26,6 +27,12 @@ interface State {
 
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
 const WINDOW_WIDTH = window.innerWidth; // Tile size is adapted to size of window when app is loaded
+
+const Container = styled.div `
+  display: inline-flex;
+  padding-top: 20px;
+  margin:auto;
+`
 
 export default class GameContainer extends React.Component<Props, State> {
   private map: GameMap;
@@ -60,7 +67,7 @@ export default class GameContainer extends React.Component<Props, State> {
     return this.state && this.state.tiles ? (
       <div>
         <h1>XYZ-BOT</h1>
-        <div className="container">
+        <Container>
           <ScoreBoardContainer
             players={this.state.currentCharacters}
             worldTick={this.state.worldTick}
@@ -75,7 +82,7 @@ export default class GameContainer extends React.Component<Props, State> {
             tileWidth={TILE_SIZE}
             tileHeight={TILE_SIZE}
           />
-        </div>
+        </Container>
       </div>
     ) : null;
   }
