@@ -1,9 +1,10 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import styled from 'styled-components';
-import { ScoreBoardColors } from '../../common/Constants';
+import { ScoreBoardColors, StandardColors } from '../../common/Constants';
 import { Header } from '../../common/Header';
 import { Indent } from '../../common/Indent';
+import { Row } from '../../common/Row';
 import { Character } from '../type';
 import ScoreBoardEntry from './ScoreBoardEntry';
 import { SortOrder, sortPlayers } from './Util';
@@ -31,7 +32,9 @@ export default class ScoreBoardContainer extends React.Component<Props> {
   public render() {
     return (
       <Container>
-        <Header label={'Score'} />
+        <Row style={{ backgroundColor: StandardColors.Black }}>
+          <Header label={'Score'} />
+        </Row>
         <Indent>
           <FlipMove>{this.getPlayers()}</FlipMove>
         </Indent>
