@@ -1,4 +1,3 @@
-import * as Konva from 'konva';
 import * as React from 'react';
 import { Layer, Stage } from 'react-konva';
 import { Character, Coordinate, PowerUp, Tile } from '../type';
@@ -20,7 +19,6 @@ interface Props {
 export default class GameBoardContainer extends React.Component<Props> {
   private readonly boardWidth: number;
   private readonly boardHeight: number;
-  private stageRef: Konva.Stage;
 
   constructor(props: Props) {
     super(props);
@@ -35,11 +33,6 @@ export default class GameBoardContainer extends React.Component<Props> {
         width={this.boardWidth}
         height={this.boardHeight}
         listening={false}
-        ref={(stage: any) => {
-          if (stage !== null) {
-            this.stageRef = stage;
-          }
-        }}
       >
         <Layer hitGraphEnabled={false} listening={false}>
           {this.renderTileComponents()}
