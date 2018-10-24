@@ -28,13 +28,6 @@ export default class GameBoardContainer extends React.Component<Props> {
     this.boardHeight = this.props.height * this.props.tileHeight;
   }
 
-  public componentWillUnmount() {
-    this.stageRef.getStage().destroyChildren();
-    this.stageRef.getStage().destroy();
-    this.stageRef.destroyChildren();
-    this.stageRef.destroy();
-  }
-
   public render() {
     return (
       <Stage
