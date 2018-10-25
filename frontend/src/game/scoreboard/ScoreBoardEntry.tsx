@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { StandardColors } from '../../common/Constants';
-import { DefaultText } from '../../common/DefaultText';
-import { Row } from '../../common/Row';
-import { Spacing } from '../../common/Spacing';
+import { DefaultText } from '../../common/ui/DefaultText';
+import { Row } from '../../common/ui/Row';
+import { Spacing } from '../../common/ui/Spacing';
 import { Character } from '../type';
 
 interface Props {

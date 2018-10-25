@@ -9,6 +9,10 @@ export enum StandardColors {
   White = '#FFF',
 }
 
+export enum WelcomeScreenColors {
+  Background = '#cce1fc',
+}
+
 export enum ScoreBoardColors {
   Background = 'rgba(88, 98, 112, 0.75)',
 }

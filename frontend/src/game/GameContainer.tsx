@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Config from '../Config';
+import * as background from '../resources/background.jpg';
 import GameBoardContainer from './gameboard/GameBoardContainer';
 import GameBoardFactory from './gameboard/GameBoardFactory';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
@@ -18,30 +19,6 @@ interface State {
 }
 
 const WINDOW_WIDTH = window.innerWidth; // Tile size is adapted to size of window when app is loaded
-
-const Container = styled.div`
-  display: inline-flex;
-  padding-top: 20px;
-  margin: auto;
-`;
-
-const HeaderContainer = styled.div`
-  position: relative;
-  display: flex;
-  padding: 10px;
-  font-size: 40px;
-  justify-content: center;
-  flex-direction: row;
-`;
-
-const GameNameContainer = styled.div`
-  position: absolute;
-  left: 0;
-`;
-
-const TimerContainer = styled.div`
-  display: flex;
-`;
 
 export default class GameContainer extends React.Component<Props, State> {
   private timer: Timer;
@@ -64,7 +41,7 @@ export default class GameContainer extends React.Component<Props, State> {
 
   public render() {
     return this.state && this.state.tiles ? (
-      <div>
+      <WindowContainer>
         <HeaderContainer>
           <GameNameContainer>XYZ-Bot</GameNameContainer>
           <TimerContainer>
@@ -82,7 +59,7 @@ export default class GameContainer extends React.Component<Props, State> {
           {this.tryRenderScoreBoard()}
           {this.tryRenderGameBoard()}
         </Container>
-      </div>
+      </WindowContainer>
     ) : null;
   }
 
@@ -156,3 +133,40 @@ export default class GameContainer extends React.Component<Props, State> {
     this.ws.close();
   }
 }
+
+const Container = styled.div`
+  display: inline-flex;
+  padding-top: 20px;
+  margin: auto;
+`;
+
+const HeaderContainer = styled.div`
+  position: relative;
+  display: flex;
+  padding: 10px;
+  font-size: 40px;
+  justify-content: center;
+  flex-direction: row;
+`;
+
+const GameNameContainer = styled.div`
+  position: absolute;
+  left: 0;
+`;
+
+const TimerContainer = styled.div`
+  display: flex;
+`;
+
+const WindowContainer = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  color: white;
+  background-image: url(${background});
+  background-size: cover;
+  background-repeat: no-repeat;
+`;
