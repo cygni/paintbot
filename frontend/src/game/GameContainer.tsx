@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { StandardColors, TileColors } from '../common/Constants';
-import { Row } from '../common/Row';
 import Config from '../Config';
 import GameBoardContainer from './gameboard/GameBoardContainer';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
@@ -37,12 +36,29 @@ const Container = styled.div`
   margin: auto;
 `;
 
+const HeaderContainer = styled.div`
+  position: relative;
+  display: flex;
+  padding: 10px;
+  font-size: 40px;
+  justify-content: center;
+  flex-direction: row;
+`;
+
+const GameNameContainer = styled.div`
+  position: absolute;
+  left: 0;
+`;
+
+const TimerContainer = styled.div`
+  display: flex;
+`;
+
 export default class GameContainer extends React.Component<Props, State> {
   private map: GameMap;
-
+  private timer: Timer;
   private readonly tiles: Map<string, Tile>;
   private readonly ws: WebSocket;
-  private timer: Timer;
 
   public constructor(props: Props) {
     super(props);
@@ -68,28 +84,19 @@ export default class GameContainer extends React.Component<Props, State> {
   public render() {
     return this.state && this.state.tiles ? (
       <div>
-        <Row
-          justifyContent={'space-between'}
-          style={{
-            borderColor: '#000',
-            display: 'flex',
-            width: '55%',
-            padding: '10px',
-            fontSize: '40px',
-          }}
-        >
-          <div>XYZ-Bot</div>
-          <div>
+        <HeaderContainer>
+          <GameNameContainer>XYZ-Bot</GameNameContainer>
+          <TimerContainer>
             <Timer
-              startTimeInMinutes={2}
+              startTimeInMinutes={Config.TimerMinutes}
               ref={x => {
                 if (x !== null) {
                   this.timer = x;
                 }
               }}
             />
-          </div>
-        </Row>
+          </TimerContainer>
+        </HeaderContainer>
         <Container>
           {this.tryRenderScoreBoard()}
           {this.tryRenderGameBoard()}
