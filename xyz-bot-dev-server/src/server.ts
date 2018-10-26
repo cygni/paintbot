@@ -13,13 +13,12 @@ wss.on('connection', async (ws: WebSocket) => {
   fs.readFile(
     `${__dirname}/complete-game.json`,
     'utf8',
-    async (err: any, data: any) => {
+    (err: any, data: any) => {
       console.log(err);
       const json = JSON.parse(data);
       for (let state of json.messages) {
         ws.send(JSON.stringify(state));
         console.log('Sent state: ', state);
-        await sleep(250);
       }
     },
   );
@@ -36,7 +35,3 @@ const port = process.env.port || 8999;
 server.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
-
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
