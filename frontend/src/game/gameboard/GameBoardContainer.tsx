@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Layer, Stage } from 'react-konva';
 import styled from 'styled-components';
+import { GameBoardConstants } from '../../common/Constants';
 import { Coordinate, Game } from '../type';
 import Bomb from './gameobject/Bomb';
 import PlayerCharacter from './gameobject/PlayerCharacter';
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const Container = styled.div`
-  border: 5px solid rgba(0, 0, 0, 0.7);
+  border: ${GameBoardConstants.Border};
 `;
 
 export default class GameBoardContainer extends React.Component<Props> {

@@ -13,6 +13,10 @@ export enum WelcomeScreenColors {
   Background = '#cce1fc',
 }
 
+export enum GameBoardConstants {
+  Border = '5px solid rgba(0, 0, 0, 0.7)',
+}
+
 export enum ScoreBoardColors {
   Background = 'rgba(88, 98, 112, 0.75)',
 }
