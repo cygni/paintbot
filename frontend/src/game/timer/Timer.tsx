@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface Props {
-  durationInSeoncds: number;
+  durationInSeconds: number;
   timeInMsPerTick: number;
   worldTick: number;
 }
@@ -12,10 +12,10 @@ export default class Timer extends React.Component<Props> {
   }
 
   public getTimeRemaining() {
-    const { durationInSeoncds, timeInMsPerTick, worldTick } = this.props;
+    const { durationInSeconds, timeInMsPerTick, worldTick } = this.props;
     const totalTimeElapsedInMs = worldTick * timeInMsPerTick;
     const timeLeftInSeconds = Math.floor(
-      durationInSeoncds - totalTimeElapsedInMs / 1000,
+      durationInSeconds - totalTimeElapsedInMs / 1000,
     );
     const minutes = Math.floor(timeLeftInSeconds / 60);
     const seconds = timeLeftInSeconds % 60;
