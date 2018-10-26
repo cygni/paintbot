@@ -1,24 +1,17 @@
 import * as React from 'react';
 import { Layer, Stage } from 'react-konva';
 import styled from 'styled-components';
-import { Character, Coordinate, PowerUp, Tile } from '../type';
+import { Coordinate, Game } from '../type';
 import Bomb from './gameobject/Bomb';
 import PlayerCharacter from './gameobject/PlayerCharacter';
 import StandardTile from './tile/StandardTile';
 
 interface Props {
-  tiles: Map<string, Tile>;
-  characters: Character[];
-  previousCharacters: Character[];
-  bombs: PowerUp[];
-  width: number;
-  height: number;
-  tileWidth: number;
-  tileHeight: number;
+  game: Game;
 }
 
 const Container = styled.div`
-  border: 5px dashed black;
+  border: 5px solid rgba(0, 0, 0, 0.7);
 `;
 
 export default class GameBoardContainer extends React.Component<Props> {
@@ -27,8 +20,9 @@ export default class GameBoardContainer extends React.Component<Props> {
 
   constructor(props: Props) {
     super(props);
-    this.boardWidth = this.props.width * this.props.tileWidth;
-    this.boardHeight = this.props.height * this.props.tileHeight;
+    const { width, height } = this.props.game;
+    this.boardWidth = width * this.calculateTileSize(width);
+    this.boardHeight = height * this.calculateTileSize(width);
   }
 
   public render() {
@@ -51,7 +45,8 @@ export default class GameBoardContainer extends React.Component<Props> {
   }
 
   public renderTileComponents() {
-    const tiles = Array.from(this.props.tiles.values());
+    const { width } = this.props.game;
+    const tiles = Array.from(this.props.game.tiles.values());
     return tiles.map((tile, index) => {
       tile.coordinate = this.getBoardCoordinate(tile.coordinate);
       return (
@@ -59,21 +54,16 @@ export default class GameBoardContainer extends React.Component<Props> {
           key={index}
           coordinate={tile.coordinate}
           colour={tile.colour}
-          width={this.props.tileWidth}
-          height={this.props.tileHeight}
+          width={this.calculateTileSize(width)}
+          height={this.calculateTileSize(width)}
         />
       );
     });
   }
 
   public renderCharacterComponents() {
-    const {
-      characters,
-      previousCharacters,
-      tileWidth,
-      tileHeight,
-    } = this.props;
-    return characters.map((character, index) => {
+    const { currentCharacters, previousCharacters, width } = this.props.game;
+    return currentCharacters.map((character, index) => {
       character.coordinate = this.getBoardCoordinate(character.coordinate);
       const previousCharacter = previousCharacters.filter(
         c => c.id === character.id,
@@ -86,8 +76,8 @@ export default class GameBoardContainer extends React.Component<Props> {
           key={index}
           colour={character.colour}
           coordinate={character.coordinate}
-          width={tileWidth}
-          height={tileHeight}
+          width={this.calculateTileSize(width)}
+          height={this.calculateTileSize(width)}
           playerId={character.id}
           previousCoordinate={previousCharacterCoordinate}
         />
@@ -96,20 +86,29 @@ export default class GameBoardContainer extends React.Component<Props> {
   }
 
   public renderBombComponents() {
-    const { bombs, tileWidth, tileHeight } = this.props;
+    const { bombs, width } = this.props.game;
     return bombs.map((bomb, index) => {
       bomb.coordinate = this.getBoardCoordinate(bomb.coordinate);
       return (
-        <Bomb key={index} bomb={bomb} width={tileWidth} height={tileHeight} />
+        <Bomb
+          key={index}
+          bomb={bomb}
+          width={this.calculateTileSize(width)}
+          height={this.calculateTileSize(width)}
+        />
       );
     });
   }
 
   private getBoardCoordinate(coordinate: Coordinate): Coordinate {
-    const { tileWidth, tileHeight } = this.props;
+    const { width } = this.props.game;
     const boardCoordinate: Coordinate = { x: 0, y: 0 };
-    boardCoordinate.x = coordinate.x * tileWidth;
-    boardCoordinate.y = coordinate.y * tileHeight;
+    boardCoordinate.x = coordinate.x * this.calculateTileSize(width);
+    boardCoordinate.y = coordinate.y * this.calculateTileSize(width);
     return boardCoordinate;
+  }
+
+  private calculateTileSize(width: number) {
+    return window.innerWidth / width / 1.7;
   }
 }

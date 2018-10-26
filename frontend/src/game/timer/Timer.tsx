@@ -1,60 +1,25 @@
 import * as React from 'react';
 
 interface Props {
-  startTimeInMinutes: number;
+  durationInSeoncds: number;
+  timeInMsPerTick: number;
+  worldTick: number;
 }
 
-interface State {
-  timerPresentation: string;
-  minutes: number;
-  seconds: number;
-}
-
-export default class Timer extends React.Component<Props, State> {
-  private timerHandle: NodeJS.Timer;
-  public constructor(props: Props) {
-    super(props);
-    const startTime = this.formatTime(this.props.startTimeInMinutes, 0);
-    this.state = {
-      timerPresentation: startTime,
-      minutes: this.props.startTimeInMinutes,
-      seconds: 0,
-    };
-  }
-
+export default class Timer extends React.Component<Props> {
   public render() {
-    return <span>{this.state.timerPresentation}</span>;
+    return <span>{this.getTimeRemaining()}</span>;
   }
 
-  public start() {
-    this.timerHandle = setInterval(() => this.run(), 1000);
-  }
-
-  public stop() {
-    clearInterval(this.timerHandle);
-  }
-
-  public run() {
-    const { seconds, minutes } = this.state;
-    if (seconds === 0 && minutes === 0) {
-      this.stop();
-    } else if (seconds === 0) {
-      this.setState(state => {
-        return {
-          minutes: state.minutes - 1,
-          seconds: 59,
-          timerPresentation: this.formatTime(state.minutes - 1, 59),
-        };
-      });
-    } else {
-      this.setState(state => {
-        return {
-          ...state,
-          seconds: state.seconds - 1,
-          timerPresentation: this.formatTime(state.minutes, state.seconds - 1),
-        };
-      });
-    }
+  public getTimeRemaining() {
+    const { durationInSeoncds, timeInMsPerTick, worldTick } = this.props;
+    const totalTimeElapsedInMs = worldTick * timeInMsPerTick;
+    const timeLeftInSeconds = Math.floor(
+      durationInSeoncds - totalTimeElapsedInMs / 1000,
+    );
+    const minutes = Math.floor(timeLeftInSeconds / 60);
+    const seconds = timeLeftInSeconds % 60;
+    return this.formatTime(minutes, seconds);
   }
 
   private formatTime(min: number, sec: number): string {

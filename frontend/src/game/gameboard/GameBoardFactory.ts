@@ -12,19 +12,17 @@ import {
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
 
 export default class GameBoardFactory {
-  private gameMap: GameMap;
-  private currentCharacters: Character[];
+  private gameMap: GameMap = {} as GameMap;
+  private currentTiles: Map<string, Tile> = new Map<string, Tile>();
+  private currentCharacters: Character[] = [];
+  private previousCharacters: Character[] = [];
 
-  public updateGameMap(
-    newGameMap: GameMap,
-    currentCharacters: Character[],
-  ): void {
+  public updateGameMap(newGameMap: GameMap): void {
     this.gameMap = newGameMap;
-    this.currentCharacters = currentCharacters;
   }
 
-  public createTiles(currentTiles: Map<string, Tile>) {
-    const newTiles = currentTiles;
+  public createTiles() {
+    const newTiles = this.currentTiles;
     this.addObstacleTiles(this.gameMap.obstaclePositions, newTiles);
     this.addColouredTilesForPlayers(this.gameMap.characterInfos, newTiles);
 
@@ -32,6 +30,7 @@ export default class GameBoardFactory {
   }
 
   public createCharacters(): Character[] {
+    this.previousCharacters = this.currentCharacters;
     const characters: Character[] = [];
     this.gameMap.characterInfos.forEach((characterInfo, index) => {
       const character = {
@@ -43,6 +42,7 @@ export default class GameBoardFactory {
       };
       characters.push(character);
     });
+    this.currentCharacters = characters;
     return characters;
   }
 
@@ -55,6 +55,10 @@ export default class GameBoardFactory {
       bombs.push(bomb);
     });
     return bombs;
+  }
+
+  public getPreviousCharacters() {
+    return this.previousCharacters;
   }
 
   public getWidth() {
