@@ -41,7 +41,7 @@ export default class ColouredTile extends React.Component<Props> {
   public animate() {
     this.tile.to({
       opacity: 1,
-      duration: 0.5,
+      duration: 0.75,
       easing: Konva.Easings.EaseInOut,
     });
   }

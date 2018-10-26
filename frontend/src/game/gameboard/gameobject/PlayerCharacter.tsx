@@ -41,7 +41,7 @@ export default class PlayerCharacter extends React.Component<Props> {
     this.character.to({
       x: this.props.coordinate.x,
       y: this.props.coordinate.y,
-      duration: 0.5,
+      duration: 0.25,
       easing: Konva.Easings.EaseInOut,
     });
   }
