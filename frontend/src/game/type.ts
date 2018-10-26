@@ -3,7 +3,8 @@ declare interface Tile {
   colour: string;
   coordinate: Coordinate;
 }
-
+// TODO Remove this enum and all use of it. Not needed anymore. Empty tiles no longer exists, and the only
+// difference betweeen a coloured tile and an obstacle tile is its color
 enum TileType {
   EMPTY = 'empty-tile',
   COLOURED = 'coloured-tile',
@@ -13,6 +14,20 @@ enum TileType {
 declare interface Coordinate {
   x: number;
   y: number;
+}
+
+declare interface GameSettings {
+  timeInMsPerTick: number;
+}
+
+declare interface Game {
+  tiles: Map<string, Tile>;
+  currentCharacters: Character[];
+  previousCharacters: Character[];
+  bombs: PowerUp[];
+  worldTick: number;
+  width: number;
+  height: number;
 }
 
 declare interface GameState {
@@ -56,7 +71,9 @@ declare interface PowerUp {
 }
 
 enum EventType {
-  MAP_UPDATE_EVENT = 'se.cygni.snake.api.event.MapUpdateEvent',
+  GAME_STARTING_EVENT = 'se.cygni.snake.api.event.GameStartingEvent',
+  GAME_UPDATE_EVENT = 'se.cygni.snake.api.event.MapUpdateEvent',
+  GAME_RESULT_EVENT = 'se.cygni.snake.api.event.GameResultEvent',
   GAME_ENDED_EVENT = 'se.cygni.snake.api.event.GameEndedEvent',
 }
 
@@ -65,6 +82,8 @@ export {
   TileType,
   PowerUp,
   Coordinate,
+  Game,
+  GameSettings,
   GameState,
   GameMap,
   CharacterInfo,
