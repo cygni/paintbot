@@ -14,15 +14,19 @@ interface State {
 // TODO Handle receiving results when EventType === GAME_RESULT_EVENT
 
 export default class GameDirector extends React.Component<Props, State> {
-  private readonly ws: WebSocket;
+  private ws: WebSocket;
+  private readonly events: any[];
+  private currentEventIndex: number;
+  private updateInterval: NodeJS.Timer;
+
   public constructor(props: Props) {
     super(props);
-    this.ws = new WebSocket(Config.WebSocketApiUrl);
-    this.ws.onmessage = (evt: MessageEvent) => this.onUpdateFromServer(evt);
+    this.events = [];
     this.state = {
       gameSettings: undefined,
       gameState: undefined,
     };
+    this.currentEventIndex = 0;
   }
 
   public render() {
@@ -50,20 +54,38 @@ export default class GameDirector extends React.Component<Props, State> {
     return null;
   }
 
+  public componentDidMount() {
+    this.updateInterval = setInterval(
+      () => this.playOneTick(this.currentEventIndex),
+      300,
+    );
+    this.ws = new WebSocket(Config.WebSocketApiUrl);
+    this.ws.onmessage = (evt: MessageEvent) => this.onUpdateFromServer(evt);
+  }
+
   public componentWillUnmount() {
     this.endGame();
   }
 
   private onUpdateFromServer(evt: MessageEvent) {
-    const data = JSON.parse(evt.data);
-    if (data.type === EventType.GAME_STARTING_EVENT) {
-      this.setState({ gameSettings: data.gameSettings as GameSettings });
-    } else if (data.type === EventType.GAME_UPDATE_EVENT) {
-      this.setState({ gameState: data as GameState });
+    this.events.push(JSON.parse(evt.data));
+  }
+
+  private playOneTick(eventIndex: number): void {
+    const data = this.events[eventIndex];
+    if (data) {
+      if (data.type === EventType.GAME_STARTING_EVENT) {
+        this.setState({ gameSettings: data.gameSettings as GameSettings });
+      } else if (data.type === EventType.GAME_UPDATE_EVENT) {
+        this.setState({ gameState: data as GameState });
+      }
+
+      this.currentEventIndex++;
     }
   }
 
   private endGame() {
     this.ws.close();
+    clearInterval(this.updateInterval);
   }
 }
