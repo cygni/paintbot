@@ -14,7 +14,7 @@ wss.on('connection', async (ws) => {
         for (let state of json.messages) {
             ws.send(JSON.stringify(state));
             console.log('Sent state: ', state);
-            await sleep(500);
+            await sleep(250);
         }
     });
     ws.on('message', (message) => {
