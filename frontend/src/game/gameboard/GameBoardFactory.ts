@@ -3,6 +3,7 @@ import {
   Character,
   CharacterInfo,
   Coordinate,
+  Game,
   GameMap,
   PowerUp,
   Tile,
@@ -17,11 +18,23 @@ export default class GameBoardFactory {
   private currentCharacters: Character[] = [];
   private previousCharacters: Character[] = [];
 
-  public updateGameMap(newGameMap: GameMap): void {
-    this.gameMap = newGameMap;
+  public getGameBoard(gameMap: GameMap): Game {
+    this.gameMap = gameMap;
+
+    const game = {
+      tiles: this.createTiles(),
+      currentCharacters: this.createCharacters(),
+      previousCharacters: this.getPreviousCharacters(),
+      bombs: this.createPowerUps(),
+      worldTick: this.getWorldTick(),
+      width: this.getWidth(),
+      height: this.getHeight(),
+    };
+
+    return game;
   }
 
-  public createTiles() {
+  private createTiles() {
     const newTiles = this.currentTiles;
     this.addObstacleTiles(this.gameMap.obstaclePositions, newTiles);
     this.addColouredTilesForPlayers(this.gameMap.characterInfos, newTiles);
@@ -29,7 +42,7 @@ export default class GameBoardFactory {
     return newTiles;
   }
 
-  public createCharacters(): Character[] {
+  private createCharacters(): Character[] {
     this.previousCharacters = this.currentCharacters;
     const characters: Character[] = [];
     this.gameMap.characterInfos.forEach((characterInfo, index) => {
@@ -46,7 +59,7 @@ export default class GameBoardFactory {
     return characters;
   }
 
-  public createPowerUps() {
+  private createPowerUps() {
     const bombs: PowerUp[] = [];
     this.gameMap.bombPositions.forEach(bombPosition => {
       const bomb = {} as PowerUp;
@@ -57,19 +70,19 @@ export default class GameBoardFactory {
     return bombs;
   }
 
-  public getPreviousCharacters() {
+  private getPreviousCharacters() {
     return this.previousCharacters;
   }
 
-  public getWidth() {
+  private getWidth() {
     return this.gameMap ? this.gameMap.width : 0;
   }
 
-  public getHeight() {
+  private getHeight() {
     return this.gameMap ? this.gameMap.height : 0;
   }
 
-  public getWorldTick() {
+  private getWorldTick() {
     return this.gameMap ? this.gameMap.worldTick : 0;
   }
 

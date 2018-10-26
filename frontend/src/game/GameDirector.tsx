@@ -55,9 +55,8 @@ export default class GameDirector extends React.Component<Props, State> {
   }
 
   private onUpdateFromServer(evt: MessageEvent) {
-    const data = JSON.parse(evt.data) as any;
+    const data = JSON.parse(evt.data);
     if (data.type === EventType.GAME_STARTING_EVENT) {
-      console.log(data);
       this.setState({ gameSettings: data.gameSettings as GameSettings });
     } else if (data.type === EventType.GAME_UPDATE_EVENT) {
       this.setState({ gameState: data as GameState });
