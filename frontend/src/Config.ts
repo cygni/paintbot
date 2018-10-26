@@ -1,6 +1,6 @@
 const Config = {
   WebSocketApiUrl: 'ws://localhost:8999',
-  TimerMinutes: 2,
+  TimerSeconds: 20,
 };
 
 export default Config;
