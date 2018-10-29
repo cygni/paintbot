@@ -8,10 +8,12 @@ interface SliderProps {
   minValue: number;
   defaultValue: number;
   reverse?: boolean;
+  backgroundColor?: string;
 }
 
 interface InputProps {
   rotateDegrees: number;
+  backgroundColor: string;
 }
 
 export default class Slider extends React.Component<SliderProps> {
@@ -21,12 +23,20 @@ export default class Slider extends React.Component<SliderProps> {
   }
 
   public render() {
-    const { minValue, maxValue, defaultValue, reverse } = this.props;
+    const {
+      minValue,
+      maxValue,
+      defaultValue,
+      reverse,
+      backgroundColor,
+    } = this.props;
     const startValue = defaultValue.toString();
+    const color = backgroundColor ? backgroundColor : '#c7cad3';
     return (
       <Container>
         <Input
           rotateDegrees={reverse ? 180 : 0}
+          backgroundColor={color}
           type={'range'}
           defaultValue={startValue}
           min={minValue}
@@ -55,9 +65,8 @@ const Input = styled.input`
   appearance: none;
   width: 100%;
   height: 5px;
-  background: #d3d3d3;
+  background: ${(props: InputProps) => props.backgroundColor};
   outline: none;
-  opacity: 0.7;
-  -webkit-transition: 0.2s;
+  opacity: 0.6;
   transform: rotate(${(props: InputProps) => props.rotateDegrees}deg);
 `;

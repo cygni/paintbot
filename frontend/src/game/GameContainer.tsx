@@ -27,11 +27,7 @@ export default class GameContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const {
-      gameSettings,
-      gameMap,
-      gameSpeedChange,
-    } = this.props;
+    const { gameSettings, gameMap, gameSpeedChange } = this.props;
     const game = this.transformGameMapToModel(gameMap);
     return (
       <div>
@@ -50,9 +46,7 @@ export default class GameContainer extends React.Component<Props, State> {
           />
           <div>
             <GameBoardContainer game={game} />
-            <GameSpeed
-              gameSpeedChange={gameSpeedChange}
-            />
+            <GameSpeed gameSpeedChange={gameSpeedChange} />
           </div>
         </Container>
       </div>
