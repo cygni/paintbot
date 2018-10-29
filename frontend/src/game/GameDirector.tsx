@@ -62,10 +62,26 @@ export default class GameDirector extends React.Component<Props, State> {
     this.updateGameSpeedInterval(Config.DefaultGameSpeed);
     this.ws = new WebSocket(Config.WebSocketApiUrl);
     this.ws.onmessage = (evt: MessageEvent) => this.onUpdateFromServer(evt);
+    this.startGame();
   }
 
   public componentWillUnmount() {
     this.endGame();
+  }
+
+  public startGame() {
+    this.updateInterval = setInterval(
+      () => this.playOneTick(this.currentEventIndex),
+      300,
+    );
+  }
+
+  public pauseGame() {
+    clearInterval(this.updateInterval);
+  }
+
+  public restartGame() {
+    this.currentEventIndex = 0;
   }
 
   private onUpdateFromServer(evt: MessageEvent) {
@@ -92,9 +108,9 @@ export default class GameDirector extends React.Component<Props, State> {
       } else if (data.type === EventType.GAME_UPDATE_EVENT) {
         this.setState({ gameState: data as GameState });
       }
-
-      this.currentEventIndex++;
     }
+
+    this.currentEventIndex++;
   }
 
   private endGame() {
