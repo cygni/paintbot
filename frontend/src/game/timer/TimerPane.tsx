@@ -19,9 +19,9 @@ export const TimerPane = ({
 }: Props) => (
   <TimerContainer>
     <Timer
-        durationInSeconds={durationInSeconds}
-        timeInMsPerTick={timeInMsPerTick}
-        worldTick={worldTick}
+      durationInSeconds={durationInSeconds}
+      timeInMsPerTick={timeInMsPerTick}
+      worldTick={worldTick}
     />
   </TimerContainer>
 );

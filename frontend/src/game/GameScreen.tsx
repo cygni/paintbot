@@ -1,11 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import Slider from '../common/ui/Slider';
 import * as background from '../resources/background.jpg';
 import GameDirector from './GameDirector';
 
 export const GameScreen = () => (
   <WindowContainer>
     <GameDirector />
+    <Slider />
   </WindowContainer>
 );
 
