@@ -45,7 +45,7 @@ export default class GameBoardContainer extends React.Component<Props> {
     );
   }
 
-  public renderTileComponents() {
+  private renderTileComponents() {
     const { width } = this.props.game;
     const tiles = Array.from(this.props.game.tiles.values());
     return tiles.map((tile, index) => {
@@ -62,7 +62,7 @@ export default class GameBoardContainer extends React.Component<Props> {
     });
   }
 
-  public renderCharacterComponents() {
+  private renderCharacterComponents() {
     const { currentCharacters, previousCharacters, width } = this.props.game;
     return currentCharacters.map((character, index) => {
       character.coordinate = this.getBoardCoordinate(character.coordinate);
@@ -86,7 +86,7 @@ export default class GameBoardContainer extends React.Component<Props> {
     });
   }
 
-  public renderBombComponents() {
+  private renderBombComponents() {
     const { bombs, width } = this.props.game;
     return bombs.map((bomb, index) => {
       bomb.coordinate = this.getBoardCoordinate(bomb.coordinate);

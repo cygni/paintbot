@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Config from '../Config';
 import GameBoardContainer from './gameboard/GameBoardContainer';
 import GameBoardFactory from './gameboard/GameBoardFactory';
+import { GameSpeed } from './gamespeed/GameSpeed';
 import ScoreBoardContainer from './scoreboard/ScoreBoardContainer';
 import { TimerPane } from './timer/TimerPane';
 import { Game, GameMap, GameSettings } from './type';
@@ -10,6 +11,7 @@ import { Game, GameMap, GameSettings } from './type';
 interface Props {
   gameMap: GameMap;
   gameSettings: GameSettings;
+  gameSpeedChange: (changeValue: number) => void;
 }
 
 interface State {
@@ -25,7 +27,11 @@ export default class GameContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const { gameSettings, gameMap } = this.props;
+    const {
+      gameSettings,
+      gameMap,
+      gameSpeedChange,
+    } = this.props;
     const game = this.transformGameMapToModel(gameMap);
     return (
       <div>
@@ -42,7 +48,12 @@ export default class GameContainer extends React.Component<Props, State> {
             players={game.currentCharacters}
             worldTick={game.worldTick}
           />
-          <GameBoardContainer game={game} />
+          <div>
+            <GameBoardContainer game={game} />
+            <GameSpeed
+              gameSpeedChange={gameSpeedChange}
+            />
+          </div>
         </Container>
       </div>
     );
