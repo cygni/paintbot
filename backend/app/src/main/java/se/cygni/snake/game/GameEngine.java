@@ -45,7 +45,7 @@ public class GameEngine {
     private AtomicBoolean isRunning = new AtomicBoolean(false);
     private AtomicBoolean gameComplete = new AtomicBoolean(false);
     private final EventBus globalEventBus;
-    private final WorldTransformer worldTransformer;
+    private final WorldUpdater worldUpdater;
     private final PlayerManager playerManager;
     private final String gameId;
 
@@ -64,7 +64,7 @@ public class GameEngine {
         this.gameId = gameId;
         this.playerManager = playerManager;
         this.globalEventBus = globalEventBus;
-        this.worldTransformer = new WorldTransformer(
+        this.worldUpdater = new WorldUpdater(
                 gameFeatures, playerManager, gameId, globalEventBus
         );
         this.gameResult = new GameResult();
@@ -178,10 +178,10 @@ public class GameEngine {
                 log.info("All moves received, gameId: {}, tick: {}, time waiting: " + timeSpent + "ms", gameId, currentWorldTick);
 
                 try {
-                    world = worldTransformer.transform(characterActions, gameFeatures, world, currentWorldTick);
+                    world = worldUpdater.update(characterActions, gameFeatures, world, currentWorldTick);
                 } catch (Exception e) {
                     // This is really undefined, if this happens we have a bug
-                    log.error("Bug found in WorldTransformer:", e);
+                    log.error("Bug found in WorldUpdater:", e);
                 }
 
                 currentWorldTick++;

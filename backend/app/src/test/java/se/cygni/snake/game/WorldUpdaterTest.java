@@ -20,7 +20,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class WorldTransformerTest {
+public class WorldUpdaterTest {
 
     Game game;
     PlayerManager playerManager;
@@ -62,8 +62,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(52, transformedWorld.getCharacterAtPosition(52).getPosition());
         assertEquals(p2.getPlayerId(), transformedWorld.getCharacterAtPosition(52).getPlayerId());
@@ -95,8 +95,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(52, transformedWorld.getCharacterAtPosition(52).getPosition());
         assertArrayEquals(new int[] {52, 42}, transformedWorld.getCharacterPosition(transformedWorld.getCharacterAtPosition(52)));
@@ -127,8 +127,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(52, transformedWorld.getCharacterAtPosition(52).getPosition());
         assertArrayEquals(new int[] {52, 42}, transformedWorld.getCharacterPosition(transformedWorld.getCharacterAtPosition(52)));
@@ -163,8 +163,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(52, transformedWorld.getCharacterAtPosition(52).getPosition());
         assertEquals(p2.getPlayerId(), transformedWorld.getCharacterAtPosition(52).getPlayerId());
@@ -202,8 +202,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(41, transformedWorld.getCharacterAtPosition(41).getPosition());
         assertEquals(p2.getPlayerId(), transformedWorld.getCharacterAtPosition(41).getPlayerId());
@@ -242,8 +242,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(22, transformedWorld.getCharacterAtPosition(22).getPosition());
         assertEquals(p3.getPlayerId(), transformedWorld.getCharacterAtPosition(22).getPlayerId());
@@ -282,8 +282,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(33, transformedWorld.getCharacterAtPosition(33).getPosition());
         assertEquals(p1.getPlayerId(), transformedWorld.getCharacterAtPosition(33).getPlayerId());
@@ -330,8 +330,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(22, transformedWorld.getCharacterAtPosition(22).getPosition());
         assertEquals(p3.getPlayerId(), transformedWorld.getCharacterAtPosition(22).getPlayerId());
@@ -370,8 +370,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(0, transformedWorld.listPositionsWithContentOf(CharacterImpl.class).length);
 
@@ -403,8 +403,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(0, transformedWorld.listPositionsWithContentOf(CharacterImpl.class).length);
 
@@ -435,8 +435,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(0, transformedWorld.listPositionsWithContentOf(CharacterImpl.class).length);
 
@@ -467,8 +467,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(0, transformedWorld.listPositionsWithContentOf(CharacterImpl.class).length);
 
@@ -499,8 +499,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(2, transformedWorld.listPositionsWithContentOf(CharacterImpl.class).length);
 
@@ -543,8 +543,8 @@ public class WorldTransformerTest {
             }
         };
 
-        WorldTransformer transformer = new WorldTransformer(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
-        WorldState transformedWorld = transformer.transform(snakeDirections, gameFeatures, ws, false, 5);
+        WorldUpdater transformer = new WorldUpdater(game.getGameFeatures(), game.getPlayerManager(), game.getGameId(), game.getGlobalEventBus());
+        WorldState transformedWorld = transformer.update(snakeDirections, gameFeatures, ws, false, 5);
 
         assertEquals(1, transformedWorld.listPositionsWithContentOf(CharacterImpl.class).length);
         CharacterImpl head1 = transformedWorld.getCharacterById(p1.getPlayerId());

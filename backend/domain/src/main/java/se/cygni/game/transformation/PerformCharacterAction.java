@@ -75,8 +75,5 @@ public class PerformCharacterAction implements WorldTransformation {
         tiles[character.getPosition()] = new Tile(new Empty(), currentTile.getOwnerID());
         tiles[targetPosition] = new Tile(character, character.getPlayerId());
         character.setPosition(targetPosition);
-        if(hasPickedUpBomb) {
-            character.setCarryingBomb(true);
-        }
     }
 }
