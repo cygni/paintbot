@@ -25,7 +25,7 @@ const SliderInput = styled.input`
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 5px;
+  height: 7px;
   background: ${(props: InputProps) => props.backgroundColor};
   outline: none;
   opacity: 0.6;

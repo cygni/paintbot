@@ -17,6 +17,11 @@ export enum ScoreBoardColors {
   Background = 'rgba(88, 98, 112, 0.75)',
 }
 
+export enum GameControllerColors {
+  Background = 'rgba(88, 98, 112, 0.75)',
+  PlayButton = '#242426',
+}
+
 export enum CharacterColors {
   Stroke = '#001638',
   Eye = '#001638',

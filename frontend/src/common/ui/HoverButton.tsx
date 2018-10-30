@@ -1,13 +1,19 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { CharacterColors, StandardColors } from '../common/Constants';
+import { CharacterColors, StandardColors } from '../Constants';
 
 interface Props {
   color?: string;
   backgroundColor?: string;
-  hoverBackgroundColor?: string;
   children?: string;
   onClick?: () => void;
+  width?: number;
+}
+
+interface ButtonProps {
+  color?: string;
+  backgroundColor?: string;
+  width?: number;
 }
 
 const Span = styled.span`
@@ -28,13 +34,14 @@ const Span = styled.span`
 const Button = styled.button`
   display: inline-block;
   border-radius: 4px;
-  background-color: ${CharacterColors.RedCharacter};
+  background-color: ${(props: ButtonProps) =>
+    props.backgroundColor || CharacterColors.RedCharacter};
   border: none;
-  color: ${StandardColors.White};
+  color: ${(props: ButtonProps) => props.color || StandardColors.White};
   text-align: center;
   font-size: 18px;
   padding: 10px;
-  width: 200px;
+  width: ${(props: ButtonProps) => props.width}px;
   transition: all 0.5s;
   cursor: pointer;
   margin: 5px;
@@ -49,15 +56,20 @@ const Button = styled.button`
   }
 `;
 
-export const StartButton = ({
+export const HoverButton = ({
   color,
   backgroundColor,
-  hoverBackgroundColor,
   children,
   onClick,
+  width,
 }: Props) => {
   return (
-    <Button onClick={onClick}>
+    <Button
+      onClick={onClick}
+      width={width}
+      color={color}
+      backgroundColor={backgroundColor}
+    >
       <Span>{children}</Span>
     </Button>
   );

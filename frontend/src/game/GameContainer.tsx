@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { GameControllerColors } from '../common/Constants';
 import Config from '../Config';
 import GameBoardContainer from './gameboard/GameBoardContainer';
 import GameBoardFactory from './gameboard/GameBoardFactory';
@@ -54,11 +55,18 @@ export default class GameContainer extends React.Component<Props, State> {
           />
           <div>
             <GameBoardContainer game={game} />
-            <GameController
-              gameSpeedChange={gameSpeedChange}
-              gameSpeedPause={gameSpeedPause}
-              restartGame={restartGame}
-            />
+            <div
+              style={{
+                padding: 5,
+                backgroundColor: GameControllerColors.Background,
+              }}
+            >
+              <GameController
+                gameSpeedChange={gameSpeedChange}
+                gameSpeedPause={gameSpeedPause}
+                restartGame={restartGame}
+              />
+            </div>
           </div>
         </Container>
       </div>

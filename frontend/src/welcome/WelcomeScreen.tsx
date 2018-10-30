@@ -2,13 +2,13 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 import { StandardColors } from '../common/Constants';
+import { HoverButton } from '../common/ui/HoverButton';
 import { Indent } from '../common/ui/Indent';
 import { Row } from '../common/ui/Row';
 import { Spacing } from '../common/ui/Spacing';
 import * as background from '../resources/background.jpg';
 import * as introImage from './images/welcome.png';
 import * as yellowCharacter from './images/yellow_character.png';
-import { StartButton } from './StartButton';
 
 export default class WelcomeScreen extends React.Component<
   RouteComponentProps
@@ -26,7 +26,7 @@ export default class WelcomeScreen extends React.Component<
             </Spacing>
             <Spacing>
               <Indent num={2}>
-                <StartButton onClick={this.startGame}>Start</StartButton>
+                <HoverButton onClick={this.startGame}>Start</HoverButton>
               </Indent>
             </Spacing>
           </Row>

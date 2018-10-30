@@ -1,12 +1,15 @@
 import * as React from 'react';
+import styled from 'styled-components';
 import { Row } from '../../common/ui/Row';
 import Slider from '../../common/ui/Slider';
 import Config from '../../Config';
+import { PlayControllButton } from './PlayControllButton';
 
 interface Props {
   gameSpeedChange?: (value: number) => void;
   gameSpeedPause?: () => void;
   restartGame?: () => void;
+  width?: string;
 }
 
 interface State {
@@ -22,24 +25,36 @@ export class GameController extends React.Component<Props, State> {
       playing: true,
     };
     this.playOrPause = this.playOrPause.bind(this);
+    this.gameSpeedChange = this.gameSpeedChange.bind(this);
   }
 
   public render() {
     const playing = this.state.playing;
-    const playStatusText = playing ? 'Pause' : 'Play';
     return (
       <Row>
-        <button onClick={this.playOrPause}>{playStatusText}</button>
-        <div>Game Speed:</div>
-        <Slider
-          ref={x => (this.sliderRef = x)}
-          minValue={Config.GameSpeedMin}
-          maxValue={Config.GameSpeedMax}
-          defaultValue={Config.DefaultGameSpeed}
-          reverse={true}
-        />
+        <PlayControllButton onClick={this.playOrPause} playing={playing} />
+        <GameSpeedContainer>
+          <div>Game Speed</div>
+          <Slider
+            ref={x => (this.sliderRef = x)}
+            minValue={Config.GameSpeedMin}
+            maxValue={Config.GameSpeedMax}
+            defaultValue={Config.DefaultGameSpeed}
+            reverse={true}
+            sliderChange={this.gameSpeedChange}
+          />
+        </GameSpeedContainer>
       </Row>
     );
+  }
+
+  private gameSpeedChange() {
+    const { playing } = this.state;
+    const { gameSpeedChange } = this.props;
+    if (playing && this.sliderRef && gameSpeedChange) {
+      const currentGameSpeed = this.sliderRef.currentValue();
+      gameSpeedChange(currentGameSpeed);
+    }
   }
 
   private setPlayStatus(playing: boolean) {
@@ -63,3 +78,7 @@ export class GameController extends React.Component<Props, State> {
     }
   }
 }
+
+const GameSpeedContainer = styled.div`
+  padding-left: 20px;
+`;
