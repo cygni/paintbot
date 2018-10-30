@@ -27,6 +27,9 @@ export default class GameDirector extends React.Component<Props, State> {
       gameState: undefined,
     };
     this.currentEventIndex = 0;
+    this.updateGameSpeedInterval = this.updateGameSpeedInterval.bind(this);
+    this.pauseGame = this.pauseGame.bind(this);
+    this.restartGame = this.restartGame.bind(this);
   }
 
   public render() {
@@ -47,7 +50,9 @@ export default class GameDirector extends React.Component<Props, State> {
           <GameContainer
             gameMap={gameState.map}
             gameSettings={gameSettings}
-            gameSpeedChange={this.gameSpeedChange}
+            gameSpeedChange={this.updateGameSpeedInterval}
+            gameSpeedPause={this.pauseGame}
+            restartGame={this.restartGame}
           />
         );
       } else if (gameStatus === EventType.GAME_ENDED_EVENT) {
@@ -80,11 +85,8 @@ export default class GameDirector extends React.Component<Props, State> {
     this.events.push(JSON.parse(evt.data));
   }
 
-  private gameSpeedChange = (changeSpeedTo: number) => {
-    this.updateGameSpeedInterval(changeSpeedTo);
-  };
-
   private updateGameSpeedInterval(milliseconds: number) {
+    clearInterval(this.updateInterval);
     this.updateInterval = setInterval(
       () => this.playOneTick(this.currentEventIndex),
       milliseconds,
