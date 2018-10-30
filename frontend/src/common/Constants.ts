@@ -9,10 +9,6 @@ export enum StandardColors {
   White = '#FFF',
 }
 
-export enum WelcomeScreenColors {
-  Background = '#cce1fc',
-}
-
 export enum GameBoardConstants {
   Border = '5px solid rgba(0, 0, 0, 0.7)',
 }
@@ -24,4 +20,5 @@ export enum ScoreBoardColors {
 export enum CharacterColors {
   Stroke = '#001638',
   Eye = '#001638',
+  RedCharacter = '#e61a25',
 }

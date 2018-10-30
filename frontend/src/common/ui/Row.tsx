@@ -28,9 +28,11 @@ export class Row extends React.Component<Props> {
     } = this.props;
 
     const flexDirection: FlexDirectionProperty = 'row';
+    const display = 'flex';
 
     const viewStyle = {
       flexDirection,
+      display,
       justifyContent,
       alignItems,
       alignSelf,
