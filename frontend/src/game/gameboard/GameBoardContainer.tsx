@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layer, Stage} from 'react-konva';
+import { Layer, Stage } from 'react-konva';
 import styled from 'styled-components';
 
 import { GameBoardConstants } from '../../common/Constants';
