@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom --watchAll",
+    "test": "react-scripts test",
     "lint": "tslint --project tsconfig.json",
     "prettier": "prettier --write '**/*.{md,yml,js,jsx,json,ts,tsx}'"
   },
@@ -29,7 +29,9 @@
     "@types/styled-components": "^4.0.3",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
+    "husky": "^1.1.2",
     "jest-canvas-mock": "^1.1.0",
+    "lint-staged": "^8.0.4",
     "prettier": "^1.10.2",
     "react-scripts": "^2.1.1",
     "tslint": "5.11.0",

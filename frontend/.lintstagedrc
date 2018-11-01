@@ -1,0 +1,8 @@
+{
+  "**/*.{js,jsx,ts,tsx}": [
+    "tslint --project tsconfig.json --format stylish --fix",
+    "react-scripts test --passWithNoTests --findRelatedTests",
+    "git add"
+  ],
+  "**/*.{md,yml,json}": ["prettier --write", "git add"]
+}
