@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { GameControllerColors } from '../common/Constants';
+import { Row } from '../common/ui/Row';
 import Config from '../Config';
 
 import GameBoardContainer from './gameboard/GameBoardContainer';
@@ -36,40 +37,34 @@ export default class GameContainer extends React.Component<Props, State> {
     return (
       <div>
         <HeaderContainer>
-          <GameNameContainer>XYZ-Bot</GameNameContainer>
+          <GameNameContainer>PAINTBOT</GameNameContainer>
           <TimerPane
             durationInSeconds={Config.TimerSeconds}
             timeInMsPerTick={gameSettings.timeInMsPerTick}
             worldTick={gameMap.worldTick}
           />
         </HeaderContainer>
-        <Container>
+        <Row justifyContent={'center'} style={{ paddingTop: 20 }}>
           <ScoreBoardContainer players={game.currentCharacters} worldTick={game.worldTick} />
           <div>
             <GameBoardContainer game={game} />
-            <div
-              style={{
-                padding: 5,
-                backgroundColor: GameControllerColors.Background,
-              }}
-            >
+            <GamerControllerContainer>
               <GameController
                 gameSpeedChange={gameSpeedChange}
                 gameSpeedPause={gameSpeedPause}
                 restartGame={restartGame}
               />
-            </div>
+            </GamerControllerContainer>
           </div>
-        </Container>
+        </Row>
       </div>
     );
   }
 }
 
-const Container = styled.div`
-  display: inline-flex;
-  padding-top: 20px;
-  margin: auto;
+const GamerControllerContainer = styled.div`
+  padding: 5;
+  backgroundcolor: ${GameControllerColors.Background};
 `;
 
 const HeaderContainer = styled.div`

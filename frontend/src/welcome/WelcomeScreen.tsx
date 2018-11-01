@@ -24,7 +24,7 @@ export default class WelcomeScreen extends React.Component<RouteComponentProps> 
           <Row justifyContent={'space-between'}>
             <Spacing>
               <Row>
-                <HeaderText>FÄRGLANDET</HeaderText>
+                <HeaderText>PAINTBOT</HeaderText>
                 <YellowCharacter src={yellowCharacter} />
               </Row>
             </Spacing>
