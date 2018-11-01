@@ -1,10 +1,12 @@
-import * as React from 'react';
-import * as FlipMove from 'react-flip-move';
+import React from 'react';
+import FlipMove from 'react-flip-move';
 import styled from 'styled-components';
+
 import { ScoreBoardColors, StandardColors } from '../../common/Constants';
 import { Indent } from '../../common/ui/Indent';
 import { Row } from '../../common/ui/Row';
 import { Character } from '../type';
+
 import ScoreBoardEntry from './ScoreBoardEntry';
 import { SortOrder, sortPlayers } from './Util';
 
@@ -22,14 +24,17 @@ const Container = styled.div`
 `;
 
 export default class ScoreBoardContainer extends React.Component<Props> {
-  public shouldComponentUpdate(nextProps: Props) {
-    return (
-      !!nextProps.worldTick &&
-      (nextProps.worldTick % 5 === 0 || nextProps.worldTick === 1)
-    );
+  private getPlayers() {
+    const sortedPlayers = sortPlayers(this.props.players, SortOrder.DESCENDING);
+    return sortedPlayers.map(player => {
+      return <ScoreBoardEntry key={player.id} player={player} />;
+    });
+  }
+  shouldComponentUpdate(nextProps: Props) {
+    return !!nextProps.worldTick && (nextProps.worldTick % 5 === 0 || nextProps.worldTick === 1);
   }
 
-  public render() {
+  render() {
     return (
       <Container>
         <Row style={{ backgroundColor: StandardColors.Black }}>
@@ -40,12 +45,5 @@ export default class ScoreBoardContainer extends React.Component<Props> {
         </Indent>
       </Container>
     );
-  }
-
-  private getPlayers() {
-    const sortedPlayers = sortPlayers(this.props.players, SortOrder.DESCENDING);
-    return sortedPlayers.map(player => {
-      return <ScoreBoardEntry key={player.id} player={player} />;
-    });
   }
 }

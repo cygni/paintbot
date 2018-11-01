@@ -1,6 +1,7 @@
-import * as Konva from 'konva';
-import * as React from 'react';
+import Konva from 'konva';
+import React from 'react';
 import { Rect } from 'react-konva';
+
 import { TileColors } from '../../../common/Constants';
 import { Coordinate } from '../../type';
 
@@ -13,9 +14,9 @@ interface Props {
 }
 
 export default class ColouredTile extends React.Component<Props> {
-  public tile: Konva.Rect;
+  private readonly tileRef = React.createRef<Konva.Rect>();
 
-  public shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps: Props) {
     return (
       nextProps.colour !== this.props.colour ||
       nextProps.coordinate.x !== this.props.coordinate.x ||
@@ -23,30 +24,30 @@ export default class ColouredTile extends React.Component<Props> {
     );
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     this.animate();
-    this.tile.cache();
-    this.tile.transformsEnabled('position');
+    this.tileRef.current!.cache();
+    this.tileRef.current!.transformsEnabled('position');
   }
 
-  public componentWillUnmount() {
-    this.tile.destroy();
+  componentWillUnmount() {
+    this.tileRef.current!.destroy();
   }
 
-  public componentDidUpdate() {
+  componentDidUpdate() {
     this.animate();
-    this.tile.cache();
+    this.tileRef.current!.cache();
   }
 
-  public animate() {
-    this.tile.to({
+  animate() {
+    this.tileRef.current!.to({
       opacity: 1,
       duration: 0.5,
       easing: Konva.Easings.StrongEaseIn,
     });
   }
 
-  public render() {
+  render() {
     return (
       <Rect
         x={this.props.coordinate.x}
@@ -59,11 +60,7 @@ export default class ColouredTile extends React.Component<Props> {
         stroke={TileColors.Stroke}
         perfectDrawEnabled={false}
         listening={false}
-        ref={(node: Konva.Rect) => {
-          if (node !== null) {
-            this.tile = node;
-          }
-        }}
+        ref={this.tileRef}
       />
     );
   }

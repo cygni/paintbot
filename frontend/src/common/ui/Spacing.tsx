@@ -1,19 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 
 interface Props {
   num?: number;
-  children?:
-    | React.ReactElement<any>
-    | Array<{} | React.ReactElement<any> | undefined>
-    | undefined
-    | null;
+  children?: React.ReactNode;
 }
 
 export const Spacing = ({ num = 1, children }: Props) => {
   const paddingSize = num * 10;
-  return (
-    <div style={{ paddingTop: paddingSize, paddingBottom: paddingSize }}>
-      {children}
-    </div>
-  );
+  return <div style={{ paddingTop: paddingSize, paddingBottom: paddingSize }}>{children}</div>;
 };

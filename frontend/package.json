@@ -2,25 +2,23 @@
   "name": "xyz-bot-app",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom --watchAll",
+    "lint": "tslint --project tsconfig.json",
+    "prettier": "prettier --write '**/*.{md,yml,js,jsx,json,ts,tsx}'"
+  },
   "dependencies": {
     "@types/react-router-dom": "^4.3.1",
-    "konva": "^2.4.1",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "react-flip-move": "^2.10.2",
-    "react-konva": "^1.7.16",
+    "konva": "^2.5.0",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-flip-move": "^3.0.3",
+    "react-konva": "^16.6.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts-ts": "2.17.0",
-    "styled-components": "^3.4.9"
-  },
-  "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom --watchAll",
-    "eject": "react-scripts-ts eject",
-    "prettier": "yarn run prettier:src",
-    "prettier:src": "prettier --parser typescript --trailing-comma all --single-quote --write 'src/**/*.ts' 'src/**/*.tsx'"
+    "styled-components": "^4.0.3"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.14",
@@ -28,12 +26,16 @@
     "@types/node": "^10.11.0",
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
+    "@types/styled-components": "^4.0.3",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
-    "fs": "0.0.1-security",
     "jest-canvas-mock": "^1.1.0",
     "prettier": "^1.10.2",
-    "tslint": "5.7.0",
-    "typescript": "^3.0.3"
+    "react-scripts": "^2.1.1",
+    "tslint": "5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.1.5",
+    "typescript-styled-plugin": "^0.12.0"
   }
 }

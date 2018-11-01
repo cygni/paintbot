@@ -1,26 +1,26 @@
-declare interface Tile {
+export interface Tile {
   type: TileType;
   colour: string;
   coordinate: Coordinate;
 }
 // TODO Remove this enum and all use of it. Not needed anymore. Empty tiles no longer exists, and the only
 // difference betweeen a coloured tile and an obstacle tile is its color
-enum TileType {
+export enum TileType {
   EMPTY = 'empty-tile',
   COLOURED = 'coloured-tile',
   OBSTACLE = 'obstacle-tile',
 }
 
-declare interface Coordinate {
+export interface Coordinate {
   x: number;
   y: number;
 }
 
-declare interface GameSettings {
+export interface GameSettings {
   timeInMsPerTick: number;
 }
 
-declare interface Game {
+export interface Game {
   tiles: Map<string, Tile>;
   currentCharacters: Character[];
   previousCharacters: Character[];
@@ -30,7 +30,7 @@ declare interface Game {
   height: number;
 }
 
-declare interface GameState {
+export interface GameState {
   gameId: string;
   gameTick: number;
   map: GameMap;
@@ -39,7 +39,7 @@ declare interface GameState {
   type: EventType;
 }
 
-declare interface GameMap {
+export interface GameMap {
   width: number;
   height: number;
   bombPositions: number[];
@@ -48,7 +48,7 @@ declare interface GameMap {
   worldTick: number;
 }
 
-declare interface CharacterInfo {
+export interface CharacterInfo {
   id: string;
   name: string;
   points: number;
@@ -57,7 +57,7 @@ declare interface CharacterInfo {
   stunnedForGameTicks: number;
 }
 
-declare interface Character {
+export interface Character {
   id: string;
   name: string;
   points: number;
@@ -65,28 +65,14 @@ declare interface Character {
   coordinate: Coordinate;
 }
 
-declare interface PowerUp {
+export interface PowerUp {
   coordinate: Coordinate;
   image: string;
 }
 
-enum EventType {
+export enum EventType {
   GAME_STARTING_EVENT = 'se.cygni.snake.api.event.GameStartingEvent',
   GAME_UPDATE_EVENT = 'se.cygni.snake.api.event.MapUpdateEvent',
   GAME_RESULT_EVENT = 'se.cygni.snake.api.event.GameResultEvent',
   GAME_ENDED_EVENT = 'se.cygni.snake.api.event.GameEndedEvent',
 }
-
-export {
-  Tile,
-  TileType,
-  PowerUp,
-  Coordinate,
-  Game,
-  GameSettings,
-  GameState,
-  GameMap,
-  CharacterInfo,
-  Character,
-  EventType,
-};

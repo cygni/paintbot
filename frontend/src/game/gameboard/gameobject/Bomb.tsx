@@ -1,6 +1,7 @@
-import * as Konva from 'konva';
-import * as React from 'react';
+import Konva from 'konva';
+import React from 'react';
 import { Image as KonvaImage } from 'react-konva';
+
 import { PowerUp } from '../../type';
 
 interface Props {
@@ -10,30 +11,25 @@ interface Props {
 }
 
 export default class Bomb extends React.Component<Props> {
-  private readonly image: HTMLImageElement;
-  private bomb: Konva.Image;
+  private readonly image = new Image();
+  private readonly bombRef = React.createRef<Konva.Image>();
 
-  public constructor(props: Props) {
-    super(props);
-    this.image = new Image();
-  }
-
-  public shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps: Props) {
     return (
       nextProps.bomb.coordinate.x !== this.props.bomb.coordinate.x ||
       nextProps.bomb.coordinate.y !== this.props.bomb.coordinate.y
     );
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     this.image.src = this.props.bomb.image;
   }
 
-  public componentWillUnmount() {
-    this.bomb.destroy();
+  componentWillUnmount() {
+    this.bombRef.current!.destroy();
   }
 
-  public render() {
+  render() {
     const { bomb, width, height } = this.props;
     return (
       <KonvaImage
@@ -44,11 +40,7 @@ export default class Bomb extends React.Component<Props> {
         height={height}
         perfectDrawEnabled={false}
         listening={false}
-        ref={(node: Konva.Image) => {
-          if (node !== null) {
-            this.bomb = node;
-          }
-        }}
+        ref={this.bombRef}
       />
     );
   }

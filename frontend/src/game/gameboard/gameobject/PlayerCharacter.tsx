@@ -1,6 +1,7 @@
-import * as Konva from 'konva';
-import * as React from 'react';
+import Konva from 'konva';
+import React from 'react';
 import { Circle, Group } from 'react-konva';
+
 import { CharacterColors } from '../../../common/Constants';
 import { Coordinate } from '../../type';
 
@@ -15,30 +16,27 @@ interface Props {
 }
 
 export default class PlayerCharacter extends React.Component<Props> {
-  private character: Konva.Group;
+  private readonly characterRef = React.createRef<Konva.Group>();
 
-  public componentDidMount() {
-    this.character.transformsEnabled('position');
+  componentDidMount() {
+    this.characterRef.current!.transformsEnabled('position');
   }
 
-  public componentWillUnmount() {
-    this.character.destroy();
+  componentWillUnmount() {
+    this.characterRef.current!.destroy();
   }
 
-  public componentDidUpdate() {
+  componentDidUpdate() {
     this.animate();
-    this.character.cache();
+    this.characterRef.current!.cache();
   }
 
-  public shouldComponentUpdate(nextProps: Props) {
-    return (
-      this.props.coordinate.x !== nextProps.coordinate.x ||
-      this.props.coordinate.y !== nextProps.coordinate.y
-    );
+  shouldComponentUpdate(nextProps: Props) {
+    return this.props.coordinate.x !== nextProps.coordinate.x || this.props.coordinate.y !== nextProps.coordinate.y;
   }
 
-  public animate() {
-    this.character.to({
+  animate() {
+    this.characterRef.current!.to({
       x: this.props.coordinate.x,
       y: this.props.coordinate.y,
       duration: 0.25,
@@ -46,7 +44,7 @@ export default class PlayerCharacter extends React.Component<Props> {
     });
   }
 
-  public render() {
+  render() {
     return (
       <Group
         x={this.props.previousCoordinate.x}
@@ -54,11 +52,7 @@ export default class PlayerCharacter extends React.Component<Props> {
         width={this.props.width}
         height={this.props.height}
         listening={false}
-        ref={(node: Konva.Group) => {
-          if (node !== null) {
-            this.character = node;
-          }
-        }}
+        ref={this.characterRef}
       >
         <Circle
           perfectDrawEnabled={false}

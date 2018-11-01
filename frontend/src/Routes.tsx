@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import { GameScreen } from './game/GameScreen';
 import WelcomeScreen from './welcome/WelcomeScreen';
 

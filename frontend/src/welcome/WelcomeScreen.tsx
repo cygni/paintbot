@@ -1,19 +1,23 @@
-import * as React from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { StandardColors } from '../common/Constants';
 import { HoverButton } from '../common/ui/HoverButton';
 import { Indent } from '../common/ui/Indent';
 import { Row } from '../common/ui/Row';
 import { Spacing } from '../common/ui/Spacing';
-import * as background from '../resources/background.jpg';
-import * as introImage from './images/welcome.png';
-import * as yellowCharacter from './images/yellow_character.png';
+import background from '../resources/background.jpg';
 
-export default class WelcomeScreen extends React.Component<
-  RouteComponentProps
-> {
-  public render() {
+import introImage from './images/welcome.png';
+import yellowCharacter from './images/yellow_character.png';
+
+export default class WelcomeScreen extends React.Component<RouteComponentProps> {
+  private readonly startGame = () => {
+    this.props.history.push('/game');
+  };
+
+  render() {
     return (
       <Container>
         <MenuContainer>
@@ -37,10 +41,6 @@ export default class WelcomeScreen extends React.Component<
       </Container>
     );
   }
-
-  private startGame = () => {
-    this.props.history.push('/game');
-  };
 }
 
 const Container = styled.div`

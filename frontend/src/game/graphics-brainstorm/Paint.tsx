@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled, { keyframes, StyledFunction } from 'styled-components';
+import React from 'react';
+import styled, { StyledFunction, keyframes } from 'styled-components';
 
 interface Props {
   color: string;
@@ -47,7 +47,7 @@ export default class Paint extends React.Component<Props> {
     super(props);
   }
 
-  public render() {
+  render() {
     return (
       <Container>
         <PaintContainer color={this.props.color}>

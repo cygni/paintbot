@@ -1,38 +1,13 @@
 import { StandardColors, TileColors } from '../../common/Constants';
-import {
-  Character,
-  CharacterInfo,
-  Coordinate,
-  Game,
-  GameMap,
-  PowerUp,
-  Tile,
-  TileType,
-} from '../type';
+import { Character, CharacterInfo, Coordinate, Game, GameMap, PowerUp, Tile, TileType } from '../type';
 
 const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
 
 export default class GameBoardFactory {
-  private gameMap: GameMap = {} as GameMap;
-  private currentTiles: Map<string, Tile> = new Map<string, Tile>();
+  private gameMap = {} as GameMap;
+  private readonly currentTiles: Map<string, Tile> = new Map<string, Tile>();
   private currentCharacters: Character[] = [];
   private previousCharacters: Character[] = [];
-
-  public getGameBoard(gameMap: GameMap): Game {
-    this.gameMap = gameMap;
-
-    const game = {
-      tiles: this.createTiles(),
-      currentCharacters: this.createCharacters(),
-      previousCharacters: this.getPreviousCharacters(),
-      bombs: this.createPowerUps(),
-      worldTick: this.getWorldTick(),
-      width: this.getWidth(),
-      height: this.getHeight(),
-    };
-
-    return game;
-  }
 
   private createTiles() {
     const newTiles = this.currentTiles;
@@ -86,41 +61,26 @@ export default class GameBoardFactory {
     return this.gameMap ? this.gameMap.worldTick : 0;
   }
 
-  private addColouredTilesForPlayers(
-    characterInfos: CharacterInfo[],
-    tiles: Map<string, Tile>,
-  ): void {
+  private addColouredTilesForPlayers(characterInfos: CharacterInfo[], tiles: Map<string, Tile>): void {
     characterInfos.forEach(character => {
       this.addColouredTilesForPlayer(character, tiles);
     });
   }
 
-  private addColouredTilesForPlayer(
-    character: CharacterInfo,
-    tiles: Map<string, Tile>,
-  ): void {
+  private addColouredTilesForPlayer(character: CharacterInfo, tiles: Map<string, Tile>): void {
     character.colouredPositions.forEach(colouredPosition => {
       const colouredTile = {} as Tile;
-      colouredTile.coordinate = this.getCoordinateFromMapPosition(
-        colouredPosition,
-      );
+      colouredTile.coordinate = this.getCoordinateFromMapPosition(colouredPosition);
 
       colouredTile.type = TileType.COLOURED;
-      const theCharacter = this.currentCharacters.filter(
-        c => c.id === character.id,
-      )[0];
-      colouredTile.colour = theCharacter
-        ? theCharacter.colour
-        : StandardColors.White;
+      const theCharacter = this.currentCharacters.filter(c => c.id === character.id)[0];
+      colouredTile.colour = theCharacter ? theCharacter.colour : StandardColors.White;
 
       tiles.set(JSON.stringify(colouredTile.coordinate), colouredTile);
     });
   }
 
-  private addObstacleTiles(
-    obstaclePositions: number[],
-    tiles: Map<string, Tile>,
-  ): void {
+  private addObstacleTiles(obstaclePositions: number[], tiles: Map<string, Tile>): void {
     obstaclePositions.forEach(bombPosition => {
       const obstacleTile = {} as Tile;
       obstacleTile.coordinate = this.getCoordinateFromMapPosition(bombPosition);
@@ -134,5 +94,21 @@ export default class GameBoardFactory {
     const yPosition = Math.floor(position / this.gameMap.width);
     const xPosition = position - yPosition * this.gameMap.width;
     return { x: xPosition, y: yPosition } as Coordinate;
+  }
+
+  getGameBoard(gameMap: GameMap): Game {
+    this.gameMap = gameMap;
+
+    const game = {
+      tiles: this.createTiles(),
+      currentCharacters: this.createCharacters(),
+      previousCharacters: this.getPreviousCharacters(),
+      bombs: this.createPowerUps(),
+      worldTick: this.getWorldTick(),
+      width: this.getWidth(),
+      height: this.getHeight(),
+    };
+
+    return game;
   }
 }

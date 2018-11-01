@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
+
 import { CharacterColors, StandardColors } from '../Constants';
 
 interface Props {
@@ -31,17 +32,16 @@ const Span = styled.span`
   }
 `;
 
-const Button = styled.button`
+const Button = styled.button<ButtonProps>`
   display: inline-block;
   border-radius: 4px;
-  background-color: ${(props: ButtonProps) =>
-    props.backgroundColor || CharacterColors.RedCharacter};
+  background-color: ${props => props.backgroundColor || CharacterColors.RedCharacter};
   border: none;
-  color: ${(props: ButtonProps) => props.color || StandardColors.White};
+  color: ${props => props.color || StandardColors.White};
   text-align: center;
   font-size: 18px;
   padding: 10px;
-  width: ${(props: ButtonProps) => props.width}px;
+  width: ${props => props.width}px;
   transition: all 0.5s;
   cursor: pointer;
   margin: 5px;
@@ -56,20 +56,9 @@ const Button = styled.button`
   }
 `;
 
-export const HoverButton = ({
-  color,
-  backgroundColor,
-  children,
-  onClick,
-  width,
-}: Props) => {
+export const HoverButton = ({ color, backgroundColor, children, onClick, width }: Props) => {
   return (
-    <Button
-      onClick={onClick}
-      width={width}
-      color={color}
-      backgroundColor={backgroundColor}
-    >
+    <Button onClick={onClick} width={width} color={color} backgroundColor={backgroundColor}>
       <Span>{children}</Span>
     </Button>
   );

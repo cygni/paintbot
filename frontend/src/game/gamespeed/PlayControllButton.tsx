@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+
 import { GameControllerColors, StandardColors } from '../../common/Constants';
 import { HoverButton } from '../../common/ui/HoverButton';
 

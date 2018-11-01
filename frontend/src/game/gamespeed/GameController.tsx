@@ -1,15 +1,21 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
+
 import { Row } from '../../common/ui/Row';
 import Slider from '../../common/ui/Slider';
 import Config from '../../Config';
+
 import { PlayControllButton } from './PlayControllButton';
 
+const GameSpeedContainer = styled.div`
+  padding-left: 20px;
+`;
+
 interface Props {
-  gameSpeedChange?: (value: number) => void;
-  gameSpeedPause?: () => void;
-  restartGame?: () => void;
   width?: string;
+  gameSpeedChange?(value: number): void;
+  gameSpeedPause?(): void;
+  restartGame?(): void;
 }
 
 interface State {
@@ -17,18 +23,43 @@ interface State {
 }
 
 export class GameController extends React.Component<Props, State> {
-  private sliderRef: Slider | null;
+  private readonly sliderRef = React.createRef<Slider>();
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      playing: true,
-    };
-    this.playOrPause = this.playOrPause.bind(this);
-    this.gameSpeedChange = this.gameSpeedChange.bind(this);
+  readonly state: State = {
+    playing: true,
+  };
+
+  private gameSpeedChange = () => {
+    const { playing } = this.state;
+    const { gameSpeedChange } = this.props;
+    if (playing && this.sliderRef.current !== null && gameSpeedChange) {
+      const currentGameSpeed = this.sliderRef.current.currentValue();
+      gameSpeedChange(currentGameSpeed);
+    }
+  };
+
+  private setPlayStatus(playing: boolean) {
+    this.setState({
+      playing,
+    });
   }
 
-  public render() {
+  private playOrPause = () => {
+    const { gameSpeedPause, gameSpeedChange } = this.props;
+    const { playing } = this.state;
+    if (this.sliderRef.current !== null && gameSpeedPause && gameSpeedChange) {
+      const currentGameSpeed = this.sliderRef.current.currentValue();
+      if (playing) {
+        gameSpeedPause();
+        this.setPlayStatus(false);
+      } else {
+        gameSpeedChange(currentGameSpeed);
+        this.setPlayStatus(true);
+      }
+    }
+  };
+
+  render() {
     const playing = this.state.playing;
     return (
       <Row>
@@ -36,7 +67,7 @@ export class GameController extends React.Component<Props, State> {
         <GameSpeedContainer>
           <div>Game Speed</div>
           <Slider
-            ref={x => (this.sliderRef = x)}
+            ref={this.sliderRef}
             minValue={Config.GameSpeedMin}
             maxValue={Config.GameSpeedMax}
             defaultValue={Config.DefaultGameSpeed}
@@ -47,38 +78,4 @@ export class GameController extends React.Component<Props, State> {
       </Row>
     );
   }
-
-  private gameSpeedChange() {
-    const { playing } = this.state;
-    const { gameSpeedChange } = this.props;
-    if (playing && this.sliderRef && gameSpeedChange) {
-      const currentGameSpeed = this.sliderRef.currentValue();
-      gameSpeedChange(currentGameSpeed);
-    }
-  }
-
-  private setPlayStatus(playing: boolean) {
-    this.setState({
-      playing,
-    });
-  }
-
-  private playOrPause() {
-    const { gameSpeedPause, gameSpeedChange } = this.props;
-    const { playing } = this.state;
-    if (this.sliderRef && gameSpeedPause && gameSpeedChange) {
-      const currentGameSpeed = this.sliderRef.currentValue();
-      if (playing) {
-        gameSpeedPause();
-        this.setPlayStatus(false);
-      } else {
-        gameSpeedChange(currentGameSpeed);
-        this.setPlayStatus(true);
-      }
-    }
-  }
 }
-
-const GameSpeedContainer = styled.div`
-  padding-left: 20px;
-`;

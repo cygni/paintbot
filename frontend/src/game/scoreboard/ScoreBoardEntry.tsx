@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
+
 import { StandardColors } from '../../common/Constants';
 import { DefaultText } from '../../common/ui/DefaultText';
 import { Row } from '../../common/ui/Row';
@@ -10,23 +11,23 @@ interface Props {
   player: Character;
 }
 
-interface ScoreLabelContainer {
+interface ScoreLabelContainerProps {
   playerColour: string;
 }
 
-const ScoreLabelContainer = styled.div`
+const ScoreLabelContainer = styled.div<ScoreLabelContainerProps>`
   opacity: 1;
-  color: ${(props: ScoreLabelContainer) => props.playerColour};
+  color: ${props => props.playerColour};
   font-size: 32px;
   transition: position 0.5s linear;
 `;
 
 export default class ScoreBoardEntry extends React.Component<Props> {
-  public shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps: Props) {
     return nextProps.player.points !== this.props.player.points;
   }
 
-  public render() {
+  render() {
     const { player } = this.props;
     const playerName = player.name;
     const playerScore = `${player.points}`;
