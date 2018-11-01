@@ -2,9 +2,7 @@ import React from 'react';
 
 interface Props {
   style?: object;
-  children?: string | undefined | null;
+  children?: React.ReactNode;
 }
 
-export const DefaultText = ({ style, children }: Props) => (
-  <span style={style}>{children}</span>
-);
+export const DefaultText = ({ style, children }: Props) => <span style={style}>{children}</span>;

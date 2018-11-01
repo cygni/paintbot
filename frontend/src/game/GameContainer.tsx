@@ -24,12 +24,7 @@ interface State {
 }
 
 export default class GameContainer extends React.Component<Props, State> {
-  private readonly gameBoardFactory: GameBoardFactory;
-
-  constructor(props: Props) {
-    super(props);
-    this.gameBoardFactory = new GameBoardFactory();
-  }
+  private readonly gameBoardFactory = new GameBoardFactory();
 
   private transformGameMapToModel(gameMap: GameMap): Game {
     return this.gameBoardFactory.getGameBoard(gameMap);

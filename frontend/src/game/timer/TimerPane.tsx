@@ -13,16 +13,8 @@ const TimerContainer = styled.div`
   display: flex;
 `;
 
-export const TimerPane = ({
-  durationInSeconds,
-  timeInMsPerTick,
-  worldTick,
-}: Props) => (
+export const TimerPane = ({ durationInSeconds, timeInMsPerTick, worldTick }: Props) => (
   <TimerContainer>
-    <Timer
-      durationInSeconds={durationInSeconds}
-      timeInMsPerTick={timeInMsPerTick}
-      worldTick={worldTick}
-    />
+    <Timer durationInSeconds={durationInSeconds} timeInMsPerTick={timeInMsPerTick} worldTick={worldTick} />
   </TimerContainer>
 );

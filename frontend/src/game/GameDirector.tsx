@@ -26,25 +26,18 @@ export default class GameDirector extends React.Component<Props, State> {
     gameState: undefined,
   };
 
-  constructor(props: Props) {
-    super(props);
-    this.updateGameSpeedInterval = this.updateGameSpeedInterval.bind(this);
-    this.pauseGame = this.pauseGame.bind(this);
-    this.restartGame = this.restartGame.bind(this);
-  }
-
   private onUpdateFromServer(evt: MessageEvent) {
     this.events.push(JSON.parse(evt.data));
   }
 
-  private updateGameSpeedInterval(milliseconds: number) {
+  private updateGameSpeedInterval = (milliseconds: number) => {
     if (this.updateInterval !== undefined) {
       clearInterval(this.updateInterval);
     }
     this.updateInterval = setInterval(() => {
       this.playOneTick(this.currentEventIndex);
     }, milliseconds);
-  }
+  };
 
   private playOneTick(eventIndex: number): void {
     const data = this.events[eventIndex];
@@ -67,6 +60,16 @@ export default class GameDirector extends React.Component<Props, State> {
       clearInterval(this.updateInterval);
     }
   }
+
+  private pauseGame = () => {
+    if (this.updateInterval !== undefined) {
+      clearInterval(this.updateInterval);
+    }
+  };
+
+  private restartGame = () => {
+    this.currentEventIndex = 0;
+  };
 
   componentDidMount() {
     this.updateGameSpeedInterval(Config.DefaultGameSpeed);
@@ -103,16 +106,6 @@ export default class GameDirector extends React.Component<Props, State> {
       }
     }
     return null;
-  }
-
-  pauseGame() {
-    if (this.updateInterval !== undefined) {
-      clearInterval(this.updateInterval);
-    }
-  }
-
-  restartGame() {
-    this.currentEventIndex = 0;
   }
 
   render() {

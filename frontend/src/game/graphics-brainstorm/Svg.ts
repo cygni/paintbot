@@ -1,8 +1,7 @@
 const getBlobSvgString = (width: number, height: number, colour: string) => {
   return `
     <svg x="0px" y="0px" width="${width}px" height="${height}px" xmlns="http://www.w3.org/2000/svg">
-        <circle r="${width / 2}" cx="${width / 2}" cy="${height /
-    2}" fill="${colour}" stroke="black" stroke-width="4"/>
+        <circle r="${width / 2}" cx="${width / 2}" cy="${height / 2}" fill="${colour}" stroke="black" stroke-width="4"/>
         <g fill="rgba(255,255,255,0.9)">
             <circle cx="${width / 2}" cy="${height - 10}" r="2.5"/>
             <circle cx="${width / 2}" cy="${height - 5}" r="1.5"/>
