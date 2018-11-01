@@ -29,7 +29,7 @@ export class GameController extends React.Component<Props, State> {
     playing: true,
   };
 
-  private gameSpeedChange = () => {
+  private readonly gameSpeedChange = () => {
     const { playing } = this.state;
     const { gameSpeedChange } = this.props;
     if (playing && this.sliderRef.current !== null && gameSpeedChange) {
@@ -44,7 +44,7 @@ export class GameController extends React.Component<Props, State> {
     });
   }
 
-  private playOrPause = () => {
+  private readonly playOrPause = () => {
     const { gameSpeedPause, gameSpeedChange } = this.props;
     const { playing } = this.state;
     if (this.sliderRef.current !== null && gameSpeedPause && gameSpeedChange) {

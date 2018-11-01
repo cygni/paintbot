@@ -5,7 +5,7 @@ const colours = ['#4286f4', '#d3422c', '#88d852', '#f0fc0c', '#c774f2'];
 
 export default class GameBoardFactory {
   private gameMap = {} as GameMap;
-  private readonly currentTiles: Map<string, Tile> = new Map<string, Tile>();
+  private readonly currentTiles = new Map<string, Tile>();
   private currentCharacters: Character[] = [];
   private previousCharacters: Character[] = [];
 

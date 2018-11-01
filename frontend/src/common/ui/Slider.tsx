@@ -34,15 +34,7 @@ const SliderInput = styled.input<InputProps>`
 `;
 
 export default class Slider extends React.Component<SliderProps, State> {
-  constructor(props: SliderProps) {
-    super(props);
-    this.sliderChange = this.sliderChange.bind(this);
-    this.state = {
-      value: this.props.defaultValue,
-    };
-  }
-
-  private sliderChange(changeEvent: ChangeEvent<HTMLInputElement>) {
+  private sliderChange = (changeEvent: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(changeEvent.target.value, 10);
     if (!!this.props.sliderChange && !isNaN(value)) {
       this.props.sliderChange(value);
@@ -52,6 +44,10 @@ export default class Slider extends React.Component<SliderProps, State> {
         value,
       });
     }
+  };
+
+  currentValue(): number {
+    return this.state.value;
   }
 
   render() {
@@ -70,9 +66,5 @@ export default class Slider extends React.Component<SliderProps, State> {
         onChange={this.sliderChange}
       />
     );
-  }
-
-  currentValue(): number {
-    return this.state.value;
   }
 }
