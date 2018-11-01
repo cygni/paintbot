@@ -5,12 +5,6 @@ import background from '../resources/background.jpg';
 
 import GameDirector from './GameDirector';
 
-export const GameScreen = () => (
-  <WindowContainer>
-    <GameDirector />
-  </WindowContainer>
-);
-
 const WindowContainer = styled.div`
   position: absolute;
   top: 0;
@@ -23,3 +17,11 @@ const WindowContainer = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
 `;
+
+export default function GameScreen() {
+  return (
+    <WindowContainer>
+      <GameDirector />
+    </WindowContainer>
+  );
+}
