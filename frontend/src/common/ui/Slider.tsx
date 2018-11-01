@@ -34,7 +34,14 @@ const SliderInput = styled.input<InputProps>`
 `;
 
 export default class Slider extends React.Component<SliderProps, State> {
-  private sliderChange = (changeEvent: ChangeEvent<HTMLInputElement>) => {
+  constructor(props: SliderProps) {
+    super(props);
+    this.state = {
+      value: this.props.defaultValue,
+    };
+  }
+
+  private readonly sliderChange = (changeEvent: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(changeEvent.target.value, 10);
     if (!!this.props.sliderChange && !isNaN(value)) {
       this.props.sliderChange(value);
