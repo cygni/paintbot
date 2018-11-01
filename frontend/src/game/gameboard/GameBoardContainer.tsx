@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layer, Stage } from 'react-konva';
+import {Layer, Stage} from 'react-konva';
 import styled from 'styled-components';
 
 import { GameBoardConstants } from '../../common/Constants';
@@ -7,7 +7,7 @@ import { Coordinate, Game } from '../type';
 
 import Bomb from './gameobject/Bomb';
 import PlayerCharacter from './gameobject/PlayerCharacter';
-import StandardTile from './tile/StandardTile';
+import ColouredTile from './tile/ColouredTile';
 
 interface Props {
   game: Game;
@@ -34,7 +34,7 @@ export default class GameBoardContainer extends React.Component<Props> {
     return tiles.map((tile, index) => {
       tile.coordinate = this.getBoardCoordinate(tile.coordinate);
       return (
-        <StandardTile
+        <ColouredTile
           key={index}
           coordinate={tile.coordinate}
           colour={tile.colour}
