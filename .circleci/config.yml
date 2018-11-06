@@ -4,6 +4,8 @@ defaults: &defaults
   working_directory: ~/code
   docker:
     - image: circleci/openjdk:11
+  environment:
+    GRADLE_USER_HOME: ~/code/.gradle
 
 jobs:
   build:
@@ -15,13 +17,13 @@ jobs:
           key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
       - run: 
           name: Run Gradle build without tests
-          command: ./gradlew build -x test
+          command: ./gradlew --build-cache build -x test
       - save_cache:
           name: Save Gradle cache
           when: always
           key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
           paths:
-            - ~/.gradle
+            - .gradle
       - persist_to_workspace:
           root: ~/code
           paths: .
@@ -33,7 +35,7 @@ jobs:
           at: ~/code
       - run: 
           name: Run Gradle tests
-          command: ./gradlew test
+          command: ./gradlew --build-cache test
 
 workflows:
   version: 2
