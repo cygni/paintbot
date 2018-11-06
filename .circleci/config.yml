@@ -1,25 +1,45 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 
 defaults: &defaults
-  working_directory: ~/project
+  working_directory: ~/code
   docker:
     - image: circleci/openjdk:11
 
 jobs:
-  test:
+  build:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          name: Run tests
+      - restore_cache:
+          name: Restore Gradle cache
+          key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
+      - run: 
+          name: Run Gradle build without tests
+          command: ./gradlew build -x test
+      - save_cache:
+          name: Save Gradle cache
+          when: always
+          key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
+          paths:
+            - ~/.gradle
+      - persist_to_workspace:
+          root: ~/code
+          paths: .
+
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/code
+      - run: 
+          name: Run Gradle tests
           command: ./gradlew test
-     
+
 workflows:
   version: 2
-  test:
+  build-and-test:
     jobs:
-      - test
+      - build
+      - test:
+          requires: 
+            - build
