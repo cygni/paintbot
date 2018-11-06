@@ -14,14 +14,14 @@ jobs:
       - checkout
       - restore_cache:
           name: Restore Gradle cache
-          key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
+          key: gradle-cache-v1-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
       - run: 
           name: Run Gradle build without tests
           command: ./gradlew --build-cache build -x test
       - save_cache:
           name: Save Gradle cache
           when: always
-          key: gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
+          key: gradle-cache-v1-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
           paths:
             - .gradle
       - persist_to_workspace:
