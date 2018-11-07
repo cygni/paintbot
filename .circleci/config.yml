@@ -40,11 +40,11 @@ jobs:
             - ~/.gradle/caches
 
       - run: 
-          name: Run build
-          command: ./gradlew build
+          name: Run build without tests
+          command: ./gradlew build -x test
 
 workflows:
   version: 2
-  build-and-test:
+  build:
     jobs:
       - build
