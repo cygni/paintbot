@@ -4,44 +4,47 @@ defaults: &defaults
   working_directory: ~/code
   docker:
     - image: circleci/openjdk:11
-  environment:
-    GRADLE_USER_HOME: ~/code/.gradle
 
 jobs:
   build:
     <<: *defaults
     steps:
       - checkout
+      
       - restore_cache:
-          name: Restore Gradle cache
-          key: gradle-cache-v1-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
-      - run: 
-          name: Run Gradle build without tests
-          command: ./gradlew --build-cache build -x test
-      - save_cache:
-          name: Save Gradle cache
-          when: always
-          key: gradle-cache-v1-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
-          paths:
-            - .gradle
-      - persist_to_workspace:
-          root: ~/code
-          paths: .
+          name: Restore Gradle wrapper
+          key: gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
 
-  test:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/code
+      - restore_cache:
+          name: Restore Gradle caches
+          keys: 
+            - gradle-caches-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
+            - gradle-caches-
+
       - run: 
-          name: Run Gradle tests
-          command: ./gradlew --build-cache test
+          name: Download Gradle dependencies
+          command: ./gradlew downloadDependencies
+
+      - save_cache:
+          name: Save Gradle wrapper
+          when: always
+          key: gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+          paths:
+            - ~/.gradle/wrapper
+
+      - save_cache:
+          name: Save Gradle caches
+          when: always
+          key: gradle-caches-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
+          paths:
+            - ~/.gradle/caches
+
+      - run: 
+          name: Run build
+          command: ./gradlew build
 
 workflows:
   version: 2
   build-and-test:
     jobs:
       - build
-      - test:
-          requires: 
-            - build
