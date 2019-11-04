@@ -11,5 +11,5 @@ public interface GameHistoryStorage {
 
     Optional<GameHistory> getGameHistory(String gameId);
     GameHistorySearchResult listGamesWithPlayer(String playerName);
-
+    GameHistorySearchResult getHistoricGames();
 }

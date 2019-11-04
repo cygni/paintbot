@@ -74,6 +74,18 @@ public class GameHistoryStorageInMemory implements GameHistoryStorage {
         return result;
     }
 
+    @Override
+    public GameHistorySearchResult getHistoricGames() {
+        GameHistorySearchResult games = new GameHistorySearchResult(
+                gameHistories.stream()
+                .map(gameHistory -> new GameHistorySearchItem(
+                        gameHistory.getGameId(),
+                        gameHistory.getPlayerNames(),
+                        gameHistory.getGameDate()))
+                .collect(Collectors.toList()));
+        return games;
+    }
+
     @Scheduled(fixedDelay = 30000L)
     private void removeOldGames() {
         while (gameHistories.size() > MAX_NOOF_GAMES_IN_MEMORY - 1) {

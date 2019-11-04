@@ -1,6 +1,6 @@
 include ":api", ":domain", ":app", ":client", ":client-util"
 
-rootProject.name = 'Paintbot Server'
+rootProject.name = 'PaintbotServer'
 
 /*
 if (!System.getenv()['JENKINS_HOME']) {

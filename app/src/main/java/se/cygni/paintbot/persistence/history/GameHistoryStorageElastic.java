@@ -186,5 +186,36 @@ public class GameHistoryStorageElastic implements GameHistoryStorage {
         return new GameHistorySearchResult(items);
     }
 
+    @Override
+    public GameHistorySearchResult getHistoricGames() {
+        SearchRequestBuilder srb = elasticClient.prepareSearch(gameHistoryIndex).setTypes(gameHistoryType);
+        SearchResponse esResponse = elasticClient.prepareSearch(gameHistoryIndex)
+                .setQuery(QueryBuilders.existsQuery("playerNames"))
+                .setSize(MAX_SEARCH_RESULT)
+                .execute().actionGet();
+
+        List<GameHistorySearchItem> items = new ArrayList<>();
+
+        try {
+            Iterator<SearchHit> searchHitIterator = esResponse.getHits().iterator();
+            int counter = 0;
+            while (searchHitIterator.hasNext() && counter < MAX_SEARCH_RESULT) {
+                GameHistoryPersisted gh = (GameHistoryPersisted)ApiMessageParser.decodeMessage(searchHitIterator.next().getSourceAsString());
+                items.add(new GameHistorySearchItem(gh.getGameId(), gh.getPlayerNames(), gh.getGameDate()));
+                counter++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Collections.sort(items, new Comparator<GameHistorySearchItem>() {
+            @Override
+            public int compare(GameHistorySearchItem o1, GameHistorySearchItem o2) {
+                return o2.getGameDate().compareTo(o1.getGameDate());
+            }
+        });
+        return new GameHistorySearchResult(items);
+    }
+
 
 }

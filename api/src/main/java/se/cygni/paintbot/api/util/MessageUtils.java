@@ -16,7 +16,7 @@ public class MessageUtils {
     public static Optional<String> extractGameId(GameMessage message) {
 
         try {
-            Method m = BeanUtils.findDeclaredMethod(message.getClass(), "getGameId", null);
+            Method m = BeanUtils.findDeclaredMethod(message.getClass(), "getGameId", (Class<?>[]) null);
             if (m != null) {
                 return Optional.of((String) m.invoke(message));
             }
