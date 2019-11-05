@@ -51,7 +51,7 @@ public class GameHistoryController {
         }
     }
 
-    @GetMapping("/history")
+    @GetMapping("/history/all")
     public ResponseEntity<GameHistorySearchResult> getGames(){
         GameHistorySearchResult historicGames = storage.getHistoricGames();
         return new ResponseEntity<>(historicGames, HttpStatus.OK);
