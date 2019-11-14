@@ -15,6 +15,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import se.cygni.paintbot.api.GameMessage;
 import se.cygni.paintbot.api.GameMessageParser;
 import se.cygni.paintbot.api.event.*;
+import se.cygni.paintbot.api.exception.InvalidMessage;
 import se.cygni.paintbot.api.request.HeartBeatRequest;
 import se.cygni.paintbot.api.response.HeartBeatResponse;
 import se.cygni.paintbot.apiconversion.GameSettingsConverter;
@@ -156,6 +157,7 @@ public class EventSocketHandler extends TextWebSocketHandler {
             }
         } catch (Exception e) {
             log.debug("Got exception when handling API message", e);
+            sendApiMessage(new Unauthorized(e.getMessage()));
             return false;
         }
         return true;
