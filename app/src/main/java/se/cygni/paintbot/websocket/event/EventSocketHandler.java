@@ -23,6 +23,7 @@ import se.cygni.paintbot.arena.ArenaSelectionManager;
 import se.cygni.paintbot.event.InternalGameEvent;
 import se.cygni.paintbot.eventapi.ApiMessage;
 import se.cygni.paintbot.eventapi.ApiMessageParser;
+import se.cygni.paintbot.eventapi.exception.ApiMessageException;
 import se.cygni.paintbot.eventapi.exception.Unauthorized;
 import se.cygni.paintbot.eventapi.model.ActiveGame;
 import se.cygni.paintbot.eventapi.model.ActiveGamePlayer;
@@ -157,7 +158,7 @@ public class EventSocketHandler extends TextWebSocketHandler {
             }
         } catch (Exception e) {
             log.debug("Got exception when handling API message", e);
-            sendApiMessage(new Unauthorized(e.getMessage()));
+            sendApiMessage(new ApiMessageException(e.getMessage()));
             return false;
         }
         return true;
