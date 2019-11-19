@@ -383,4 +383,9 @@ public class TournamentManager {
     }
 
 
+    public void startGame(String gameId) {
+        Game game = this.games.get(gameId);
+        game.startGame();
+        publishTournamentPlan();
+    }
 }

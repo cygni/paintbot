@@ -154,7 +154,7 @@ public class EventSocketHandler extends TextWebSocketHandler {
 
             } else if (apiMessage instanceof StartTournamentGame) {
                 StartTournamentGame startGame = (StartTournamentGame) apiMessage;
-//                tournamentManager.startGame(startGame.getGameId());
+                tournamentManager.startGame(startGame.getGameId());
             }
         } catch (Exception e) {
             log.debug("Got exception when handling API message", e);
