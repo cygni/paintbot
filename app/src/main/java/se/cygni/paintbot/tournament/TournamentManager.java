@@ -96,8 +96,6 @@ public class TournamentManager {
         playersStillInTournament.clear();
         games.values().forEach(game -> game.abort());
         games.clear();
-
-        globalEventBus.post(new NoActiveTournamentEvent());
     }
 
     public void createTournament(String name) {

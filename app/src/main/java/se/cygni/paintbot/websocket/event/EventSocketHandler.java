@@ -29,10 +29,7 @@ import se.cygni.paintbot.eventapi.model.ActiveGame;
 import se.cygni.paintbot.eventapi.model.ActiveGamePlayer;
 import se.cygni.paintbot.eventapi.model.TournamentGamePlan;
 import se.cygni.paintbot.eventapi.request.*;
-import se.cygni.paintbot.eventapi.response.ActiveGamesList;
-import se.cygni.paintbot.eventapi.response.CurrentArena;
-import se.cygni.paintbot.eventapi.response.NoActiveTournamentEvent;
-import se.cygni.paintbot.eventapi.response.TournamentCreated;
+import se.cygni.paintbot.eventapi.response.*;
 import se.cygni.paintbot.game.Game;
 import se.cygni.paintbot.game.GameManager;
 import se.cygni.paintbot.security.TokenService;
@@ -122,6 +119,7 @@ public class EventSocketHandler extends TextWebSocketHandler {
             } else if (apiMessage instanceof KillTournament) {
                 // ToDo: Do we really need the current tournamentId?
                 tournamentManager.killTournament();
+                sendApiMessage(new TournamentKilled());
 
             } else if (apiMessage instanceof CreateTournament) {
                 CreateTournament createTournament = (CreateTournament) apiMessage;
