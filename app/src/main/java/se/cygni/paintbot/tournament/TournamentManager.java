@@ -23,6 +23,7 @@ import se.cygni.paintbot.apiconversion.TournamentPlanConverter;
 import se.cygni.paintbot.event.InternalGameEvent;
 import se.cygni.paintbot.eventapi.model.TournamentGamePlan;
 import se.cygni.paintbot.eventapi.model.TournamentInfo;
+import se.cygni.paintbot.eventapi.response.NoActiveTournamentEvent;
 import se.cygni.paintbot.game.*;
 import se.cygni.paintbot.player.HistoricalPlayer;
 import se.cygni.paintbot.player.IPlayer;
@@ -95,6 +96,8 @@ public class TournamentManager {
         playersStillInTournament.clear();
         games.values().forEach(game -> game.abort());
         games.clear();
+
+        globalEventBus.post(new NoActiveTournamentEvent());
     }
 
     public void createTournament(String name) {

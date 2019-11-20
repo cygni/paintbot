@@ -30,6 +30,7 @@ import se.cygni.paintbot.eventapi.model.ActiveGamePlayer;
 import se.cygni.paintbot.eventapi.model.TournamentGamePlan;
 import se.cygni.paintbot.eventapi.request.*;
 import se.cygni.paintbot.eventapi.response.ActiveGamesList;
+import se.cygni.paintbot.eventapi.response.CurrentArena;
 import se.cygni.paintbot.eventapi.response.NoActiveTournamentEvent;
 import se.cygni.paintbot.eventapi.response.TournamentCreated;
 import se.cygni.paintbot.game.Game;
@@ -103,6 +104,8 @@ public class EventSocketHandler extends TextWebSocketHandler {
             } else if (apiMessage instanceof SetCurrentArena) {
                 setCurrentArena((SetCurrentArena) apiMessage);
                 arenaSelectionManager.getArena(currentArenaName).broadcastState();
+            } else if (apiMessage instanceof GetCurrentArena) {
+                sendApiMessage(new CurrentArena(currentArenaName));
             } else if (apiMessage instanceof SetGameFilter) {
                 setActiveGameFilter((SetGameFilter) apiMessage);
 
