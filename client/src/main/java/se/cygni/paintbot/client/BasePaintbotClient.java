@@ -42,7 +42,7 @@ public abstract class BasePaintbotClient extends TextWebSocketHandler implements
     private boolean gameEnded = false;
     private boolean tournamentEnded = false;
 
-    private String arenaName = null;
+    private String arenaName = "bajen";
 
     public void registerForGame(GameSettings gameSettings) {
         log.info("Register for game...");

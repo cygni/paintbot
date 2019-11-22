@@ -1,22 +1,21 @@
-package se.cygni.paintbot.api.event;
+package se.cygni.paintbot.eventapi.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import se.cygni.paintbot.api.GameMessage;
-import se.cygni.paintbot.api.type.GameMessageType;
 import se.cygni.paintbot.eventapi.ApiMessage;
+import se.cygni.paintbot.eventapi.type.ApiMessageType;
 
 import java.util.List;
 import java.util.Map;
 
-@GameMessageType
-public class ArenaUpdateEvent extends GameMessage {
+@ApiMessageType
+public class ArenaUpdateEvent extends ApiMessage {
     private final String arenaName;
     private final String gameId;
     private final Boolean ranked;
     private final List<String> onlinePlayers;
     private final Map<String, Long> rating;
-    private final List<ArenaHistory> gameHistory;
+    private final List<se.cygni.paintbot.api.event.ArenaUpdateEvent.ArenaHistory> gameHistory;
 
     public static class ArenaHistory {
         public ArenaHistory(String gameId, List<String> playerPositions) {
@@ -43,7 +42,7 @@ public class ArenaUpdateEvent extends GameMessage {
             @JsonProperty("ranked") Boolean ranked,
             @JsonProperty("rating") Map<String, Long> rating,
             @JsonProperty("onlinePlayers") List<String> onlinePlayers,
-            @JsonProperty("gameHistory") List<ArenaHistory> gameHistory) {
+            @JsonProperty("gameHistory") List<se.cygni.paintbot.api.event.ArenaUpdateEvent.ArenaHistory> gameHistory) {
 
         this.arenaName = arenaName;
         this.gameId = gameId;
@@ -53,12 +52,12 @@ public class ArenaUpdateEvent extends GameMessage {
         this.gameHistory = gameHistory;
     }
 
-    public ArenaUpdateEvent(ArenaUpdateEvent other) {
+    public ArenaUpdateEvent(se.cygni.paintbot.api.event.ArenaUpdateEvent other) {
         this.arenaName = other.getArenaName();
         this.gameId = other.getGameId();
-        this.ranked = other.ranked;
-        this.rating = other.rating;
-        this.gameHistory = other.gameHistory;
+        this.ranked = other.getRanked();
+        this.rating = other.getRating();
+        this.gameHistory = other.getGameHistory();
 
         this.onlinePlayers = other.getOnlinePlayers();
     }
@@ -83,11 +82,7 @@ public class ArenaUpdateEvent extends GameMessage {
         return onlinePlayers;
     }
 
-    public List<ArenaHistory> getGameHistory() {
+    public List<se.cygni.paintbot.api.event.ArenaUpdateEvent.ArenaHistory> getGameHistory() {
         return gameHistory;
-    }
-
-    public ApiMessage toApiMessage(){
-        return new se.cygni.paintbot.eventapi.response.ArenaUpdateEvent(this);
     }
 }

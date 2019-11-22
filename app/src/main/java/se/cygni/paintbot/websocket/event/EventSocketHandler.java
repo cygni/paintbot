@@ -15,6 +15,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import se.cygni.paintbot.api.GameMessage;
 import se.cygni.paintbot.api.GameMessageParser;
 import se.cygni.paintbot.api.event.*;
+import se.cygni.paintbot.api.event.ArenaUpdateEvent;
 import se.cygni.paintbot.api.exception.InvalidMessage;
 import se.cygni.paintbot.api.request.HeartBeatRequest;
 import se.cygni.paintbot.api.response.HeartBeatResponse;
@@ -226,6 +227,7 @@ public class EventSocketHandler extends TextWebSocketHandler {
             ArenaUpdateEvent updateEvent = (ArenaUpdateEvent) gameMessage;
             if (updateEvent.getArenaName().equals(currentArenaName)) {
                 sendGameMessage(gameMessage);
+                sendApiMessage(updateEvent.toApiMessage());
             }
         }
 
