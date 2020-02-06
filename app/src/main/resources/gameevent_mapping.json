@@ -18,6 +18,9 @@
             "foodEnabled": {
               "type": "boolean"
             },
+            "gameDurationInSeconds": {
+              "type": "long"
+            },
             "headToTailConsumes": {
               "type": "boolean"
             },

@@ -52,7 +52,7 @@ public class GameFeatures {
 
     private int startPowerUps = 0;
 
-    private int gameDurationInSeconds = 60; // TODO Dont forget to set this back to something reasonable
+    private int gameDurationInSeconds = 180;
 
     private int explosionRange = 4;
 
