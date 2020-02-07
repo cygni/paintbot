@@ -52,6 +52,8 @@ public class GameSettings {
 
     private int explosionRange = 4;
 
+    private boolean pointsPerTick = false;
+
     public int getMaxNoofPlayers() {
         return maxNoofPlayers;
     }
@@ -170,5 +172,13 @@ public class GameSettings {
 
     public void setExplosionRange(int explosionRange) {
         this.explosionRange = explosionRange;
+    }
+
+    public boolean getPointsPerTick() {
+        return pointsPerTick;
+    }
+
+    public void setPointsPerTick(boolean pointsPerTick) {
+        this.pointsPerTick = pointsPerTick;
     }
 }

@@ -180,10 +180,16 @@ public class WorldUpdater {
         // Set colliding players to stunned
         stunnedPlayers.forEach(p -> nextWorld.getCharacterById(p).setIsStunnedForTicks(gameFeatures.getNoOfTicksStunned()));
 
+        WorldState explosionsHappenedWorld = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+
         playerManager.getLivePlayers().forEach(p -> {
-            int ownedTiles = positionUpdatedWorld.listPositionWithOwner(p.getPlayerId()).length;
+            if (!gameFeatures.getPointsPerTick()) {
+                int oldOwnedTiles = ws.listPositionWithOwner(p.getPlayerId()).length;
+                p.addPoints(PointReason.OWNED_TILES, -oldOwnedTiles);
+            }
+            int ownedTiles = explosionsHappenedWorld.listPositionWithOwner(p.getPlayerId()).length;
             p.addPoints(PointReason.OWNED_TILES, ownedTiles);
-            positionUpdatedWorld.getCharacterById(p.getPlayerId()).setPoints(p.getTotalPoints());
+            explosionsHappenedWorld.getCharacterById(p.getPlayerId()).setPoints(p.getTotalPoints());
         });
 
         return new WorldState(ws.getWidth(), ws.getHeight(), tiles, nextWorld.getCollisions(), nextWorld

@@ -45,6 +45,9 @@
             "pointsPerNibble": {
               "type": "long"
             },
+            "pointsPerTick": {
+              "type": "boolean"
+            },
             "removeFoodLikelihood": {
               "type": "long"
             },
