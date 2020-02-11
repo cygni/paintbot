@@ -56,6 +56,8 @@ public class GameFeatures {
 
     private int explosionRange = 4;
 
+    private boolean pointsPerTick = false;
+
     /**
      * Enforces limits on some values
      */
@@ -194,5 +196,13 @@ public class GameFeatures {
 
     public void setExplosionRange(int explosionRange) {
         this.explosionRange = explosionRange;
+    }
+
+    public boolean getPointsPerTick() {
+        return pointsPerTick;
+    }
+
+    public void setPointsPerTick(boolean pointsPerTick) {
+        this.pointsPerTick = pointsPerTick;
     }
 }
