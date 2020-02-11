@@ -68,6 +68,7 @@ public class WorldUpdater {
                 )
         );
         ConcurrentHashMap<Integer, List<String>> updatedPositions = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, Integer> stunsCaused = new ConcurrentHashMap<>();
         var stunnedPlayers = new HashSet<String>();
 
         actions.entrySet().forEach(entry -> {
@@ -174,6 +175,7 @@ public class WorldUpdater {
                 tiles[position] = new Tile(content, playerId);
             } else if (content instanceof Character) {
                 stunnedPlayers.add(positionUpdatedWorld.getCharacterAtPosition(position).getPlayerId());
+                increaseStunsCaused(stunsCaused, playerId);
             }
         });
 
@@ -185,15 +187,24 @@ public class WorldUpdater {
         playerManager.getLivePlayers().forEach(p -> {
             if (!gameFeatures.getPointsPerTick()) {
                 int oldOwnedTiles = ws.listPositionWithOwner(p.getPlayerId()).length;
-                p.addPoints(PointReason.OWNED_TILES, -oldOwnedTiles);
+                int ownedTiles = explosionsHappenedWorld.listPositionWithOwner(p.getPlayerId()).length;
+                p.addPoints(PointReason.OWNED_TILES, (ownedTiles - oldOwnedTiles) * gameFeatures.getPointsPerTileOwned());
+            } else {
+                int ownedTiles = explosionsHappenedWorld.listPositionWithOwner(p.getPlayerId()).length;
+                p.addPoints(PointReason.OWNED_TILES, ownedTiles * gameFeatures.getPointsPerTileOwned());
             }
-            int ownedTiles = explosionsHappenedWorld.listPositionWithOwner(p.getPlayerId()).length;
-            p.addPoints(PointReason.OWNED_TILES, ownedTiles);
+            p.addPoints(PointReason.CAUSED_STUN, stunsCaused.getOrDefault(p.getPlayerId(), 0) * gameFeatures.getPointsPerCausedStun());
+
             explosionsHappenedWorld.getCharacterById(p.getPlayerId()).setPoints(p.getTotalPoints());
         });
 
         return new WorldState(ws.getWidth(), ws.getHeight(), tiles, nextWorld.getCollisions(), nextWorld
                 .getExplosions());
+    }
+
+    private void increaseStunsCaused(ConcurrentHashMap<String, Integer> stunsCaused, String playerId) {
+        Integer stuns = stunsCaused.getOrDefault(playerId, 0);
+        stunsCaused.put(playerId, stuns + 1);
     }
 
     private void updatePosition(ConcurrentHashMap<Integer, List<String>> updatedPositions, String player, Integer newPosition) {

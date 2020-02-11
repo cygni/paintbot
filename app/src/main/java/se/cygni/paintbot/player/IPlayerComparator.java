@@ -10,7 +10,7 @@ public class IPlayerComparator implements Comparator<IPlayer> {
 
             PointReason.GROWTH,
             PointReason.NIBBLE,
-            PointReason.CAUSED_SNAKE_DEATH,
+            PointReason.CAUSED_STUN,
             PointReason.FOOD,
             PointReason.LAST_SNAKE_ALIVE
     };

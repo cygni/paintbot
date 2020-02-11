@@ -5,7 +5,7 @@ public enum PointReason {
     FOOD,
     GROWTH,
     NIBBLE,
-    CAUSED_SNAKE_DEATH,
+    CAUSED_STUN,
     LAST_SNAKE_ALIVE,
     SUICIDE,
     OWNED_TILES,
