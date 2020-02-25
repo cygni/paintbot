@@ -1,7 +1,7 @@
 resource "aws_security_group" "se-cygni_public_sg" {
   name        = "se-cygni_public_sg"
   description = "se-cygni public access security group"
-  vpc_id      = "${aws_vpc.se-cygni-vpc.id}"
+  vpc_id      = aws_vpc.se-cygni-vpc.id
 
   ingress {
     from_port = 22
@@ -49,8 +49,8 @@ resource "aws_security_group" "se-cygni_public_sg" {
     protocol  = "tcp"
 
     cidr_blocks = [
-      "${var.se-cygni_public_01_cidr}",
-      "${var.se-cygni_public_02_cidr}",
+      var.se-cygni_public_01_cidr,
+      var.se-cygni_public_02_cidr,
     ]
   }
 
@@ -69,3 +69,4 @@ resource "aws_security_group" "se-cygni_public_sg" {
     Name = "se-cygni_public_sg"
   }
 }
+

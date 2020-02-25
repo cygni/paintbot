@@ -5,3 +5,4 @@ resource "aws_vpc" "se-cygni-vpc" {
     Name = "se-cygni-vpc"
   }
 }
+

@@ -61,3 +61,4 @@ variable "desired_capacity" {
   description = "Desired number of instances in the cluster"
   default     = 1
 }
+

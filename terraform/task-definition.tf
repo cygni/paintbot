@@ -1,6 +1,6 @@
 data "aws_ecs_task_definition" "paintbot" {
-  task_definition = "${aws_ecs_task_definition.paintbot.family}"
-  depends_on      = ["aws_ecs_task_definition.paintbot"]
+  task_definition = aws_ecs_task_definition.paintbot.family
+  depends_on      = [aws_ecs_task_definition.paintbot]
 }
 
 resource "aws_ecs_task_definition" "paintbot" {
@@ -23,4 +23,6 @@ resource "aws_ecs_task_definition" "paintbot" {
   }
 ]
 DEFINITION
+
 }
+
