@@ -10,6 +10,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - setup_remote_docker
       
       - restore_cache:
           name: Restore Gradle wrapper
@@ -42,9 +43,38 @@ jobs:
       - run:
           name: Run build and tests
           command: ./gradlew build test
+      
+      - run: 
+          name: Build image
+          command: cd app && docker build . -t paintbot/paintbot-server
+      
+      - run:
+          name: Push image
+          command: cd app && docker push paintbot/paintbot-server:latest
+
+  deploy:
+    docker:
+      - image: cibuilds/aws:1.16.1
+    steps:
+      - run:
+          name: New deployment
+          command: aws ecs update-service --cluster se-cygni --service paintbot-ecs-service --force-new-deployment
+
 
 workflows:
   version: 2
-  build:
+  build-test-and-deploy:
     jobs:
       - build
+      - approve-deploy:
+          type: approval
+          requires: 
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+      - deploy:
+          requires:
+            - approve-deploy
