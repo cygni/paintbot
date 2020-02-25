@@ -44,6 +44,10 @@ jobs:
           name: Run build and tests
           command: ./gradlew build test
       
+      - run:
+          name: Login to DockerHub
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+          
       - run: 
           name: Build image
           command: cd app && docker build . -t paintbot/paintbot-server
