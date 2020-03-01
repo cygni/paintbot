@@ -12,6 +12,8 @@ import se.cygni.paintbot.api.model.TileContent;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class MapUtil {
 
@@ -107,6 +109,14 @@ public class MapUtil {
     public MapCoordinate getMyPosition() {
         return translatePosition(
                 characterInfoMap.get(playerId).getPosition());
+    }
+
+    public CharacterInfo getMyCharacterInfo() {
+        return characterInfoMap.get(playerId);
+    }
+
+    public Optional<CharacterInfo> getCharacterInfoOf(String playerId) {
+        return Optional.ofNullable(characterInfoMap.get(playerId));
     }
 
     /**

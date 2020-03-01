@@ -45,6 +45,10 @@ jobs:
           command: ./gradlew build test
       
       - run:
+          name: Publish artifacts
+          command: ./gradlew upload
+      
+      - run:
           name: Login to DockerHub
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
           

@@ -27,10 +27,10 @@ public class TournamentPaintbotPlayer extends BasePaintbotClient {
 
     private AnsiPrinter ansiPrinter;
     private String name = "#emil_" + random.nextInt(1000);
-    private String host = "localhost";
-    private int port = 8080;
-//    private String host = "paintbot.cygni.se";
+//    private String host = "ecs-load-balancer-178447630.eu-north-1.elb.amazonaws.com";
 //    private int port = 80;
+    private String host = "paintbot.cygni.se";
+    private int port = 80;
     private GameMode gameMode = GameMode.TOURNAMENT;
 
     CharacterAction lastDirection;

@@ -1,5 +1,5 @@
 jar {
-    baseName = 'paintbot-api'
+    baseName = 'api'
 }
 
 dependencies {

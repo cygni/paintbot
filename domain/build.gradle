@@ -1,5 +1,5 @@
 jar {
-    baseName = 'paintbot-domain'
+    baseName = 'domain'
 }
 
 apply plugin: 'info.solidsoft.pitest'
