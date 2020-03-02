@@ -15,6 +15,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+terraform/.terraform
 
 # External tool builders
 .externalToolBuilders/

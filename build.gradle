@@ -18,7 +18,7 @@ buildscript {
 allprojects {
 
     group = 'se.cygni.paintbot'
-    version = '0.1.20'
+    version = '0.1.21'
 
     /* Enable this for compiler warnings
     gradle.projectsEvaluated {
@@ -43,6 +43,7 @@ subprojects {
     apply plugin: 'jacoco'
     //apply plugin: 'org.sonarqube'
     apply plugin: 'maven-publish'
+    apply plugin: 'maven'
 
     jacoco {
         toolVersion = "0.8.2"
@@ -52,6 +53,16 @@ subprojects {
         sourceCompatibility = 11
         targetCompatibility = 11
         options.encoding = 'UTF-8'
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: "https://snakebot-maven-repo.appspot.com") {
+                    authentication(userName: "${System.getenv('mvn_user')}", password: "${System.getenv('mvn_pwd')}")
+                }
+            }
+        }
     }
 
     repositories {

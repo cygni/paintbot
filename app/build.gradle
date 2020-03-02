@@ -22,9 +22,12 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'info.solidsoft.pitest'
 apply plugin: "com.gorylenko.gradle-git-properties"
 
+// No need to upload this JAR, it is not a dependency to any other
+// Also, the repo does not allow files larger than 32MB
+uploadArchives.enabled = false
 
 jar {
-    baseName = 'paintbot-app'
+    baseName = 'app'
 }
 
 processResources {
@@ -67,7 +70,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-websocket')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-jetty')
-    compile('org.elasticsearch:elasticsearch:2.4.0')
+    compile('org.elasticsearch:elasticsearch:6.3.2')
+    compile('org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.2')
 
     compile("com.google.guava:guava:$guavaVersion")
     compile("commons-beanutils:commons-beanutils:$commonsBeanutilsVersion")

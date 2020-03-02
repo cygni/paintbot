@@ -3,7 +3,8 @@ package se.cygni.paintbot.persistence.clientinfo;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,9 +27,9 @@ public class ClientInfoStorageElastic implements ClientInfoStorage {
     private String elasticType;
 
     private final EventBus eventBus;
-    private final Client elasticClient;
+    private final RestHighLevelClient elasticClient;
 
-    public ClientInfoStorageElastic(EventBus eventBus, Client elasticClient) {
+    public ClientInfoStorageElastic(EventBus eventBus, RestHighLevelClient elasticClient) {
         this.eventBus = eventBus;
         this.elasticClient = elasticClient;
 
@@ -44,8 +45,8 @@ public class ClientInfoStorageElastic implements ClientInfoStorage {
             IndexRequest indexRequest = new IndexRequest(elasticIndex, elasticType, clientInfo.getId());
             msg = GameMessageParser.encodeMessage(clientInfo);
 
-            indexRequest.source(msg);
-            elasticClient.index(indexRequest).actionGet();
+            indexRequest.source(msg, XContentType.JSON);
+            elasticClient.index(indexRequest);
         } catch (Exception e) {
             log.error("Failed to persist clientinfo: {}", msg, e);
         }

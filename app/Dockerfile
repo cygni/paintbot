@@ -1,8 +1,8 @@
-FROM docker.paintbot.cygni.se:5000/java8:latest
-MAINTAINER emil.breding@bisnode.com
+FROM openjdk:12-alpine
+MAINTAINER johan.horvius@cygni.se
 
 EXPOSE 8080
 
-COPY build/libs/paintbot-app-*.jar /paintbot-app.jar
+COPY build/libs/app-*.jar /paintbot-app.jar
 
-CMD java -jar -Xmx4096m -Dspring.profiles.active=production /paintbot-app.jar
+CMD java -Dspring.profiles.active=production -jar -Xmx4096m /paintbot-app.jar

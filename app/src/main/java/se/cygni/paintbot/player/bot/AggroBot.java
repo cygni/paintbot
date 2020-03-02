@@ -39,21 +39,20 @@ public class AggroBot extends BotPlayer {
             return;
         }
 
-        if (isCarryingBomb && !shouldExplode) {
+        if (isCarryingBomb) {
             MapCoordinate closestEnemy = findClosestEnemy(mapUtil, mapUpdateEvent);
             CharacterAction chosenDirection = getDirection(mapUtil, closestEnemy);
             registerMove(mapUpdateEvent, chosenDirection);
+            return;
         }
 
-        if (!isCarryingBomb) {
-            MapCoordinate closestPowerUp = findClosestPowerUp(mapUtil);
-            if (closestPowerUp == null) {
-                registerMove(mapUpdateEvent, STAY);
-                return;
-            }
-            CharacterAction chosenDirection = getDirection(mapUtil, closestPowerUp);
-            registerMove(mapUpdateEvent, chosenDirection);
+        MapCoordinate closestPowerUp = findClosestPowerUp(mapUtil);
+        if (closestPowerUp == null) {
+            registerMove(mapUpdateEvent, STAY);
+            return;
         }
+        CharacterAction chosenDirection = getDirection(mapUtil, closestPowerUp);
+        registerMove(mapUpdateEvent, chosenDirection);
 
         registerMove(mapUpdateEvent, STAY);
     }
