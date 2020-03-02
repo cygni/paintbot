@@ -126,7 +126,7 @@ public class GameHistoryStorageElastic implements GameHistoryStorage {
     private List<GameMessage> getGameEventsForGame(String gameId) {
         List<GameMessage> messages = new ArrayList<>();
 
-        QueryBuilder qb = QueryBuilders.termQuery("gameId", gameId);
+        QueryBuilder qb = QueryBuilders.termQuery("gameId.keyword", gameId);
 
         SearchRequest searchRequest = new SearchRequest(gameEventIndex)
                 .scroll(new TimeValue(60000));
