@@ -12,14 +12,14 @@ variable "ecs_key_pair_name" {
 
 variable "region" {
   description = "AWS region"
-  default     = "eu-north-1"
+  default     = "eu-west-1"
 }
 
 variable "availability_zone" {
   description = "availability zone used for the demo, based on region"
 
   default = {
-    eu-north-1 = "eu-north-1"
+    eu-west-1 = "eu-west-1"
   }
 }
 
