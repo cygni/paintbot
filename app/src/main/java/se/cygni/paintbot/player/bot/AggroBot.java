@@ -53,8 +53,6 @@ public class AggroBot extends BotPlayer {
         }
         CharacterAction chosenDirection = getDirection(mapUtil, closestPowerUp);
         registerMove(mapUpdateEvent, chosenDirection);
-
-        registerMove(mapUpdateEvent, STAY);
     }
 
     private MapCoordinate findClosestEnemy(MapUtil mapUtil, MapUpdateEvent mapUpdateEvent) {
