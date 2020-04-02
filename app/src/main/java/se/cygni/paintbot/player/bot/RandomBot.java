@@ -23,13 +23,11 @@ public class RandomBot extends BotPlayer {
 
     @Override
     public void onWorldUpdate(MapUpdateEvent mapUpdateEvent) {
-        CompletableFuture cf = CompletableFuture.runAsync(() -> {
-            postNextMove(mapUpdateEvent.getGameId(), mapUpdateEvent.getMap(), mapUpdateEvent.getGameTick());
-        });
+        CompletableFuture.runAsync(() -> postNextMove(mapUpdateEvent));
     }
 
-    private void postNextMove(String gameId, Map map, long gameTick) {
-
+    private void postNextMove(MapUpdateEvent mapUpdateEvent) {
+        Map map = mapUpdateEvent.getMap();
         MapUtilityImpl mapUtil = new MapUtilityImpl(map, playerId);
 
         CharacterAction rndDirection = getRandomDirection();
@@ -39,9 +37,7 @@ public class RandomBot extends BotPlayer {
         }
         myLastDirection = rndDirection;
 
-        RegisterMove registerMove = new RegisterMove(gameId, gameTick, rndDirection);
-        registerMove.setReceivingPlayerId(playerId);
-        incomingEventbus.post(registerMove);
+        registerMove(mapUpdateEvent, rndDirection);
     }
 
     private List<CharacterAction> getValidDirections(MapUtilityImpl mapUtil) {

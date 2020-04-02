@@ -26,36 +26,27 @@ public class StraightBot extends BotPlayer {
 
     @Override
     public void onWorldUpdate(MapUpdateEvent mapUpdateEvent) {
-        CompletableFuture cf = CompletableFuture.runAsync(() -> {
-
-            postNextMove(mapUpdateEvent.getGameId(), mapUpdateEvent.getMap(), mapUpdateEvent.getGameTick());
-        });
+        CompletableFuture.runAsync(() -> postNextMove(mapUpdateEvent));
     }
 
 
-    private void postNextMove(String gameId, Map map, long gameTick) {
-
-        // MapUtil contains lot's of useful methods for querying the map!
-        MapUtilityImpl mapUtil = new MapUtilityImpl(map, playerId);
-
+    private void postNextMove(MapUpdateEvent mapUpdateEvent) {
+        MapUtilityImpl mapUtil = new MapUtilityImpl(mapUpdateEvent.getMap(), playerId);
 
         CharacterAction chosenDirection = lastDirection;
         List<CharacterAction> directions = new ArrayList<>();
 
         if (!mapUtil.canIMoveInDirection(lastDirection)) {
-            directions = Arrays.stream(CharacterAction.values()).filter(direction ->
-                mapUtil.canIMoveInDirection(direction)
-            ).collect(Collectors.toList());
+            directions = Arrays.stream(CharacterAction.values())
+                    .filter(mapUtil::canIMoveInDirection)
+                    .collect(Collectors.toList());
 
             // Choose a random direction
             if (!directions.isEmpty())
                 chosenDirection = directions.get(random.nextInt(directions.size()));
         }
 
-        // Register action here!
-        RegisterMove registerMove = new RegisterMove(gameId, gameTick, chosenDirection);
-        registerMove.setReceivingPlayerId(playerId);
-        incomingEventbus.post(registerMove);
+        registerMove(mapUpdateEvent, chosenDirection);
         lastDirection = chosenDirection;
 
     }
