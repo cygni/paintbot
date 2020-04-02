@@ -3,11 +3,7 @@ package se.cygni.paintbot.player.bot;
 import com.google.common.eventbus.EventBus;
 import se.cygni.paintbot.api.event.*;
 import se.cygni.paintbot.api.model.CharacterAction;
-import se.cygni.paintbot.api.model.Map;
-import se.cygni.paintbot.api.model.TileContent;
 import se.cygni.paintbot.api.request.RegisterMove;
-import se.cygni.paintbot.client.MapCoordinate;
-import se.cygni.paintbot.client.MapUtilityImpl;
 import se.cygni.paintbot.player.BasePlayer;
 
 import java.util.Objects;
