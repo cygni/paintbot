@@ -6,7 +6,7 @@ import se.cygni.paintbot.api.event.MapUpdateEvent;
 import se.cygni.paintbot.api.model.CharacterAction;
 import se.cygni.paintbot.api.model.Map;
 import se.cygni.paintbot.api.request.RegisterMove;
-import se.cygni.paintbot.client.MapUtil;
+import se.cygni.paintbot.client.MapUtilityImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class RandomBot extends BotPlayer {
 
     private void postNextMove(String gameId, Map map, long gameTick) {
 
-        MapUtil mapUtil = new MapUtil(map, playerId);
+        MapUtilityImpl mapUtil = new MapUtilityImpl(map, playerId);
 
         CharacterAction rndDirection = getRandomDirection();
         List<CharacterAction> validDirections = getValidDirections(mapUtil);
@@ -44,7 +44,7 @@ public class RandomBot extends BotPlayer {
         incomingEventbus.post(registerMove);
     }
 
-    private List<CharacterAction> getValidDirections(MapUtil mapUtil) {
+    private List<CharacterAction> getValidDirections(MapUtilityImpl mapUtil) {
 
         List<CharacterAction> validDirections = new ArrayList<>();
 

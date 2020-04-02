@@ -7,7 +7,7 @@ import se.cygni.paintbot.api.model.Map;
 import se.cygni.paintbot.api.model.TileContent;
 import se.cygni.paintbot.api.request.RegisterMove;
 import se.cygni.paintbot.client.MapCoordinate;
-import se.cygni.paintbot.client.MapUtil;
+import se.cygni.paintbot.client.MapUtilityImpl;
 import se.cygni.paintbot.player.BasePlayer;
 
 public abstract class BotPlayer extends BasePlayer {
@@ -76,7 +76,7 @@ public abstract class BotPlayer extends BasePlayer {
      * @param myPosition where am I now?
      * @param howFar how far can I see?
      */
-    protected void addDirectionScore(final Map gameMap, final MapUtil mapUtil, final PotentialDirection potentialDirection, final MapCoordinate myPosition, final int howFar) {
+    protected void addDirectionScore(final Map gameMap, final MapUtilityImpl mapUtil, final PotentialDirection potentialDirection, final MapCoordinate myPosition, final int howFar) {
         for (int i = 1; i <= howFar; i++) {
             MapCoordinate coordinate = possibleNewPosition(myPosition, potentialDirection.getDirection(), i);
             addTileToPotentialDirection(gameMap, mapUtil, potentialDirection, i, coordinate);
@@ -97,7 +97,7 @@ public abstract class BotPlayer extends BasePlayer {
         }
     }
 
-    private void addTileToPotentialDirection(Map gameMap, MapUtil mapUtil, PotentialDirection potentialDirection, int i, MapCoordinate coordinate) {
+    private void addTileToPotentialDirection(Map gameMap, MapUtilityImpl mapUtil, PotentialDirection potentialDirection, int i, MapCoordinate coordinate) {
         if (mapUtil.isCoordinateOutOfBounds(coordinate)) {
             potentialDirection.applyOutOfBoundsScore();
         } else {

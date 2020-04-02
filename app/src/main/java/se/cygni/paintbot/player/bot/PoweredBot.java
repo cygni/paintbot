@@ -5,7 +5,7 @@ import se.cygni.game.random.XORShiftRandom;
 import se.cygni.paintbot.api.event.MapUpdateEvent;
 import se.cygni.paintbot.api.model.CharacterAction;
 import se.cygni.paintbot.client.MapCoordinate;
-import se.cygni.paintbot.client.MapUtil;
+import se.cygni.paintbot.client.MapUtilityImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class PoweredBot extends BotPlayer {
 
     @Override
     public void onWorldUpdate(MapUpdateEvent mapUpdateEvent) {
-        MapUtil mapUtil = new MapUtil(mapUpdateEvent.getMap(), getPlayerId());
+        MapUtilityImpl mapUtil = new MapUtilityImpl(mapUpdateEvent.getMap(), getPlayerId());
 
         if(mapUpdateEvent.getGameTick() % 10 == 0) {
             registerMove(mapUpdateEvent, CharacterAction.EXPLODE);
@@ -66,7 +66,7 @@ public class PoweredBot extends BotPlayer {
         return CharacterAction.values()[random.nextInt(4)];
     }
 
-    private MapCoordinate findClosestPowerUp(MapUtil mapUtil) {
+    private MapCoordinate findClosestPowerUp(MapUtilityImpl mapUtil) {
         MapCoordinate closestPowerUp = null;
 
         int closestPowerUpDistance = Integer.MAX_VALUE;

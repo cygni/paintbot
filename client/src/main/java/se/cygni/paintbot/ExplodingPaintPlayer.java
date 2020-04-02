@@ -18,7 +18,7 @@ import se.cygni.paintbot.api.response.PlayerRegistered;
 import se.cygni.paintbot.api.util.GameSettingsUtils;
 import se.cygni.paintbot.client.BasePaintbotClient;
 import se.cygni.paintbot.client.MapCoordinate;
-import se.cygni.paintbot.client.MapUtil;
+import se.cygni.paintbot.client.MapUtilityImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,12 +73,14 @@ public class ExplodingPaintPlayer extends BasePaintbotClient {
 
     @Override
     public void onMapUpdate(MapUpdateEvent mapUpdateEvent) {
-        MapUtil mapUtil = new MapUtil(mapUpdateEvent.getMap(), getPlayerId());
+        MapUtilityImpl mapUtil = new MapUtilityImpl(mapUpdateEvent.getMap(), getPlayerId());
 
         Arrays.stream(mapUpdateEvent.getMap().getCharacterInfos())
                 .filter(ci -> ci.getName().equals(name))
                 .findFirst().ifPresent(ci -> log
                 .info("Is carrying power up {} at tick: {}", ci.isCarryingPowerUp(), mapUpdateEvent.getGameTick()));
+
+        log.info("Is carrying power up 2 {} at tick: {}", mapUtil.getMyCharacterInfo().isCarryingPowerUp(), mapUpdateEvent.getGameTick());
 
         if(mapUpdateEvent.getGameTick() % 10 == 0) {
             registerMove(mapUpdateEvent.getGameTick(), CharacterAction.EXPLODE);

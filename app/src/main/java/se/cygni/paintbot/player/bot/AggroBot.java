@@ -7,7 +7,7 @@ import se.cygni.paintbot.api.event.MapUpdateEvent;
 import se.cygni.paintbot.api.model.CharacterAction;
 import se.cygni.paintbot.api.model.CharacterInfo;
 import se.cygni.paintbot.client.MapCoordinate;
-import se.cygni.paintbot.client.MapUtil;
+import se.cygni.paintbot.client.MapUtilityImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class AggroBot extends BotPlayer {
 
     @Override
     public void onWorldUpdate(MapUpdateEvent mapUpdateEvent) {
-        MapUtil mapUtil = new MapUtil(mapUpdateEvent.getMap(), getPlayerId());
+        MapUtilityImpl mapUtil = new MapUtilityImpl(mapUpdateEvent.getMap(), getPlayerId());
         boolean shouldExplode = shouldExplode(mapUtil, mapUpdateEvent);
         boolean isCarryingBomb = isCarryingPowerUp(playerId, mapUpdateEvent);
         if (isCarryingBomb && shouldExplode) {
@@ -55,16 +55,16 @@ public class AggroBot extends BotPlayer {
         registerMove(mapUpdateEvent, chosenDirection);
     }
 
-    private MapCoordinate findClosestEnemy(MapUtil mapUtil, MapUpdateEvent mapUpdateEvent) {
+    private MapCoordinate findClosestEnemy(MapUtilityImpl mapUtil, MapUpdateEvent mapUpdateEvent) {
         MapCoordinate closest = null;
         int minDistance = Integer.MAX_VALUE;
         for (CharacterInfo player : mapUpdateEvent.getMap().getCharacterInfos()) {
             if (!player.getId().equals(playerId)) {
                 int distance = mapUtil.getMyPosition()
-                        .getManhattanDistanceTo(mapUtil.translatePosition(player.getPosition()));
+                        .getManhattanDistanceTo(mapUtil.convertPositionToCoordinate(player.getPosition()));
                 if (distance < minDistance) {
                     minDistance = distance;
-                    closest = mapUtil.translatePosition(player.getPosition());
+                    closest = mapUtil.convertPositionToCoordinate(player.getPosition());
                 }
             }
         }
@@ -81,14 +81,14 @@ public class AggroBot extends BotPlayer {
         throw new IllegalStateException("Current player does not exist");
     }
 
-    private boolean shouldExplode(MapUtil mapUtil, MapUpdateEvent mapUpdateEvent) {
+    private boolean shouldExplode(MapUtilityImpl mapUtil, MapUpdateEvent mapUpdateEvent) {
         MapCoordinate myPosition = mapUtil.getMyPosition();
         CharacterInfo[] players = mapUpdateEvent.getMap().getCharacterInfos();
 
         int minDist = Integer.MAX_VALUE;
         for (CharacterInfo player : players) {
             if (!player.getId().equals(playerId)) {
-                int dist = myPosition.getManhattanDistanceTo(mapUtil.translatePosition(player.getPosition()));
+                int dist = myPosition.getManhattanDistanceTo(mapUtil.convertPositionToCoordinate(player.getPosition()));
                 minDist = Math.min(dist, minDist);
             }
         }
@@ -96,7 +96,7 @@ public class AggroBot extends BotPlayer {
         return minDist <= explosionRange;
     }
 
-    private CharacterAction getDirection(MapUtil mapUtil, MapCoordinate closestPowerUp) {
+    private CharacterAction getDirection(MapUtilityImpl mapUtil, MapCoordinate closestPowerUp) {
         MapCoordinate myPosition = mapUtil.getMyPosition();
         List<CharacterAction> possibleActions = new ArrayList<>();
         if (closestPowerUp.x < myPosition.x) {
@@ -121,7 +121,7 @@ public class AggroBot extends BotPlayer {
         return chosenDirection;
     }
 
-    private MapCoordinate findClosestPowerUp(MapUtil mapUtil) {
+    private MapCoordinate findClosestPowerUp(MapUtilityImpl mapUtil) {
         MapCoordinate closestPowerUp = null;
 
         int closestPowerUpDistance = Integer.MAX_VALUE;

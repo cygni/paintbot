@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import se.cygni.game.WorldState;
 import se.cygni.game.worldobject.CharacterImpl;
 import se.cygni.paintbot.api.model.CharacterInfo;
-import se.cygni.paintbot.api.model.ColissionInfo;
+import se.cygni.paintbot.api.model.CollisionInfo;
 import se.cygni.paintbot.api.model.ExplosionInfo;
 import se.cygni.paintbot.api.model.Map;
 import se.cygni.paintbot.player.IPlayer;
@@ -25,9 +25,9 @@ public class WorldStateConverter {
         CharacterInfo[] characterInfos = getCharacterInfos(ws, players);
         int[] foods = ws.listPowerUpPositions();
         int[] obstacles = ws.listObstaclePositions();
-        ColissionInfo[] colissionInfos = ws.getCollisions().entrySet().stream()
-                .map(e -> new ColissionInfo(e.getKey(), e.getValue().toArray(String[]::new)))
-                .toArray(ColissionInfo[]::new);
+        CollisionInfo[] colissionInfos = ws.getCollisions().entrySet().stream()
+                .map(e -> new CollisionInfo(e.getKey(), e.getValue().toArray(String[]::new)))
+                .toArray(CollisionInfo[]::new);
 
         ExplosionInfo[] explosionInfos = ws.getExplosions().entrySet().stream()
                 .map(e -> new ExplosionInfo(e.getKey(), e.getValue().toArray(String[]::new)))

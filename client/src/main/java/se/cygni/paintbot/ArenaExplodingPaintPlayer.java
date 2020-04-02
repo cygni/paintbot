@@ -12,7 +12,7 @@ import se.cygni.paintbot.api.response.PlayerRegistered;
 import se.cygni.paintbot.api.util.GameSettingsUtils;
 import se.cygni.paintbot.client.BasePaintbotClient;
 import se.cygni.paintbot.client.MapCoordinate;
-import se.cygni.paintbot.client.MapUtil;
+import se.cygni.paintbot.client.MapUtilityImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +67,7 @@ public class ArenaExplodingPaintPlayer extends BasePaintbotClient {
 
     @Override
     public void onMapUpdate(MapUpdateEvent mapUpdateEvent) {
-        MapUtil mapUtil = new MapUtil(mapUpdateEvent.getMap(), getPlayerId());
+        MapUtilityImpl mapUtil = new MapUtilityImpl(mapUpdateEvent.getMap(), getPlayerId());
 
         Arrays.stream(mapUpdateEvent.getMap().getCharacterInfos())
                 .filter(ci -> ci.getName().equals(name))
