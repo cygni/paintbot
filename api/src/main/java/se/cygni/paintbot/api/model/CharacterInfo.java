@@ -20,7 +20,7 @@ public class CharacterInfo {
             @JsonProperty("points") int points,
             @JsonProperty("playerId") String playerId,
             @JsonProperty("position") int position,
-            @JsonProperty("isCarryingPowerUp") boolean isCarryingPowerUp,
+            @JsonProperty("carryingPowerUp") boolean isCarryingPowerUp,
             @JsonProperty("colouredPositions") int[] colouredPositions,
             @JsonProperty("stunnedForGameTicks") int stunnedForGameTicks
     )
