@@ -11,6 +11,7 @@ import se.cygni.paintbot.client.MapUtilityImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static se.cygni.paintbot.api.model.CharacterAction.EXPLODE;
@@ -18,7 +19,7 @@ import static se.cygni.paintbot.api.model.CharacterAction.STAY;
 
 public class AggroBot extends BotPlayer {
     private XORShiftRandom random = new XORShiftRandom();
-    int explosionRange;
+    private int explosionRange;
 
     public AggroBot(String playerId, EventBus incomingEventbus) {
         super(playerId, incomingEventbus);
@@ -31,9 +32,13 @@ public class AggroBot extends BotPlayer {
 
     @Override
     public void onWorldUpdate(MapUpdateEvent mapUpdateEvent) {
+        CompletableFuture.runAsync(() -> postNextMove(mapUpdateEvent));
+    }
+
+    private void postNextMove(MapUpdateEvent mapUpdateEvent) {
         MapUtilityImpl mapUtil = new MapUtilityImpl(mapUpdateEvent.getMap(), getPlayerId());
         boolean shouldExplode = shouldExplode(mapUtil, mapUpdateEvent);
-        boolean isCarryingBomb = isCarryingPowerUp(playerId, mapUpdateEvent);
+        boolean isCarryingBomb = mapUtil.getMyCharacterInfo().isCarryingPowerUp();
         if (isCarryingBomb && shouldExplode) {
             registerMove(mapUpdateEvent, EXPLODE);
             return;
@@ -46,7 +51,7 @@ public class AggroBot extends BotPlayer {
             return;
         }
 
-        MapCoordinate closestPowerUp = findClosestPowerUp(mapUtil);
+        MapCoordinate closestPowerUp = BotUtils.findClosestPowerUp(mapUtil);
         if (closestPowerUp == null) {
             registerMove(mapUpdateEvent, STAY);
             return;
@@ -70,15 +75,6 @@ public class AggroBot extends BotPlayer {
         }
 
         return closest;
-    }
-
-    private boolean isCarryingPowerUp(String playerId, MapUpdateEvent mapUpdateEvent) {
-        for (CharacterInfo player : mapUpdateEvent.getMap().getCharacterInfos()) {
-            if (player.getId().equals(playerId)) {
-                return player.isCarryingPowerUp();
-            }
-        }
-        throw new IllegalStateException("Current player does not exist");
     }
 
     private boolean shouldExplode(MapUtilityImpl mapUtil, MapUpdateEvent mapUpdateEvent) {
@@ -120,28 +116,4 @@ public class AggroBot extends BotPlayer {
         }
         return chosenDirection;
     }
-
-    private MapCoordinate findClosestPowerUp(MapUtilityImpl mapUtil) {
-        MapCoordinate closestPowerUp = null;
-
-        int closestPowerUpDistance = Integer.MAX_VALUE;
-        MapCoordinate myPosition = mapUtil.getMyPosition();
-
-        for (MapCoordinate mc : mapUtil.listCoordinatesContainingPowerUps()) {
-            if (closestPowerUp == null) {
-                closestPowerUp = mc;
-                closestPowerUpDistance = closestPowerUp.getManhattanDistanceTo(myPosition);
-            } else {
-                int distance = myPosition.getManhattanDistanceTo(mc);
-                if (distance < closestPowerUpDistance) {
-                    closestPowerUp = mc;
-                    closestPowerUpDistance = distance;
-                }
-            }
-
-        }
-
-        return closestPowerUp;
-    }
-
 }

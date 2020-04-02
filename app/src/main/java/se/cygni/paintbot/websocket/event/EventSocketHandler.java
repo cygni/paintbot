@@ -15,12 +15,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import se.cygni.paintbot.api.GameMessage;
 import se.cygni.paintbot.api.GameMessageParser;
 import se.cygni.paintbot.api.event.*;
-import se.cygni.paintbot.api.event.ArenaUpdateEvent;
-import se.cygni.paintbot.api.exception.InvalidMessage;
 import se.cygni.paintbot.api.request.HeartBeatRequest;
 import se.cygni.paintbot.api.response.HeartBeatResponse;
 import se.cygni.paintbot.apiconversion.GameSettingsConverter;
-import se.cygni.paintbot.arena.ArenaSelectionManager;
 import se.cygni.paintbot.event.InternalGameEvent;
 import se.cygni.paintbot.eventapi.ApiMessage;
 import se.cygni.paintbot.eventapi.ApiMessageParser;
@@ -30,7 +27,10 @@ import se.cygni.paintbot.eventapi.model.ActiveGame;
 import se.cygni.paintbot.eventapi.model.ActiveGamePlayer;
 import se.cygni.paintbot.eventapi.model.TournamentGamePlan;
 import se.cygni.paintbot.eventapi.request.*;
-import se.cygni.paintbot.eventapi.response.*;
+import se.cygni.paintbot.eventapi.response.ActiveGamesList;
+import se.cygni.paintbot.eventapi.response.NoActiveTournamentEvent;
+import se.cygni.paintbot.eventapi.response.TournamentCreated;
+import se.cygni.paintbot.eventapi.response.TournamentKilled;
 import se.cygni.paintbot.game.Game;
 import se.cygni.paintbot.game.GameManager;
 import se.cygni.paintbot.security.TokenService;
@@ -55,21 +55,16 @@ public class EventSocketHandler extends TextWebSocketHandler {
     private TournamentManager tournamentManager;
     private TokenService tokenService;
 
-    private String currentArenaName = null;
-    private ArenaSelectionManager arenaSelectionManager;
-
     @Autowired
     public EventSocketHandler(
             EventBus globalEventBus,
             GameManager gameManager,
             TournamentManager tournamentManager,
-            ArenaSelectionManager arenaSelectionManager,
             TokenService tokenService) {
 
         this.globalEventBus = globalEventBus;
         this.gameManager = gameManager;
         this.tournamentManager = tournamentManager;
-        this.arenaSelectionManager = arenaSelectionManager;
         this.tokenService = tokenService;
         log.info("EventSocketHandler started!");
     }
@@ -99,18 +94,10 @@ public class EventSocketHandler extends TextWebSocketHandler {
 
             if (apiMessage instanceof ListActiveGames) {
                 sendListOfActiveGames();
-            } else if (apiMessage instanceof SetCurrentArena) {
-                setCurrentArena((SetCurrentArena) apiMessage);
-                arenaSelectionManager.getArena(currentArenaName).broadcastState();
-            } else if (apiMessage instanceof GetCurrentArena) {
-                sendApiMessage(new CurrentArena(currentArenaName));
             } else if (apiMessage instanceof SetGameFilter) {
                 setActiveGameFilter((SetGameFilter) apiMessage);
-
             } else if (apiMessage instanceof StartGame) {
                 startGame((StartGame) apiMessage);
-            } else if (apiMessage instanceof StartArenaGame) {
-                startArenaGame((StartArenaGame) apiMessage);
             } else if (apiMessage instanceof GetActiveTournament) {
                 if(tournamentManager.isTournamentActive()) {
                     sendApiMessage(tournamentManager.getTournamentInfo());
@@ -223,14 +210,6 @@ public class EventSocketHandler extends TextWebSocketHandler {
             sendListOfActiveGames();
         }
 
-        if (gameMessage instanceof ArenaUpdateEvent) {
-            ArenaUpdateEvent updateEvent = (ArenaUpdateEvent) gameMessage;
-            if (updateEvent.getArenaName().equals(currentArenaName)) {
-                sendGameMessage(gameMessage);
-                sendApiMessage(updateEvent.toApiMessage());
-            }
-        }
-
         sendGameEvent(event.getGameMessage());
     }
 
@@ -275,10 +254,6 @@ public class EventSocketHandler extends TextWebSocketHandler {
         sendApiMessage(gamesList);
     }
 
-    private void setCurrentArena(SetCurrentArena apiMessage) {
-        this.currentArenaName = apiMessage.getCurrentArena();
-    }
-
     private void setActiveGameFilter(SetGameFilter gameFilter) {
         this.filterGameIds = gameFilter.getIncludedGameIds();
     }
@@ -291,10 +266,6 @@ public class EventSocketHandler extends TextWebSocketHandler {
             log.info("Active remote players: {}", game.getPlayerManager().getLiveAndRemotePlayers().size());
             game.startGame();
         }
-    }
-
-    private void startArenaGame(StartArenaGame apiMessage) {
-        arenaSelectionManager.getArena(apiMessage.getArenaName()).requestGameStart();
     }
 
     private boolean verifyTokenSendErrorIfUnauthorized(ApiMessage apiMessage) {

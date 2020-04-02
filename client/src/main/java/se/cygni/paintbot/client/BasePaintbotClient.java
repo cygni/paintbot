@@ -42,8 +42,6 @@ public abstract class BasePaintbotClient extends TextWebSocketHandler implements
     private boolean gameEnded = false;
     private boolean tournamentEnded = false;
 
-    private String arenaName = "bajen";
-
     public void registerForGame(GameSettings gameSettings) {
         log.info("Register for game...");
         RegisterPlayer registerPlayer = new RegisterPlayer(getName(), gameSettings);
@@ -121,11 +119,8 @@ public abstract class BasePaintbotClient extends TextWebSocketHandler implements
     }
 
     public ListenableFuture<WebSocketSession> connect() {
-        String arenaSuffix = getGameMode() == GameMode.ARENA && arenaName != null ? "/"+arenaName : "";
-        String uri = String.format("ws://%s:%d/%s%s", getServerHost(), getServerPort(), getGameMode().toString().toLowerCase(), arenaSuffix);
+        String uri = String.format("ws://%s:%d/%s", getServerHost(), getServerPort(), getGameMode().toString().toLowerCase());
         log.info("Connecting to {}", uri);
-
-
 
         WebSocketClient wsClient = new StandardWebSocketClient();
         return wsClient.doHandshake(this, uri);
@@ -257,11 +252,4 @@ public abstract class BasePaintbotClient extends TextWebSocketHandler implements
         return true;
     }
 
-    public String getArenaName() {
-        return arenaName;
-    }
-
-    public void setArenaName(String arenaName) {
-        this.arenaName = arenaName;
-    }
 }

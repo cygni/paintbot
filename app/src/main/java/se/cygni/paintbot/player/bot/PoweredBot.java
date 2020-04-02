@@ -9,6 +9,7 @@ import se.cygni.paintbot.client.MapUtilityImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class PoweredBot extends BotPlayer {
@@ -21,6 +22,10 @@ public class PoweredBot extends BotPlayer {
 
     @Override
     public void onWorldUpdate(MapUpdateEvent mapUpdateEvent) {
+        CompletableFuture.runAsync(() -> postNextMove(mapUpdateEvent));
+    }
+
+    private void postNextMove(MapUpdateEvent mapUpdateEvent) {
         MapUtilityImpl mapUtil = new MapUtilityImpl(mapUpdateEvent.getMap(), getPlayerId());
 
         if(mapUpdateEvent.getGameTick() % 10 == 0) {
@@ -28,7 +33,7 @@ public class PoweredBot extends BotPlayer {
             return;
         }
 
-        MapCoordinate closestPowerUp = findClosestPowerUp(mapUtil);
+        MapCoordinate closestPowerUp = BotUtils.findClosestPowerUp(mapUtil);
         if(closestPowerUp == null) {
             registerMove(mapUpdateEvent, lastDirection);
             return;
@@ -61,32 +66,4 @@ public class PoweredBot extends BotPlayer {
         registerMove(mapUpdateEvent, chosenDirection);
         lastDirection = chosenDirection;
     }
-
-    private CharacterAction getRandomDirection() {
-        return CharacterAction.values()[random.nextInt(4)];
-    }
-
-    private MapCoordinate findClosestPowerUp(MapUtilityImpl mapUtil) {
-        MapCoordinate closestPowerUp = null;
-
-        int closestPowerUpDistance = Integer.MAX_VALUE;
-        MapCoordinate myPosition = mapUtil.getMyPosition();
-
-        for (MapCoordinate mc : mapUtil.listCoordinatesContainingPowerUps()) {
-            if(closestPowerUp == null) {
-                closestPowerUp = mc;
-                closestPowerUpDistance = closestPowerUp.getManhattanDistanceTo(myPosition);
-            } else {
-                int distance = myPosition.getManhattanDistanceTo(mc);
-                if(distance < closestPowerUpDistance) {
-                    closestPowerUp = mc;
-                    closestPowerUpDistance = distance;
-                }
-            }
-
-        }
-
-        return closestPowerUp;
-    }
-
 }
