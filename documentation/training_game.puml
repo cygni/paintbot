@@ -1,0 +1,21 @@
+@startuml
+title Training game
+Client -> Server : <Connect to wss://hostname/training>
+activate Client
+activate Server
+Client -> Server : RegisterPlayer
+Server -> Client : PlayerRegistered
+Client -> Server : StartGame
+Client -> Server : ClientInfo
+Server -> Client : GameLinkEvent
+Server -> Client : GameStartingEvent
+    loop until game is finished
+        Server -> Client : MapUpdateEvent
+        Client -> Server : RegisterMove
+    end
+Server -> Client : GameResultEvent
+Server -> Client : GameEndedEvent
+Client -> Server : <Close connection>
+deactivate Server
+deactivate Client
+@enduml
