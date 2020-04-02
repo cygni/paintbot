@@ -1,8 +1,22 @@
 Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.
 
+# Paintbot
+A game of wits between programmers where they develop bots to compete against each other in painting a canvas in their
+bot's color. The webpage for the game can be viewed at https://paintbot.cygni.se/
+
+Originally based on [Cygni's Snakebot](https://github.com/cygni/snakebot)
+
+This is the server and api repository, other parts:
+
+* [Paintbot webapp](https://github.com/cygni/paintbot-webapp)
+* [Paintbot Java Client](https://github.com/cygni/paintbot-client-java)
+
+## Want to create your own client?
+If you want to create your own client, please take a look at [Client info](documentation/client_info.md)
+
 ## Getting started with intellij
   - Make sure you have enabled the gradle plugin in intellij
-  - When creating the project, be sure to select the build.gradle file, otherwise things go wrong
+  - When creating the project, be sure to import the build.gradle file, otherwise things go wrong
 
 ## To do test-runs:
   - Start up the server with 
@@ -10,7 +24,7 @@ Always code as if the guy who ends up maintaining your code will be a violent ps
 > ./gradlew clean build
 > ./gradlew bootRun
 ```
-  - Start up the [webapp](https://github.com/cygni/paintbot-webapp) as described in the README. You may have to add the following line to [src/Routes.tsx](https://github.com/cygni/paintbot-webapp/blob/develop/src/Routes.tsx) in the beginning of the document:
+  - Start up the [webapp](https://github.com/cygni/paintbot-webapp) as described in the README. You have to change some configuration for it to go towards your local server.
 ```
 const location = { origin: "http://localhost" };
 ```
