@@ -1,9 +1,3 @@
 include ":api", ":domain", ":app", ":client", ":client-util"
 
 rootProject.name = 'PaintbotServer'
-
-/*
-if (!System.getenv()['JENKINS_HOME']) {
-    include ":javafxclient"
-}
-*/

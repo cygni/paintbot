@@ -6,7 +6,7 @@ import se.cygni.paintbot.api.model.Map;
 import se.cygni.paintbot.api.model.CharacterAction;
 import se.cygni.paintbot.api.request.RegisterMove;
 import se.cygni.paintbot.client.MapCoordinate;
-import se.cygni.paintbot.client.MapUtil;
+import se.cygni.paintbot.client.MapUtilityImpl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +42,7 @@ public class StayAliveBot extends BotPlayer {
     }
 
     private void postNextMove(final String gameId, final Map map, final long gameTick) {
-        MapUtil mapUtil = new MapUtil(map, getPlayerId());
+        MapUtilityImpl mapUtil = new MapUtilityImpl(map, getPlayerId());
 
         List<PotentialDirection> directions = createDirections(map, mapUtil);
         if (directions.size() > 0) {
@@ -54,7 +54,7 @@ public class StayAliveBot extends BotPlayer {
         incomingEventbus.post(registerMove);
     }
 
-    private List<PotentialDirection> createDirections(Map gameMap, MapUtil mapUtil) {
+    private List<PotentialDirection> createDirections(Map gameMap, MapUtilityImpl mapUtil) {
         MapCoordinate myPosition = mapUtil.getMyPosition();
         List<PotentialDirection> directions = new ArrayList<>(4);
 
@@ -75,7 +75,7 @@ public class StayAliveBot extends BotPlayer {
         return directions;
     }
 
-    private boolean isDirectionBlocked(final MapUtil mapUtil, final CharacterAction characterAction) {
+    private boolean isDirectionBlocked(final MapUtilityImpl mapUtil, final CharacterAction characterAction) {
         MapCoordinate coordinate = possibleNewPosition(mapUtil.getMyPosition(), characterAction, 1);
         return !mapUtil.isTileAvailableForMovementTo(coordinate);
     }

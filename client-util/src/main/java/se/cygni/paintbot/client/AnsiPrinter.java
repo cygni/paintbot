@@ -105,7 +105,7 @@ public class AnsiPrinter {
                 .append("Game tick: ").append(event.getGameTick())
                 .append("\n\n");
 
-        MapUtil mapUtil = new MapUtil(map, "notused");
+        MapUtilityImpl mapUtil = new MapUtilityImpl(map, "notused");
 
         for (int y = 0; y < height; y++) {
             TileContent[] row = new TileContent[width];

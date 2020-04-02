@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class Map {
+public class Map implements IMap {
     final int width, height;
     final long worldTick;
 
@@ -13,7 +13,7 @@ public class Map {
     final int[] powerUpPositions;
     final int[] obstaclePositions;
 
-    final ColissionInfo[] collisionInfos;
+    final CollisionInfo[] collisionInfos;
     final ExplosionInfo[] explosionInfos;
 
     @JsonCreator
@@ -24,7 +24,7 @@ public class Map {
             @JsonProperty("characterInfos") CharacterInfo[] characterInfos,
             @JsonProperty("powerUpPositions") int[] powerUpPositions,
             @JsonProperty("obstaclePositions") int[] obstaclePositions,
-            @JsonProperty("collisionInfos") ColissionInfo[] collisionInfos,
+            @JsonProperty("collisionInfos") CollisionInfo[] collisionInfos,
             @JsonProperty("explosionInfos") ExplosionInfo[] explosionInfos
     ) {
         this.width = width;
@@ -37,34 +37,42 @@ public class Map {
         this.explosionInfos = explosionInfos;
     }
 
+    @Override
     public int getWidth() {
         return width;
     }
 
+    @Override
     public int getHeight() {
         return height;
     }
 
+    @Override
     public CharacterInfo[] getCharacterInfos() {
         return characterInfos;
     }
 
+    @Override
     public long getWorldTick() {
         return worldTick;
     }
 
+    @Override
     public int[] getPowerUpPositions() {
         return powerUpPositions;
     }
 
+    @Override
     public int[] getObstaclePositions() {
         return obstaclePositions;
     }
 
-    public ColissionInfo[] getCollisionInfos() {
+    @Override
+    public CollisionInfo[] getCollisionInfos() {
         return collisionInfos;
     }
 
+    @Override
     public ExplosionInfo[] getExplosionInfos() {
         return explosionInfos;
     }

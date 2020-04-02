@@ -3,12 +3,12 @@ package se.cygni.paintbot.api.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ColissionInfo {
+public class CollisionInfo {
     final int position;
     final String[] colliders;
 
     @JsonCreator
-    public ColissionInfo(
+    public CollisionInfo(
             @JsonProperty("position") int position,
             @JsonProperty("colliders") String[] colliders) {
         this.position = position;

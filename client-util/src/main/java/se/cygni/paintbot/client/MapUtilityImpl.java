@@ -13,27 +13,24 @@ import java.util.Arrays;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-public class MapUtil {
+public class MapUtilityImpl implements MapUtility {
 
     private final Map map;
     private final int mapSize;
     private final String playerId;
     private final java.util.Map<String, CharacterInfo> characterInfoMap;
-    private final java.util.Map<String, BitSet> paintbotSpread;
     private final BitSet powerUps;
     private final BitSet obstacles;
     private final BitSet characters;
 
 
-    public MapUtil(Map map, String playerId) {
+    public MapUtilityImpl(Map map, String playerId) {
         this.map = map;
         this.mapSize = map.getHeight() * map.getWidth();
 
         this.playerId = playerId;
         characterInfoMap = new HashMap<>();
-        paintbotSpread = new HashMap<>();
 
         int mapLength = map.getHeight() * map.getWidth();
         powerUps = new BitSet(mapLength);
@@ -44,6 +41,7 @@ public class MapUtil {
         populateStaticTileBits();
     }
 
+    @Override
     public boolean canIMoveInDirection(CharacterAction direction) {
         try {
             MapCoordinate myPos = getMyPosition();
@@ -55,47 +53,31 @@ public class MapUtil {
         }
     }
 
-    /**
-     * Returns an array of coordinates painted in the provided player's colour.
-     *
-     * @param playerId
-     * @return an array of MapCoordinate coloured by the player with matching playerId
-     */
+    @Override
     public MapCoordinate[] getPlayerColouredPositions(String playerId) {
-        return translatePositions(characterInfoMap.get(playerId).getColouredPositions());
+        return convertPositionsToCoordinates(characterInfoMap.get(playerId).getColouredPositions());
     }
 
 
-    /**
-     * @return An array containing all MapCoordinates where there's Food
-     */
+    @Override
     public MapCoordinate[] listCoordinatesContainingPowerUps() {
-        return translatePositions(map.getPowerUpPositions());
+        return convertPositionsToCoordinates(map.getPowerUpPositions());
     }
 
-    /**
-     * @return An array containing all MapCoordinates where there's an Obstacle
-     */
+    @Override
     public MapCoordinate[] listCoordinatesContainingObstacle() {
-        return translatePositions(map.getObstaclePositions());
+        return convertPositionsToCoordinates(map.getObstaclePositions());
     }
 
-    /**
-     * @param coordinate
-     * @return true if the TileContent at coordinate is Empty or contains Food
-     */
+    @Override
     public boolean isTileAvailableForMovementTo(MapCoordinate coordinate) {
         if (isCoordinateOutOfBounds(coordinate))
             return false;
 
-        int position = translateCoordinate(coordinate);
+        int position = convertCoordinateToPosition(coordinate);
         return isTileAvailableForMovementTo(position);
     }
 
-    /**
-     * @param position map position
-     * @return true if the TileContent at map position is Empty or contains Food
-     */
     private boolean isTileAvailableForMovementTo(int position) {
         if (isPositionOutOfBounds(position))
             return false;
@@ -103,26 +85,23 @@ public class MapUtil {
         return !(obstacles.get(position) || characters.get(position));
     }
 
-    /**
-     * @return The MapCoordinate of your character
-     */
+    @Override
     public MapCoordinate getMyPosition() {
-        return translatePosition(
+        return convertPositionToCoordinate(
                 characterInfoMap.get(playerId).getPosition());
     }
 
+    @Override
     public CharacterInfo getMyCharacterInfo() {
         return characterInfoMap.get(playerId);
     }
 
+    @Override
     public Optional<CharacterInfo> getCharacterInfoOf(String playerId) {
         return Optional.ofNullable(characterInfoMap.get(playerId));
     }
 
-    /**
-     * @param coordinate map coordinate
-     * @return whether or not it is out of bounds
-     */
+    @Override
     public boolean isCoordinateOutOfBounds(MapCoordinate coordinate) {
         return coordinate.x < 0 || coordinate.x >= map.getWidth() || coordinate.y < 0 || coordinate.y >= map.getHeight();
     }
@@ -160,35 +139,20 @@ public class MapUtil {
         return new MapEmpty();
     }
 
-    /**
-     * @param coordinate
-     * @return the TileContent at the specified coordinate
-     */
+    @Override
     public TileContent getTileAt(MapCoordinate coordinate) {
-        return getTileAt(translateCoordinate(coordinate));
+        return getTileAt(convertCoordinateToPosition(coordinate));
     }
 
-    /**
-     * Converts a position in the flattened single array representation
-     * of the Map to a MapCoordinate.
-     *
-     * @param position
-     * @return
-     */
-    public MapCoordinate translatePosition(int position) {
+    @Override
+    public MapCoordinate convertPositionToCoordinate(int position) {
         int y = position / map.getWidth();
         int x = position - y * map.getWidth();
         return new MapCoordinate(x, y);
     }
 
-    /**
-     * Converts a MapCoordinate to the same position in the flattened
-     * single array representation of the Map.
-     *
-     * @param coordinate
-     * @return
-     */
-    public int translateCoordinate(MapCoordinate coordinate) {
+    @Override
+    public int convertCoordinateToPosition(MapCoordinate coordinate) {
         if (isCoordinateOutOfBounds(coordinate)) {
             String errorMessage = String.format("Coordinate [%s,%s] is out of bounds", coordinate.x, coordinate.y);
             throw new RuntimeException(errorMessage);
@@ -197,15 +161,17 @@ public class MapUtil {
         return coordinate.x + coordinate.y * map.getWidth();
     }
 
-    public MapCoordinate[] translatePositions(int[] positions) {
+    @Override
+    public MapCoordinate[] convertPositionsToCoordinates(int[] positions) {
         return Arrays.stream(positions)
-                .mapToObj(pos -> translatePosition(pos))
+                .mapToObj(this::convertPositionToCoordinate)
                 .toArray(MapCoordinate[]::new);
     }
 
-    public int[] translateCoordinates(MapCoordinate[] coordinates) {
+    @Override
+    public int[] convertCoordinatesToPositions(MapCoordinate[] coordinates) {
         return Arrays.stream(coordinates)
-                .mapToInt(coordinate -> translateCoordinate(coordinate))
+                .mapToInt(this::convertCoordinateToPosition)
                 .toArray();
     }
 
@@ -217,10 +183,7 @@ public class MapUtil {
 
     private String getPlayerIdAtPosition(int position) {
         for (CharacterInfo characterInfo : map.getCharacterInfos()) {
-            if (paintbotSpread
-                    .get(characterInfo.getId())
-                    .get(position)) {
-
+            if (characterInfo.getPosition() == position) {
                 return characterInfo.getId();
             }
         }

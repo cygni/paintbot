@@ -11,6 +11,7 @@
     </appender>
 
     <logger name="se" level="INFO"/>
+    <!-- Uncomment for debug-logging of client <logger name="se.cygni.paintbot.client" level="DEBUG"/> -->
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
