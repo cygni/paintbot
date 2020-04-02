@@ -8,7 +8,6 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.handler.PerConnectionWebSocketHandler;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
-import se.cygni.paintbot.websocket.arena.ArenaWebSocketHandler;
 import se.cygni.paintbot.websocket.event.EventSocketHandler;
 import se.cygni.paintbot.websocket.tournament.TournamentWebSocketHandler;
 import se.cygni.paintbot.websocket.training.TrainingWebSocketHandler;
@@ -22,7 +21,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
         registry.addHandler(eventWebSocketHandler(), "/events-native").setAllowedOrigins("*");
         registry.addHandler(paintbotTrainingWebSocketHandler(), "/training");
         registry.addHandler(paintbotTournamentWebSocketHandler(), "/tournament");
-        registry.addHandler(paintbotArenaWebSocketHandler(), "/arena", "/arena/", "/arena/{arenaName}");
     }
 
     @Bean
@@ -38,11 +36,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Bean
     public WebSocketHandler paintbotTournamentWebSocketHandler() {
         return new PerConnectionWebSocketHandler(TournamentWebSocketHandler.class, true);
-    }
-
-    @Bean
-    public WebSocketHandler paintbotArenaWebSocketHandler() {
-        return new PerConnectionWebSocketHandler(ArenaWebSocketHandler.class, true);
     }
 
     @Bean
