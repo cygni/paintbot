@@ -18,8 +18,7 @@ resource "aws_ecs_task_definition" "paintbot" {
         "hostPort": 0
       }
     ],
-    "memory": 400,
-    "cpu": 256
+    "memoryReservation": 400
   }
 ]
 DEFINITION

@@ -5,4 +5,4 @@ EXPOSE 8080
 
 COPY build/libs/app-*.jar /paintbot-app.jar
 
-CMD java -Dspring.profiles.active=production -jar -Xmx4096m /paintbot-app.jar
+CMD java -Dspring.profiles.active=production -jar -Xmx400m /paintbot-app.jar
