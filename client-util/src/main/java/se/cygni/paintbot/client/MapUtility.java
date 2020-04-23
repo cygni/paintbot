@@ -13,7 +13,7 @@ public interface MapUtility {
     /**
      * Checks if it's possible to move in the direction specified
      * @param direction the direction to check for movement possibility
-     * @return  if direction is available for movement
+     * @return  if action is available for movement
      */
     boolean canIMoveInDirection(CharacterAction direction);
 
@@ -23,17 +23,17 @@ public interface MapUtility {
      * @param playerId the id of the player
      * @return an array of MapCoordinate coloured by the player with matching playerId
      */
-    MapCoordinate[] getPlayerColouredPositions(String playerId);
+    MapCoordinate[] getPlayerColouredCoordinates(String playerId);
 
     /**
      * @return An array containing all MapCoordinates where there's Power ups
      */
-    MapCoordinate[] listCoordinatesContainingPowerUps();
+    MapCoordinate[] getCoordinatesContainingPowerUps();
 
     /**
      * @return An array containing all MapCoordinates where there's an Obstacle
      */
-    MapCoordinate[] listCoordinatesContainingObstacle();
+    MapCoordinate[] getCoordinatesContainingObstacle();
 
     /**
      * @param coordinate to check
@@ -44,7 +44,7 @@ public interface MapUtility {
     /**
      * @return The MapCoordinate of your character
      */
-    MapCoordinate getMyPosition();
+    MapCoordinate getMyCoordinate();
 
     /**
      * Get the character info of the player
@@ -55,7 +55,7 @@ public interface MapUtility {
     /**
      * Get character info of a specific player id
      * @param playerId the id of the player too look up
-     * @return the character info of tha player wrapped in an optional
+     * @return the character info of the player wrapped in an optional
      */
     Optional<CharacterInfo> getCharacterInfoOf(String playerId);
 

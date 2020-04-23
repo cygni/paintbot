@@ -11,9 +11,9 @@ final class BotUtils {
         MapCoordinate closestPowerUp = null;
 
         int closestPowerUpDistance = Integer.MAX_VALUE;
-        MapCoordinate myPosition = mapUtil.getMyPosition();
+        MapCoordinate myPosition = mapUtil.getMyCoordinate();
 
-        for (MapCoordinate mc : mapUtil.listCoordinatesContainingPowerUps()) {
+        for (MapCoordinate mc : mapUtil.getCoordinatesContainingPowerUps()) {
             if (closestPowerUp == null) {
                 closestPowerUp = mc;
                 closestPowerUpDistance = closestPowerUp.getManhattanDistanceTo(myPosition);

@@ -44,8 +44,8 @@ public class MapUtilityImpl implements MapUtility {
     @Override
     public boolean canIMoveInDirection(CharacterAction direction) {
         try {
-            MapCoordinate myPos = getMyPosition();
-            MapCoordinate myNewPos = myPos.translateByDirection(direction);
+            MapCoordinate myPos = getMyCoordinate();
+            MapCoordinate myNewPos = myPos.translateByAction(direction);
 
             return isTileAvailableForMovementTo(myNewPos);
         } catch (Exception e) {
@@ -54,18 +54,18 @@ public class MapUtilityImpl implements MapUtility {
     }
 
     @Override
-    public MapCoordinate[] getPlayerColouredPositions(String playerId) {
+    public MapCoordinate[] getPlayerColouredCoordinates(String playerId) {
         return convertPositionsToCoordinates(characterInfoMap.get(playerId).getColouredPositions());
     }
 
 
     @Override
-    public MapCoordinate[] listCoordinatesContainingPowerUps() {
+    public MapCoordinate[] getCoordinatesContainingPowerUps() {
         return convertPositionsToCoordinates(map.getPowerUpPositions());
     }
 
     @Override
-    public MapCoordinate[] listCoordinatesContainingObstacle() {
+    public MapCoordinate[] getCoordinatesContainingObstacle() {
         return convertPositionsToCoordinates(map.getObstaclePositions());
     }
 
@@ -86,7 +86,7 @@ public class MapUtilityImpl implements MapUtility {
     }
 
     @Override
-    public MapCoordinate getMyPosition() {
+    public MapCoordinate getMyCoordinate() {
         return convertPositionToCoordinate(
                 characterInfoMap.get(playerId).getPosition());
     }

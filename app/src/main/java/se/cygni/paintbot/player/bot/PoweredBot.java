@@ -39,7 +39,7 @@ public class PoweredBot extends BotPlayer {
             return;
         }
 
-        MapCoordinate myPosition = mapUtil.getMyPosition();
+        MapCoordinate myPosition = mapUtil.getMyCoordinate();
         List<CharacterAction> possibleActions = new ArrayList<>();
         if(closestPowerUp.x < myPosition.x) {
             possibleActions.add(CharacterAction.LEFT);

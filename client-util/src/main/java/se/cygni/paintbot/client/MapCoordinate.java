@@ -11,7 +11,7 @@ public class MapCoordinate {
         this.y = y;
     }
 
-    public MapCoordinate translateByDirection(CharacterAction direction) {
+    public MapCoordinate translateByAction(CharacterAction direction) {
         switch (direction) {
             case DOWN:
                 return translateBy(0, 1);

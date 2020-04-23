@@ -65,7 +65,7 @@ public class AggroBot extends BotPlayer {
         int minDistance = Integer.MAX_VALUE;
         for (CharacterInfo player : mapUpdateEvent.getMap().getCharacterInfos()) {
             if (!player.getId().equals(playerId)) {
-                int distance = mapUtil.getMyPosition()
+                int distance = mapUtil.getMyCoordinate()
                         .getManhattanDistanceTo(mapUtil.convertPositionToCoordinate(player.getPosition()));
                 if (distance < minDistance) {
                     minDistance = distance;
@@ -78,7 +78,7 @@ public class AggroBot extends BotPlayer {
     }
 
     private boolean shouldExplode(MapUtilityImpl mapUtil, MapUpdateEvent mapUpdateEvent) {
-        MapCoordinate myPosition = mapUtil.getMyPosition();
+        MapCoordinate myPosition = mapUtil.getMyCoordinate();
         CharacterInfo[] players = mapUpdateEvent.getMap().getCharacterInfos();
 
         int minDist = Integer.MAX_VALUE;
@@ -93,7 +93,7 @@ public class AggroBot extends BotPlayer {
     }
 
     private CharacterAction getDirection(MapUtilityImpl mapUtil, MapCoordinate closestPowerUp) {
-        MapCoordinate myPosition = mapUtil.getMyPosition();
+        MapCoordinate myPosition = mapUtil.getMyCoordinate();
         List<CharacterAction> possibleActions = new ArrayList<>();
         if (closestPowerUp.x < myPosition.x) {
             possibleActions.add(CharacterAction.LEFT);
