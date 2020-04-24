@@ -44,6 +44,14 @@ project.ext {
     buildnumber = "$System.env.BUILD_NUMBER"
 }
 
+assemble.doLast {
+    copy {
+        from file("$buildDir/libs/app-${version}.jar")
+        into file("$buildDir/docker")
+    }
+    
+}
+
 //springBoot {
 //    buildInfo()
 //}
