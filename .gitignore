@@ -16,6 +16,7 @@ local.properties
 .loadpath
 .recommenders
 terraform/.terraform
+.vscode/
 
 # External tool builders
 .externalToolBuilders/

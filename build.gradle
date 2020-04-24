@@ -18,7 +18,7 @@ buildscript {
 allprojects {
 
     group = 'se.cygni.paintbot'
-    version = '0.1.22'
+    version = '0.1.23'
 
     /* Enable this for compiler warnings
     gradle.projectsEvaluated {
@@ -90,6 +90,11 @@ subprojects {
     task sourceJar (type : Jar) {
         classifier = 'sources'
         from sourceSets.main.allSource
+    }
+
+    artifacts {
+        archives sourceJar
+        archives javadocJar
     }
 
     publishing {
