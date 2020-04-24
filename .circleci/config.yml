@@ -19,7 +19,7 @@ jobs:
       - restore_cache:
           name: Restore Gradle caches
           keys: 
-            - gradle-caches-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
+            - gradle-caches-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}
             - gradle-caches-
 
       - run: 
@@ -36,7 +36,7 @@ jobs:
       - save_cache:
           name: Save Gradle caches
           when: always
-          key: gradle-caches-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}-{{ checksum "javafxclient/build.gradle" }}
+          key: gradle-caches-{{ checksum "build.gradle" }}-{{ checksum "api/build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "client/build.gradle" }}-{{ checksum "client-util/build.gradle" }}-{{ checksum "domain/build.gradle" }}
           paths:
             - ~/.gradle/caches
 
