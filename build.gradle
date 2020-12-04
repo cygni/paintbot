@@ -46,7 +46,7 @@ subprojects {
     apply plugin: 'maven'
 
     jacoco {
-        toolVersion = "0.8.2"
+        toolVersion = "0.8.5"
     }
 
     compileJava {
@@ -123,12 +123,6 @@ subprojects {
     dependencies {
         testCompile "junit:junit:4.12"
         testCompile 'org.hamcrest:hamcrest-library:1.3'
-    }
-
-    test {
-        jacoco {
-            append = false
-        }
     }
 }
 
