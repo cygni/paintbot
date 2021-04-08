@@ -19,7 +19,7 @@ const registerPlayerData = {
         "pointsPerCausedStun": 5,
         "noOfTicksInvulnerableAfterStun": 3,
         "noOfTicksStunned": 10,
-        "startObstacles": 5,
+        "startObstacles": 30,
         "startPowerUps": 0,
         "gameDurationInSeconds": 2,
         "explosionRange": 4,
