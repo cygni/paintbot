@@ -43,7 +43,7 @@ public class GameSettings {
     private int noOfTicksStunned = 10;
     // The starting count for obstacles
 
-    private int startObstacles = 5;
+    private int startObstacles = 30;
     // The starting count for power up
 
     private int startPowerUps = 0;
