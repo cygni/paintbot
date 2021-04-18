@@ -43,13 +43,15 @@ public class GameFeatures {
     private int noOfTicksInvulnerableAfterStun = 3;
 
     // Number of rounds a character is stunned
+    private int minNoOfTicksStunned = 8;
 
-    private int noOfTicksStunned = 10;
+    // Number of rounds a character is stunned
+    private int maxNoOfTicksStunned = 10;
+
     // The starting count for obstacles
-
     private int startObstacles = 30;
-    // The starting count for power ups
 
+    // The starting count for power ups
     private int startPowerUps = 0;
 
     private int gameDurationInSeconds = 180;
@@ -68,6 +70,9 @@ public class GameFeatures {
         // spontaneousGrowthEveryNWorldTick = spontaneousGrowthEveryNWorldTick < 2 ? 2 : spontaneousGrowthEveryNWorldTick;
         startObstacles = Math.max(0, startObstacles);
         startPowerUps = Math.max(0, startPowerUps);
+
+        minNoOfTicksStunned = Math.max(0, minNoOfTicksStunned);
+        maxNoOfTicksStunned = Math.max(minNoOfTicksStunned, maxNoOfTicksStunned);
     }
 
     public int getWidth() {
@@ -86,12 +91,20 @@ public class GameFeatures {
         this.gameDurationInSeconds = gameDurationInSeconds;
     }
 
-    public int getNoOfTicksStunned() {
-        return noOfTicksStunned;
+    public int getMinNoOfTicksStunned() {
+        return minNoOfTicksStunned;
     }
 
-    public void setNoOfTicksStunned(int noOfTicksStunned) {
-        this.noOfTicksStunned = noOfTicksStunned;
+    public int getMaxNoOfTicksStunned() {
+        return maxNoOfTicksStunned;
+    }
+
+    public void setMinNoOfTicksStunned(int minNoOfTicksStunned) {
+        this.minNoOfTicksStunned = minNoOfTicksStunned;
+    }
+
+    public void setMaxNoOfTicksStunned(int maxNoOfTicksStunned) {
+        this.maxNoOfTicksStunned = maxNoOfTicksStunned;
     }
 
     public int getMaxNoofPlayers() {

@@ -233,10 +233,10 @@ public class WorldUpdaterTest {
                 1L
         );
 
-        assertBotAtPos("A", new Coordinate(2, 1), 0, nextState);
-        assertBotAtPos("B", new Coordinate(2, 2), 0, nextState);
-        assertBotAtPos("C", new Coordinate(1, 1), 0, nextState);
-        assertBotAtPos("D", new Coordinate(1, 2), 0, nextState);
+        assertBotAtPos("A", new Coordinate(2, 1), 0, 0, nextState);
+        assertBotAtPos("B", new Coordinate(2, 2), 0, 0, nextState);
+        assertBotAtPos("C", new Coordinate(1, 1), 0, 0, nextState);
+        assertBotAtPos("D", new Coordinate(1, 2), 0, 0, nextState);
 
         Tile[] nextStateTiles = nextState.getTiles();
         for (int i = 0; i < nextStateTiles.length; i++) {
@@ -307,10 +307,10 @@ public class WorldUpdaterTest {
                 1L
         );
 
-        assertBotAtPos("A", bot1Coord, gameFeatures.getNoOfTicksStunned(), nextState);
-        assertBotAtPos("B", bot2Coord, gameFeatures.getNoOfTicksStunned(), nextState);
-        assertBotAtPos("C", bot3Coord, gameFeatures.getNoOfTicksStunned(), nextState);
-        assertBotAtPos("D", bot4Coord, gameFeatures.getNoOfTicksStunned(), nextState);
+        assertBotAtPos("A", bot1Coord, gameFeatures.getMinNoOfTicksStunned(), gameFeatures.getMaxNoOfTicksStunned(), nextState);
+        assertBotAtPos("B", bot2Coord, gameFeatures.getMinNoOfTicksStunned(), gameFeatures.getMaxNoOfTicksStunned(), nextState);
+        assertBotAtPos("C", bot3Coord, gameFeatures.getMinNoOfTicksStunned(), gameFeatures.getMaxNoOfTicksStunned(), nextState);
+        assertBotAtPos("D", bot4Coord, gameFeatures.getMinNoOfTicksStunned(), gameFeatures.getMaxNoOfTicksStunned(), nextState);
 
         Tile[] nextStateTiles = nextState.getTiles();
         for (int i = 0; i < nextStateTiles.length; i++) {
@@ -352,7 +352,7 @@ public class WorldUpdaterTest {
                 1L
         );
 
-        assertBotAtPos("A", bot1Coord, gameFeatures.getNoOfTicksStunned(), nextState);
+        assertBotAtPos("A", bot1Coord, gameFeatures.getMinNoOfTicksStunned(), gameFeatures.getMaxNoOfTicksStunned(), nextState);
 
         Tile[] nextStateTiles = nextState.getTiles();
         assertThat(nextStateTiles[obstaclePos].getContent()).isInstanceOf(Obstacle.class);
@@ -397,7 +397,7 @@ public class WorldUpdaterTest {
                 1L
         );
 
-        assertBotAtPos("A", bot1Coord, 0, nextState);
+        assertBotAtPos("A", bot1Coord, 0, 0, nextState);
         assertThat(nextState.getCharacterById("A").isCarryingPowerUp()).isFalse();
 
         Tile[] nextStateTiles = nextState.getTiles();
@@ -468,13 +468,13 @@ public class WorldUpdaterTest {
                 1L
         );
 
-        assertBotAtPos("A", bot1Coord, gameFeatures.getNoOfTicksStunned(), nextState);
+        assertBotAtPos("A", bot1Coord, gameFeatures.getMinNoOfTicksStunned(), gameFeatures.getMaxNoOfTicksStunned(), nextState);
         assertThat(nextState.getCharacterById("A").isCarryingPowerUp()).isFalse();
 
-        assertBotAtPos("B", bot2Coord, gameFeatures.getNoOfTicksStunned(), nextState);
+        assertBotAtPos("B", bot2Coord, gameFeatures.getMinNoOfTicksStunned(), gameFeatures.getMaxNoOfTicksStunned(), nextState);
         assertThat(nextState.getCharacterById("B").isCarryingPowerUp()).isFalse();
 
-        assertBotAtPos("C", bot3Coord, gameFeatures.getNoOfTicksStunned(), nextState);
+        assertBotAtPos("C", bot3Coord, gameFeatures.getMinNoOfTicksStunned(), gameFeatures.getMaxNoOfTicksStunned(), nextState);
         assertThat(nextState.getCharacterById("C").isCarryingPowerUp()).isFalse();
 
         Tile[] nextStateTiles = nextState.getTiles();
@@ -515,10 +515,11 @@ public class WorldUpdaterTest {
         return Math.abs(pos1.getX() - pos2.getX()) + Math.abs(pos1.getY() - pos2.getY());
     }
 
-    private void assertBotAtPos(String botId, Coordinate coordinate, int stunnedForTicks, WorldState nextState) {
+    private void assertBotAtPos(String botId, Coordinate coordinate, int minStunnedForTicks, int maxStunnedForTicks, WorldState nextState) {
         assertThat(getCoordinateOfBot(botId, nextState)).isEqualTo(coordinate);
         assertThat(nextState.getTile(nextState.getPositionOfPlayer(botId)).getOwnerID()).isEqualTo(botId);
-        assertThat(nextState.getCharacterById(botId).getIsStunnedForTicks()).isEqualTo(stunnedForTicks);
+        assertThat(nextState.getCharacterById(botId).getIsStunnedForTicks()).isGreaterThanOrEqualTo(minStunnedForTicks);
+        assertThat(nextState.getCharacterById(botId).getIsStunnedForTicks()).isLessThanOrEqualTo(maxStunnedForTicks);
     }
 
     private Coordinate getCoordinateOfBot(String botId, WorldState nextState) {

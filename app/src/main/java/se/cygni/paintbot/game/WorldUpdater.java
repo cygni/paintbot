@@ -180,7 +180,7 @@ public class WorldUpdater {
         });
 
         // Set colliding players to stunned
-        stunnedPlayers.forEach(p -> nextWorld.getCharacterById(p).setIsStunnedForTicks(gameFeatures.getNoOfTicksStunned()));
+        stunnedPlayers.forEach(p -> nextWorld.getCharacterById(p).setIsStunnedForTicks(getRandomNoOfTicksStunned()));
 
         WorldState explosionsHappenedWorld = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
 
@@ -200,6 +200,12 @@ public class WorldUpdater {
 
         return new WorldState(ws.getWidth(), ws.getHeight(), tiles, nextWorld.getCollisions(), nextWorld
                 .getExplosions());
+    }
+
+    private int getRandomNoOfTicksStunned() {
+        int diff = gameFeatures.getMaxNoOfTicksStunned() - gameFeatures.getMinNoOfTicksStunned();
+        int randomness = (int)(Math.random() * (1 + diff));
+        return gameFeatures.getMinNoOfTicksStunned() + randomness;
     }
 
     private void increaseStunsCaused(ConcurrentHashMap<String, Integer> stunsCaused, String playerId) {
@@ -236,7 +242,6 @@ public class WorldUpdater {
         return ws.getCharacterById(playerId).getIsStunnedForTicks() == 0;
     }
 
-
     private void updateCharacterState(Tile[] tiles, int targetPosition, Character character, boolean hasPickedUpPowerUp) {
         character.setPosition(targetPosition);
         if (hasPickedUpPowerUp) {
@@ -255,44 +260,10 @@ public class WorldUpdater {
         }
     }
 
-
     private void syncPoints(WorldState ws) {
         playerManager.toSet().forEach(player -> {
             if (player.isAlive())
                 ws.getCharacterById(player.getPlayerId()).setPoints(player.getTotalPoints());
         });
-    }
-
-    private void notifyCharacterStunned(
-            CharacterImpl head,
-            StunReason stunReason,
-            Coordinate coordinate,
-            long worldTick) {
-
-        IPlayer stunnedCharacter = playerManager.getPlayer(head.getPlayerId());
-        log.info("Stun occurred by: {}. GameId: {}, Player: {}, with id: {}, stunned at: {}",
-                stunReason,
-                gameId,
-                stunnedCharacter.getName(),
-                stunnedCharacter.getPlayerId(),
-                coordinate);
-
-        stunnedCharacter.stunned(worldTick);
-
-        CharacterStunnedEvent characterStunnedEvent = GameMessageConverter.onPlayerStunned(
-                stunReason,
-                gameFeatures.getNoOfTicksStunned(),
-                head.getPlayerId(),
-                coordinate.getX(), coordinate.getY(),
-                gameId, worldTick);
-
-        playerManager.toSet().stream().forEach(player -> {
-            player.onCharacterStunned(characterStunnedEvent);
-        });
-
-        InternalGameEvent gevent = new InternalGameEvent(
-                System.currentTimeMillis(),
-                characterStunnedEvent);
-        globalEventBus.post(gevent);
     }
 }
