@@ -2,6 +2,8 @@
 # Created by https://www.gitignore.io/api/java,intellij,eclipse,gradle
 # Edit at https://www.gitignore.io/?templates=java,intellij,eclipse,gradle
 
+.DS_Store
+
 ### Eclipse ###
 
 .metadata
