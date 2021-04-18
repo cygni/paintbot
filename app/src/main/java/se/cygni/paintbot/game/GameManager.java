@@ -54,14 +54,6 @@ public class GameManager {
         return game;
     }
 
-    public Game createArenaGame() {
-        GameFeatures gameFeatures = new GameFeatures();
-        Game game = new Game(gameFeatures, globalEventBus, false, viewUrl);
-        registerGame(game);
-
-        return game;
-    }
-
     public List<Game> listAllGames() {
         return activeGames
                 .keySet()
