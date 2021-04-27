@@ -36,6 +36,6 @@ public class KeepOnlyPaintbotWithId implements WorldTransformation {
                 }
         );
 
-        return new WorldState(currentWorld.getWidth(), currentWorld.getHeight(), tiles);
+        return currentWorld.withTiles(tiles);
     }
 }

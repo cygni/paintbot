@@ -38,7 +38,7 @@ public class WorldStateTest {
         PowerUp powerUp = new PowerUp();
         tiles[12] = new Tile(powerUp);
 
-        ws = new WorldState(10, 10, tiles);
+        ws = ws.withTiles(tiles);
 
         assertEquals(powerUp, ws.getTile(12).getContent());
     }
@@ -188,7 +188,7 @@ public class WorldStateTest {
         tiles[92] = new Tile(new Obstacle());
         tiles[98] = new Tile(new Obstacle());
 
-        WorldState newWorld = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState newWorld = ws.withTiles(tiles);
 
         int[] foodPositions = newWorld.listPositionsWithContentOf(PowerUp.class);
         int[] obstaclePositions = newWorld.listPositionsWithContentOf(Obstacle.class);

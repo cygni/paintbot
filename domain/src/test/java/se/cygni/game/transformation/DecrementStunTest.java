@@ -22,9 +22,10 @@ public class DecrementStunTest {
         CharacterImpl paintbotA = new CharacterImpl("a", "a", 2);
         paintbotA.setIsStunnedForTicks(3);
 
-        Tile[] tiles = new WorldState(3, 3).getTiles();
+        WorldState ws = new WorldState(3, 3);
+        Tile[] tiles = ws.getTiles();
         tiles[2] = new Tile(paintbotA);
-        WorldState worldState = new WorldState(3, 3, tiles);
+        WorldState worldState = ws.withTiles(tiles);
 
         DecrementStun decrementStun = new DecrementStun();
 
@@ -37,9 +38,10 @@ public class DecrementStunTest {
     public void testTransformWithZeroCount() {
         CharacterImpl paintbotA = new CharacterImpl("a", "a", 2);
 
-        Tile[] tiles = new WorldState(3, 3).getTiles();
+        WorldState ws = new WorldState(3, 3);
+        Tile[] tiles = ws.getTiles();
         tiles[2] = new Tile(paintbotA);
-        WorldState worldState = new WorldState(3, 3, tiles);
+        WorldState worldState = ws.withTiles(tiles);
 
         DecrementStun decrementStun = new DecrementStun();
 
@@ -52,13 +54,13 @@ public class DecrementStunTest {
     public void testTransformWithoutTouchingCollisionsOrExplosions() {
         CharacterImpl paintbotA = new CharacterImpl("a", "a", 2);
 
-        Tile[] tiles = new WorldState(3, 3).getTiles();
-        tiles[2] = new Tile(paintbotA);
+        WorldState ws = new WorldState(3, 3);
+        Tile[] tiles = ws.getTiles();
         Map<Integer, List<String>> collisions = new HashMap<>();
         collisions.put(0, List.of("a"));
         Map<Integer, List<String>> explosions = new HashMap<>();
         explosions.put(0, List.of("a"));
-        WorldState worldState = new WorldState(3, 3, tiles, collisions, explosions);
+        WorldState worldState = ws.withTiles(tiles).withCollisions(collisions).withExplosions(explosions);
 
         DecrementStun decrementStun = new DecrementStun();
 

@@ -50,6 +50,6 @@ public class AddWorldObjectAtRandomPosition implements WorldTransformation {
 
         tiles[randomPosition] = newTile;
 
-        return new WorldState(currentWorld.getWidth(), currentWorld.getHeight(), tiles);
+        return currentWorld.withTiles(tiles);
     }
 }
