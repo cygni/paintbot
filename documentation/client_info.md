@@ -192,7 +192,7 @@ Sent as an initial registration of the player to the server, setting up settings
   "type": "se.cygni.paintbot.api.request.RegisterPlayer",
   "playerName": "The Simple Painter 735",
   "gameSettings": {
-    "maxNoofPlayers": 5,
+    "maxNoofPlayers": 6,
     "timeInMsPerTick": 250,
     "obstaclesEnabled": true,
     "powerUpsEnabled": true,
@@ -222,7 +222,7 @@ Reply from the player registration, highlights are `receivingPlayerId` and `game
   "gameId": "d411115e-5807-4b82-9f73-39e9457ffec4",
   "name": "The Simple Painter 735",
   "gameSettings": {
-    "maxNoofPlayers": 5,
+    "maxNoofPlayers": 6,
     "timeInMsPerTick": 250,
     "obstaclesEnabled": true,
     "powerUpsEnabled": true,
@@ -292,7 +292,7 @@ Event from the server informing the game is starting
   "width": 46,
   "height": 34,
   "gameSettings": {
-    "maxNoofPlayers": 5,
+    "maxNoofPlayers": 6,
     "timeInMsPerTick": 250,
     "obstaclesEnabled": true,
     "powerUpsEnabled": true,
