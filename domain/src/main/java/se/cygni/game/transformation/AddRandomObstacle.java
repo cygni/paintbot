@@ -55,7 +55,7 @@ public class AddRandomObstacle implements WorldTransformation {
                 log.debug("Had to replace obstacle!");
         }
 
-        return new WorldState(currentWorld.getWidth(), currentWorld.getHeight(), tiles);
+        return currentWorld.withTiles(tiles);
     }
 
     private Tile[] placeObstacle(int[] positions, WorldState currentWorld) {

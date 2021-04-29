@@ -71,6 +71,6 @@ public class AddWorldObjectsInCircle implements WorldTransformation {
             tiles[tileNo] = new Tile(wo);
             rotated += rotation;
         }
-        return new WorldState(width, height, tiles);
+        return currentWorld.withTiles(tiles);
     }
 }

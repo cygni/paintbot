@@ -17,12 +17,13 @@ public class KeepOnlyPaintbotWithIdTest {
 
     @Test
     public void testTransformPaintbotHeadsOnly() throws TransformationException {
-        Tile[] tiles = new WorldState(3, 3).getTiles();
+        WorldState ws = new WorldState(3, 3);
+        Tile[] tiles = ws.getTiles();
         tiles[2] = new Tile(new CharacterImpl("a", "a", 2));
         tiles[6] = new Tile(new CharacterImpl("b", "b", 6));
         tiles[8] = new Tile(new CharacterImpl("b", "b", 6));
 
-        WorldState worldState = new WorldState(3, 3, tiles);
+        WorldState worldState = ws.withTiles(tiles);
 
         KeepOnlyPaintbotWithId keepOnlyPaintbotWithId = new KeepOnlyPaintbotWithId("a");
         WorldState updatedWorldState = keepOnlyPaintbotWithId.transform(worldState);
@@ -46,12 +47,13 @@ public class KeepOnlyPaintbotWithIdTest {
 
     @Test(expected = TransformationException.class)
     public void testTransformCheckingNullId() throws TransformationException {
-        Tile[] tiles = new WorldState(3, 3).getTiles();
+        WorldState ws = new WorldState(3, 3);
+        Tile[] tiles = ws.getTiles();
         tiles[2] = new Tile(new CharacterImpl("a", "a", 2));
         tiles[6] = new Tile(new CharacterImpl("b", "b", 6));
         tiles[8] = new Tile(new CharacterImpl("b", "b", 6));
 
-        WorldState worldState = new WorldState(3, 3, tiles);
+        WorldState worldState = ws.withTiles(tiles);
 
         KeepOnlyPaintbotWithId keepOnlyPaintbotWithId = new KeepOnlyPaintbotWithId(null);
         WorldState updatedWorldState = keepOnlyPaintbotWithId.transform(worldState);

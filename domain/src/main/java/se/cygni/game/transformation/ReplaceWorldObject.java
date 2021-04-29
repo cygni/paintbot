@@ -27,6 +27,6 @@ public class ReplaceWorldObject implements WorldTransformation {
         Tile[] tiles = currentWorld.getTiles();
         tiles[position] = new Tile(worldObject);
 
-        return new WorldState(currentWorld.getWidth(), currentWorld.getHeight(), tiles);
+        return currentWorld.withTiles(tiles);
     }
 }
