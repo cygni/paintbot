@@ -7,7 +7,7 @@ public class GameFeatures {
     private int height = 34;
 
     // Maximum noof players in this game
-    private int maxNoofPlayers = 10;
+    private int maxNoofPlayers = 5;
 
     // The time clients have to respond with a new move
     private int timeInMsPerTick = 250;
@@ -26,14 +26,12 @@ public class GameFeatures {
     // power up will be removed from the world
     private int removePowerUpLikelihood = 5;
 
-
     // Indicates that this is a training game,
     // Bots will be added to fill up remaining players.
     private boolean trainingGame = true;
 
     // Points given per length unit the Paintbot has
     private int pointsPerTileOwned = 1;
-
 
     // Points given per caused death (i.e. another
     // paintbot collides with yours)
@@ -43,13 +41,12 @@ public class GameFeatures {
     private int noOfTicksInvulnerableAfterStun = 3;
 
     // Number of rounds a character is stunned
-
     private int noOfTicksStunned = 10;
+
     // The starting count for obstacles
-
     private int startObstacles = 30;
-    // The starting count for power ups
 
+    // The starting count for power ups
     private int startPowerUps = 0;
 
     private int gameDurationInSeconds = 180;
