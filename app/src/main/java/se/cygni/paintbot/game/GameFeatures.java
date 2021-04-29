@@ -7,7 +7,7 @@ public class GameFeatures {
     private int height = 34;
 
     // Maximum noof players in this game
-    private int maxNoofPlayers = 5;
+    private int maxNoofPlayers = 6;
 
     // The time clients have to respond with a new move
     private int timeInMsPerTick = 250;
