@@ -19,6 +19,7 @@ public class TournamentPlanTest {
     @Test
     public void testGetLevelsSmall() throws Exception {
         GameFeatures gf = new GameFeatures();
+        gf.setMaxNoofPlayers(10);
 
         Set<IPlayer> players = getPlayers(20);
         PlayerManager playerManager = new PlayerManager();
@@ -35,6 +36,7 @@ public class TournamentPlanTest {
     @Test
     public void testGetLevelsXLarge() throws Exception {
         GameFeatures gf = new GameFeatures();
+        gf.setMaxNoofPlayers(10);
 
         Set<IPlayer> players = getPlayers(30);
         PlayerManager playerManager = new PlayerManager();
