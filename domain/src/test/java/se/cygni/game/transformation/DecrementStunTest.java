@@ -52,15 +52,12 @@ public class DecrementStunTest {
 
     @Test
     public void testTransformWithoutTouchingCollisionsOrExplosions() {
-        CharacterImpl paintbotA = new CharacterImpl("a", "a", 2);
-
         WorldState ws = new WorldState(3, 3);
-        Tile[] tiles = ws.getTiles();
         Map<Integer, List<String>> collisions = new HashMap<>();
         collisions.put(0, List.of("a"));
         Map<Integer, List<String>> explosions = new HashMap<>();
         explosions.put(0, List.of("a"));
-        WorldState worldState = ws.withTiles(tiles).withCollisions(collisions).withExplosions(explosions);
+        WorldState worldState = ws.withCollisions(collisions).withExplosions(explosions);
 
         DecrementStun decrementStun = new DecrementStun();
 
