@@ -38,7 +38,7 @@ public class WorldUpdaterTest {
         tiles[bot1Pos] = new Tile(new CharacterImpl("A", "A", bot1Pos), "A");
         tiles[bot2Pos] = new Tile(new CharacterImpl("B", "B", bot2Pos), "B");
 
-        WorldState start = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
         WorldUpdater updater = createUpdater(gameFeatures, "immediateFrontalCollision");
 
@@ -89,7 +89,7 @@ public class WorldUpdaterTest {
         tiles[bot1Pos] = new Tile(new CharacterImpl("A", "A", bot1Pos), "A");
         tiles[bot2Pos] = new Tile(new CharacterImpl("B", "B", bot2Pos), "B");
 
-        WorldState start = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
         WorldUpdater updater = createUpdater(gameFeatures, "frontalCollisionWithSpace");
 
@@ -141,7 +141,7 @@ public class WorldUpdaterTest {
         tiles[bot1StartPos] = new Tile(new CharacterImpl("A", "A", bot1StartPos), "A");
         tiles[bot2StartPos] = new Tile(new CharacterImpl("B", "B", bot2StartPos), "B");
 
-        WorldState start = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
         WorldUpdater updater = createUpdater(gameFeatures, "frontalCollisionWithSpace");
 
@@ -215,7 +215,7 @@ public class WorldUpdaterTest {
         tiles[bot3StartPos] = new Tile(new CharacterImpl("C", "C", bot3StartPos), "C");
         tiles[bot4StartPos] = new Tile(new CharacterImpl("D", "D", bot4StartPos), "D");
 
-        WorldState start = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
         WorldUpdater updater = createUpdater(gameFeatures, "dancingInACircle");
 
@@ -289,7 +289,7 @@ public class WorldUpdaterTest {
         tiles[bot3StartPos] = new Tile(new CharacterImpl("C", "C", bot3StartPos), "C");
         tiles[bot4StartPos] = new Tile(new CharacterImpl("D", "D", bot4StartPos), "D");
 
-        WorldState start = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
         WorldUpdater updater = createUpdater(gameFeatures, "chainCollision");
 
@@ -338,7 +338,7 @@ public class WorldUpdaterTest {
         tiles[bot1Pos] = new Tile(new CharacterImpl("A", "A", bot1Pos), "A");
         tiles[obstaclePos] = new Tile(new Obstacle());
 
-        WorldState start = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
         WorldUpdater updater = createUpdater(gameFeatures, "obstacleCollision");
 
@@ -383,7 +383,7 @@ public class WorldUpdaterTest {
         tiles[bot1Pos] = new Tile(character, "A");
         tiles[obstaclePos] = new Tile(new Obstacle());
 
-        WorldState start = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
         WorldUpdater updater = createUpdater(gameFeatures, "basicExplosion");
 
@@ -452,7 +452,7 @@ public class WorldUpdaterTest {
 
         tiles[obstaclePos] = new Tile(new Obstacle());
 
-        WorldState start = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
         WorldUpdater updater = createUpdater(gameFeatures, "crossingExplosion");
 

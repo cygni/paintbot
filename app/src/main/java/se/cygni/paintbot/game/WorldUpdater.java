@@ -123,7 +123,7 @@ public class WorldUpdater {
             }
         }
 
-        WorldState positionUpdatedWorld = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState positionUpdatedWorld = ws.withTiles(tiles);
 
         Map<Integer, List<String>> positionsExploded = new HashMap<>();
         actions.entrySet().stream()
@@ -182,7 +182,7 @@ public class WorldUpdater {
         // Set colliding players to stunned
         stunnedPlayers.forEach(p -> nextWorld.getCharacterById(p).setIsStunnedForTicks(getRandomNoOfTicksStunned()));
 
-        WorldState explosionsHappenedWorld = new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        WorldState explosionsHappenedWorld = ws.withTiles(tiles);
 
         playerManager.getLivePlayers().forEach(p -> {
             if (!gameFeatures.getPointsPerTick()) {
@@ -198,8 +198,9 @@ public class WorldUpdater {
             explosionsHappenedWorld.getCharacterById(p.getPlayerId()).setPoints(p.getTotalPoints());
         });
 
-        return new WorldState(ws.getWidth(), ws.getHeight(), tiles, nextWorld.getCollisions(), nextWorld
-                .getExplosions());
+        return ws.withTiles(tiles)
+            .withCollisions(nextWorld.getCollisions())
+            .withExplosions(nextWorld.getExplosions());
     }
 
     private int getRandomNoOfTicksStunned() {

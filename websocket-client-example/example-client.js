@@ -8,7 +8,7 @@ const registerPlayerData = {
     "type": "se.cygni.paintbot.api.request.RegisterPlayer",
     "playerName": "The Simple Painter 735",
     "gameSettings": {
-        "maxNoofPlayers": 5,
+        "maxNoofPlayers": 6,
         "timeInMsPerTick": 250,
         "obstaclesEnabled": true,
         "powerUpsEnabled": true,

@@ -262,6 +262,15 @@ public class WorldState {
     }
 
     /**
+     *
+     * @param tiles
+     * @return a new world with its tiles updated
+     */
+    public WorldState withTiles(Tile[] tiles) {
+        return new WorldState(getWidth(), getHeight(), tiles, getCollisions(), getExplosions());
+    }
+
+    /**
      * The world is represented by a single array
      */
     private Tile[] createEmptyTiles() {
@@ -284,11 +293,29 @@ public class WorldState {
         this.explosions = explosions;
     }
 
+    /**
+     *
+     * @param explosions
+     * @return a new world with its explosions updated
+     */
+    public WorldState withExplosions(Map<Integer, List<String>> explosions) {
+        return new WorldState(getWidth(), getHeight(), getTiles(), getCollisions(), explosions);
+    }
+
     public Map<Integer, List<String>> getCollisions() {
         return collisions;
     }
 
     public void setCollisions(Map<Integer, List<String>> collisions) {
         this.collisions = collisions;
+    }
+
+    /**
+     *
+     * @param collisions
+     * @return a new world with its collisions updated
+     */
+    public WorldState withCollisions(Map<Integer, List<String>> collisions) {
+        return new WorldState(getWidth(), getHeight(), getTiles(), collisions, getExplosions());
     }
 }

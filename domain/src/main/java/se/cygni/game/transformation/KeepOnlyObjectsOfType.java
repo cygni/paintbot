@@ -29,6 +29,6 @@ public class KeepOnlyObjectsOfType implements WorldTransformation {
                 }
         );
 
-        return new WorldState(currentWorld.getWidth(), currentWorld.getHeight(), tiles);
+        return currentWorld.withTiles(tiles);
     }
 }

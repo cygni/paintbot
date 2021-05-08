@@ -3,7 +3,7 @@ package se.cygni.paintbot.api.model;
 public class GameSettings {
 
     // Maximum noof players in this game
-    private int maxNoofPlayers = 10;
+    private int maxNoofPlayers = 6;
 
     // The time clients have to respond with a new move
     private int timeInMsPerTick = 250;
@@ -29,7 +29,6 @@ public class GameSettings {
 
     // Points given per length unit the Paintbot has
     private int pointsPerTileOwned = 1;
-
 
     // Points given per caused death (i.e. another
     // paintbot collides with yours)

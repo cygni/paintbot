@@ -19,6 +19,6 @@ public class DecrementStun implements WorldTransformation {
             character.decrementStun();
         });
 
-        return new WorldState(currentWorld.getWidth(), currentWorld.getHeight(), tiles);
+        return currentWorld.withTiles(tiles);
     }
 }

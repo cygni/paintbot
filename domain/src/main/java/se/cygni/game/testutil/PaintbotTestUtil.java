@@ -23,7 +23,7 @@ public class PaintbotTestUtil {
             tiles[position] = new Tile(createWorldObject(worldType));
         });
 
-        return new WorldState(width, height, tiles);
+        return ws.withTiles(tiles);
     }
 
     public static <T extends WorldObject> T createWorldObject(Class<T> clazz) {
@@ -41,7 +41,7 @@ public class PaintbotTestUtil {
 
         Tile[] tiles = ws.getTiles();
         tiles[position] = new Tile(item);
-        return new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        return ws.withTiles(tiles);
     }
 
     public static WorldState addPaintbot(
@@ -52,7 +52,7 @@ public class PaintbotTestUtil {
         for (Character sp : characters) {
             tiles[sp.getPosition()] = new Tile(sp);
         }
-        return new WorldState(ws.getWidth(), ws.getHeight(), tiles);
+        return ws.withTiles(tiles);
     }
 
 }
