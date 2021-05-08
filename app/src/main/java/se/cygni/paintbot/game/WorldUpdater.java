@@ -38,17 +38,11 @@ public class WorldUpdater {
 
     private static final Logger log = LoggerFactory.getLogger(WorldUpdater.class);
     private XORShiftRandom random = new XORShiftRandom();
-    private final GameFeatures gameFeatures;
     private final PlayerManager playerManager;
-    private final String gameId;
-    private final EventBus globalEventBus;
     private ThreadLocal<WorldState> startingWorldState = new ThreadLocal<>();
 
-    public WorldUpdater(GameFeatures gameFeatures, PlayerManager playerManager, String gameId, EventBus globalEventBus) {
-        this.gameFeatures = gameFeatures;
+    public WorldUpdater(PlayerManager playerManager) {
         this.playerManager = playerManager;
-        this.gameId = gameId;
-        this.globalEventBus = globalEventBus;
     }
 
     public WorldState update(
@@ -180,7 +174,7 @@ public class WorldUpdater {
         });
 
         // Set colliding players to stunned
-        stunnedPlayers.forEach(p -> nextWorld.getCharacterById(p).setIsStunnedForTicks(getRandomNoOfTicksStunned()));
+        stunnedPlayers.forEach(p -> nextWorld.getCharacterById(p).setIsStunnedForTicks(gameFeatures.getRandomNoOfTicksStunned()));
 
         WorldState explosionsHappenedWorld = ws.withTiles(tiles);
 
@@ -201,12 +195,6 @@ public class WorldUpdater {
         return ws.withTiles(tiles)
             .withCollisions(nextWorld.getCollisions())
             .withExplosions(nextWorld.getExplosions());
-    }
-
-    private int getRandomNoOfTicksStunned() {
-        int diff = gameFeatures.getMaxNoOfTicksStunned() - gameFeatures.getMinNoOfTicksStunned();
-        int randomness = (int)(Math.random() * (1 + diff));
-        return gameFeatures.getMinNoOfTicksStunned() + randomness;
     }
 
     private void increaseStunsCaused(ConcurrentHashMap<String, Integer> stunsCaused, String playerId) {
@@ -259,12 +247,5 @@ public class WorldUpdater {
             //Don't run out of the map, you'll get nowhere.
             return currentPos;
         }
-    }
-
-    private void syncPoints(WorldState ws) {
-        playerManager.toSet().forEach(player -> {
-            if (player.isAlive())
-                ws.getCharacterById(player.getPlayerId()).setPoints(player.getTotalPoints());
-        });
     }
 }

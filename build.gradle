@@ -18,7 +18,7 @@ buildscript {
 allprojects {
 
     group = 'se.cygni.paintbot'
-    version = '0.1.23'
+    version = '0.2.0'
 
     /* Enable this for compiler warnings
     gradle.projectsEvaluated {

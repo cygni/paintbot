@@ -2,7 +2,7 @@ package se.cygni.paintbot.api.model;
 
 public class GameSettings {
 
-    // Maximum noof players in this game
+    // Maximum no of players in this game
     private int maxNoofPlayers = 6;
 
     // The time clients have to respond with a new move
@@ -21,7 +21,6 @@ public class GameSettings {
     // Likelihood (in percent) that a
     // power up will be removed from the world
     private int removePowerUpLikelihood = 5;
-
 
     // Indicates that this is a training game,
     // Bots will be added to fill up remaining players.

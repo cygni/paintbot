@@ -29,6 +29,25 @@ public class GameFeaturesTest {
     }
 
     @Test
+    public void testMinNoOfTicksStunnedIsMin0() throws Exception {
+        GameFeatures gf = new GameFeatures();
+        gf.setMinNoOfTicksStunned(-5);
+        gf.applyValidation();
+
+        Assert.assertEquals(0, gf.getMinNoOfTicksStunned());
+    }
+
+    @Test
+    public void testMaxNoOfTicksStunnedIsGreaterThanOrEqualToMin() throws Exception {
+        GameFeatures gf = new GameFeatures();
+        gf.setMinNoOfTicksStunned(10);
+        gf.setMaxNoOfTicksStunned(5);
+        gf.applyValidation();
+
+        Assert.assertEquals(10, gf.getMaxNoOfTicksStunned());
+    }
+
+    @Test
     public void testStartObstaclesIsPositive() throws Exception {
         GameFeatures gf = new GameFeatures();
         gf.setStartObstacles(-2);

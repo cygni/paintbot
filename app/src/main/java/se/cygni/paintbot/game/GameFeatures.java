@@ -65,12 +65,21 @@ public class GameFeatures {
         maxNoofPlayers = Math.min(20, maxNoofPlayers);
         maxNoofPlayers = Math.max(2, maxNoofPlayers);
 
-        // spontaneousGrowthEveryNWorldTick = spontaneousGrowthEveryNWorldTick < 2 ? 2 : spontaneousGrowthEveryNWorldTick;
         startObstacles = Math.max(0, startObstacles);
         startPowerUps = Math.max(0, startPowerUps);
 
         minNoOfTicksStunned = Math.max(0, minNoOfTicksStunned);
         maxNoOfTicksStunned = Math.max(minNoOfTicksStunned, maxNoOfTicksStunned);
+    }
+
+    /**
+     * Randomizes a number of ticks to be stunned
+     * @return A random value between min and max number of ticks stunned
+     */
+    public int getRandomNoOfTicksStunned() {
+        int diff = maxNoOfTicksStunned - minNoOfTicksStunned;
+        int randomness = (int)(Math.random() * (1 + diff));
+        return minNoOfTicksStunned + randomness;
     }
 
     public int getWidth() {

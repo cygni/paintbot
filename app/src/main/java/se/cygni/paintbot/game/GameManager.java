@@ -37,7 +37,6 @@ public class GameManager {
         globalEventBus.register(this);
     }
 
-    //TODO Why set trainingGame to true in features and also pass it with Game-constructor?
     public Game createTrainingGame() {
         GameFeatures gameFeatures = new GameFeatures();
         gameFeatures.setTrainingGame(true);
@@ -48,14 +47,6 @@ public class GameManager {
     }
 
     public Game createGame(GameFeatures gameFeatures) {
-        Game game = new Game(gameFeatures, globalEventBus, false, viewUrl);
-        registerGame(game);
-
-        return game;
-    }
-
-    public Game createArenaGame() {
-        GameFeatures gameFeatures = new GameFeatures();
         Game game = new Game(gameFeatures, globalEventBus, false, viewUrl);
         registerGame(game);
 
