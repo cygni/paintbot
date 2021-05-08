@@ -37,8 +37,11 @@ public class GameSettings {
     // Number of rounds a character is protected after stun
     private int noOfTicksInvulnerableAfterStun = 3;
 
-    // Number of rounds a character is stunned
-    private int noOfTicksStunned = 10;
+    // Minumum number of rounds a character is stunned
+    private int minNoOfTicksStunned = 8;
+
+    // Maximum number of rounds a character is stunned
+    private int maxNoOfTicksStunned = 10;
 
     // The starting count for obstacles
     private int startObstacles = 30;
@@ -92,8 +95,12 @@ public class GameSettings {
         return noOfTicksInvulnerableAfterStun;
     }
 
-    public int getNoOfTicksStunned() {
-        return noOfTicksStunned;
+    public int getMinNoOfTicksStunned() {
+        return minNoOfTicksStunned;
+    }
+
+    public int getMaxNoOfTicksStunned() {
+        return maxNoOfTicksStunned;
     }
 
     public int getStartObstacles() {
@@ -152,8 +159,12 @@ public class GameSettings {
         this.noOfTicksInvulnerableAfterStun = noOfTicksInvulnerableAfterStun;
     }
 
-    public void setNoOfTicksStunned(int noOfTicksStunned) {
-        this.noOfTicksStunned = noOfTicksStunned;
+    public void setMinNoOfTicksStunned(int minNoOfTicksStunned) {
+        this.minNoOfTicksStunned = minNoOfTicksStunned;
+    }
+
+    public void setMaxNoOfTicksStunned(int maxNoOfTicksStunned) {
+        this.maxNoOfTicksStunned = maxNoOfTicksStunned;
     }
 
     public void setStartObstacles(int startObstacles) {
