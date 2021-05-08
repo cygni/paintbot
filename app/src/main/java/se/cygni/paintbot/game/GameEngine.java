@@ -72,9 +72,7 @@ public class GameEngine {
         this.gameId = gameId;
         this.playerManager = playerManager;
         this.globalEventBus = globalEventBus;
-        this.worldUpdater = new WorldUpdater(
-                gameFeatures, playerManager, gameId, globalEventBus
-        );
+        this.worldUpdater = new WorldUpdater(playerManager);
         this.gameResult = new GameResult();
     }
 

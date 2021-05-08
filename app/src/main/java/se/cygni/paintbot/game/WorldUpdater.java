@@ -38,17 +38,11 @@ public class WorldUpdater {
 
     private static final Logger log = LoggerFactory.getLogger(WorldUpdater.class);
     private XORShiftRandom random = new XORShiftRandom();
-    private final GameFeatures gameFeatures;
     private final PlayerManager playerManager;
-    private final String gameId;
-    private final EventBus globalEventBus;
     private ThreadLocal<WorldState> startingWorldState = new ThreadLocal<>();
 
-    public WorldUpdater(GameFeatures gameFeatures, PlayerManager playerManager, String gameId, EventBus globalEventBus) {
-        this.gameFeatures = gameFeatures;
+    public WorldUpdater(PlayerManager playerManager) {
         this.playerManager = playerManager;
-        this.gameId = gameId;
-        this.globalEventBus = globalEventBus;
     }
 
     public WorldState update(

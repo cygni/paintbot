@@ -1,6 +1,5 @@
 package se.cygni.paintbot.game;
 
-import com.google.common.eventbus.EventBus;
 import org.junit.Test;
 import se.cygni.game.Coordinate;
 import se.cygni.game.Tile;
@@ -40,7 +39,7 @@ public class WorldUpdaterTest {
 
         WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
-        WorldUpdater updater = createUpdater(gameFeatures, "immediateFrontalCollision");
+        WorldUpdater updater = createUpdater();
 
 
         Map<String, Action> actions = new HashMap<>();
@@ -91,7 +90,7 @@ public class WorldUpdaterTest {
 
         WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
-        WorldUpdater updater = createUpdater(gameFeatures, "frontalCollisionWithSpace");
+        WorldUpdater updater = createUpdater();
 
 
         Map<String, Action> actions = new HashMap<>();
@@ -143,7 +142,7 @@ public class WorldUpdaterTest {
 
         WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
-        WorldUpdater updater = createUpdater(gameFeatures, "frontalCollisionWithSpace");
+        WorldUpdater updater = createUpdater();
 
 
         Map<String, Action> actions = new HashMap<>();
@@ -217,7 +216,7 @@ public class WorldUpdaterTest {
 
         WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
-        WorldUpdater updater = createUpdater(gameFeatures, "dancingInACircle");
+        WorldUpdater updater = createUpdater();
 
 
         Map<String, Action> actions = new HashMap<>();
@@ -291,7 +290,7 @@ public class WorldUpdaterTest {
 
         WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
-        WorldUpdater updater = createUpdater(gameFeatures, "chainCollision");
+        WorldUpdater updater = createUpdater();
 
 
         Map<String, Action> actions = new HashMap<>();
@@ -340,7 +339,7 @@ public class WorldUpdaterTest {
 
         WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
-        WorldUpdater updater = createUpdater(gameFeatures, "obstacleCollision");
+        WorldUpdater updater = createUpdater();
 
         Map<String, Action> actions = new HashMap<>();
         actions.put("A", Action.RIGHT);
@@ -385,7 +384,7 @@ public class WorldUpdaterTest {
 
         WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
-        WorldUpdater updater = createUpdater(gameFeatures, "basicExplosion");
+        WorldUpdater updater = createUpdater();
 
         Map<String, Action> actions = new HashMap<>();
         actions.put("A", Action.EXPLODE);
@@ -454,7 +453,7 @@ public class WorldUpdaterTest {
 
         WorldState start = ws.withTiles(tiles);
         GameFeatures gameFeatures = new GameFeatures();
-        WorldUpdater updater = createUpdater(gameFeatures, "crossingExplosion");
+        WorldUpdater updater = createUpdater();
 
         Map<String, Action> actions = new HashMap<>();
         actions.put("A", Action.EXPLODE);
@@ -526,15 +525,10 @@ public class WorldUpdaterTest {
         return nextState.translatePosition(nextState.getCharacterById(botId).getPosition());
     }
 
-    private WorldUpdater createUpdater(GameFeatures gameFeatures, String identifier) {
+    private WorldUpdater createUpdater() {
         PlayerManager playerManager = new PlayerManager();
-        EventBus eventBus = new EventBus(identifier + "EventBus");
 
-        return new WorldUpdater(gameFeatures,
-                playerManager,
-                identifier,
-                eventBus
-        );
+        return new WorldUpdater(playerManager);
     }
 
     private WorldState createEmptyWorld(int height, int width) {
