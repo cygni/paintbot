@@ -150,8 +150,6 @@ public class GameEngine {
         initPlacePowerUps();
     }
 
-
-
     private void gameLoop() {
         initCharacterActions();
 
@@ -297,11 +295,6 @@ public class GameEngine {
         registeredActionsByPlayers.add(playerId);
         characterActions.put(playerId, action);
         countDownLatch.countDown();
-    }
-
-    private Action getRandomDirection() {
-        int max = Action.values().length-1;
-        return Action.values()[random.nextInt(max)];
     }
 
     public boolean isGameComplete() {
