@@ -72,9 +72,7 @@ public class GameEngine {
         this.gameId = gameId;
         this.playerManager = playerManager;
         this.globalEventBus = globalEventBus;
-        this.worldUpdater = new WorldUpdater(
-                gameFeatures, playerManager, gameId, globalEventBus
-        );
+        this.worldUpdater = new WorldUpdater(playerManager);
         this.gameResult = new GameResult();
     }
 
@@ -149,8 +147,6 @@ public class GameEngine {
         initPlaceObstacles();
         initPlacePowerUps();
     }
-
-
 
     private void gameLoop() {
         initCharacterActions();
@@ -297,11 +293,6 @@ public class GameEngine {
         registeredActionsByPlayers.add(playerId);
         characterActions.put(playerId, action);
         countDownLatch.countDown();
-    }
-
-    private Action getRandomDirection() {
-        int max = Action.values().length-1;
-        return Action.values()[random.nextInt(max)];
     }
 
     public boolean isGameComplete() {
