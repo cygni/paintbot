@@ -25,6 +25,8 @@ public interface PaintbotClient {
 
     void onGameLink(GameLinkEvent gameLinkEvent);
 
+    String getProtocol();
+
     String getServerHost();
 
     int getServerPort();

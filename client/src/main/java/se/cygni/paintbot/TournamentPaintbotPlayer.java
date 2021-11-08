@@ -29,8 +29,9 @@ public class TournamentPaintbotPlayer extends BasePaintbotClient {
     private String name = "#emil_" + random.nextInt(1000);
 //    private String host = "ecs-load-balancer-178447630.eu-north-1.elb.amazonaws.com";
 //    private int port = 80;
-    private String host = "paintbot.cygni.se";
-    private int port = 80;
+    private String protocol = "wss";
+    private String host = "server.paintbot.cygni.se";
+    private int port = 443;
     private GameMode gameMode = GameMode.TOURNAMENT;
 
     CharacterAction lastDirection;
@@ -176,6 +177,11 @@ public class TournamentPaintbotPlayer extends BasePaintbotClient {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String getProtocol() {
+        return protocol;
     }
 
     @Override
