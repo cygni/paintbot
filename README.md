@@ -35,4 +35,4 @@ http://localhost:3000/game/{gameId}
 ```
 
 ## New Release
-To create a new release using a git repo as the artefactory simply ensure the build.gradle file uses a local folder to "publish" the artifacts, which should be default. Then run `./gradlew api:publish`, `./gradlew client:publish` and `./gradlew client-util:publish`. This should build a the artifacts under releases/. This folder should then be copied into the paintbot-maven-repo projects and pushed to the main branch.
+To create a new release using a git repo as the artefactory simply ensure the build.gradle file uses a local folder to "publish" the artifacts, which should be default. Then run `./gradlew api:publish`, `./gradlew client:publish` and `./gradlew client-util:publish`. This should build the artifacts under releases/. This folder should then be copied into the paintbot-maven-repo projects and pushed to the main branch.
