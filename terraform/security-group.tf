@@ -4,6 +4,7 @@ resource "aws_security_group" "se-cygni_public_sg" {
   vpc_id      = aws_vpc.se-cygni-vpc.id
 
   ingress {
+    description = ""
     from_port = 22
     to_port   = 22
     protocol  = "tcp"
@@ -14,6 +15,7 @@ resource "aws_security_group" "se-cygni_public_sg" {
   }
 
   ingress {
+    description = ""
     from_port = 80
     to_port   = 80
     protocol  = "tcp"
@@ -24,6 +26,7 @@ resource "aws_security_group" "se-cygni_public_sg" {
   }
 
   ingress {
+    description = ""
     from_port = 32768
     to_port   = 65535
     protocol  = "tcp"
@@ -34,6 +37,18 @@ resource "aws_security_group" "se-cygni_public_sg" {
   }
 
   ingress {
+    description = ""
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "0.0.0.0/0",
+    ]
+  }
+
+  ingress {
+    description = ""
     from_port = 8080
     to_port   = 8080
     protocol  = "tcp"
@@ -44,18 +59,20 @@ resource "aws_security_group" "se-cygni_public_sg" {
   }
 
   ingress {
+    description = ""
     from_port = 0
     to_port   = 0
     protocol  = "tcp"
 
     cidr_blocks = [
       var.se-cygni_public_01_cidr,
-      var.se-cygni_public_02_cidr,
+#      var.se-cygni_public_02_cidr, ignored since both cidrs are the same
     ]
   }
 
   egress {
     # allow all traffic to private SN
+    description = ""
     from_port = "0"
     to_port   = "0"
     protocol  = "-1"

@@ -5,6 +5,9 @@ data "aws_ecs_task_definition" "paintbot" {
 
 resource "aws_ecs_task_definition" "paintbot" {
   family = "paintbot"
+  requires_compatibilities = ["EC2"]
+  memory = 900
+
 
   container_definitions = <<DEFINITION
 [
@@ -15,11 +18,13 @@ resource "aws_ecs_task_definition" "paintbot" {
     "portMappings": [
       {
         "containerPort": 8080,
+        "protocol" : "tcp",
         "hostPort": 0
       }
     ],
-    "memory": 400,
-    "cpu": 256
+    "environment" : [],
+    "mountPoints" : [],
+    "volumesFrom" : []
   }
 ]
 DEFINITION

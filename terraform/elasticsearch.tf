@@ -13,6 +13,7 @@ resource "aws_security_group" "elasticsearch" {
   vpc_id      = aws_vpc.se-cygni-vpc.id
 
   ingress {
+    description = ""
     from_port = 443
     to_port   = 443
     protocol  = "tcp"
@@ -29,7 +30,7 @@ resource "aws_iam_service_linked_role" "es" {
 
 resource "aws_elasticsearch_domain" "es" {
   domain_name           = var.domain
-  elasticsearch_version = "6.3"
+  elasticsearch_version = "6.8"
 
   cluster_config {
     instance_type = "t2.small.elasticsearch"
@@ -37,7 +38,7 @@ resource "aws_elasticsearch_domain" "es" {
 
   ebs_options {
     ebs_enabled = true
-    volume_size = 10
+    volume_size = 20
   }
 
   vpc_options {
@@ -49,6 +50,7 @@ resource "aws_elasticsearch_domain" "es" {
   }
 
   advanced_options = {
+    "override_main_response_version" = "true"
     "rest.action.multi.allow_explicit_index" = "true"
   }
 
@@ -75,6 +77,6 @@ CONFIG
   }
 
   depends_on = [
-    "aws_iam_service_linked_role.es",
+    aws_iam_service_linked_role.es,
   ]
 }

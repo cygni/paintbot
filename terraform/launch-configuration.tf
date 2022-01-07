@@ -25,4 +25,3 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
 EOF
 
 }
-
