@@ -13,6 +13,7 @@ resource "aws_security_group" "elasticsearch" {
   vpc_id      = aws_vpc.se-cygni-vpc.id
 
   ingress {
+    description = ""
     from_port = 443
     to_port   = 443
     protocol  = "tcp"

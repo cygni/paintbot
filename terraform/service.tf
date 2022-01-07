@@ -6,6 +6,8 @@ resource "aws_ecs_service" "paintbot-ecs-service" {
     aws_ecs_task_definition.paintbot.revision,
     data.aws_ecs_task_definition.paintbot.revision,
   )}"
+  wait_for_steady_state = false
+  health_check_grace_period_seconds = 10
   desired_count = 1
 
   load_balancer {

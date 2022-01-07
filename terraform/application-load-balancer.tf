@@ -31,6 +31,7 @@ resource "aws_alb_target_group" "ecs-target-group" {
   }
 }
 
+# TODO: reintroduce into tf state
 #resource "aws_alb_listener" "alb-listener" {
 #  load_balancer_arn = aws_alb.ecs-load-balancer.arn
 #  port              = "80"
