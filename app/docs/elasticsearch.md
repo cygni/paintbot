@@ -64,5 +64,5 @@ Push the new index and mapping:
 ```
 
 Do this for all indexes. The current mappings can be found in the 
-[resources](https://github.com/cygni/paintbot/tree/master/app/src/main/resources)
+[resources](https://github.com/cygni/paintbot/tree/develop/app/src/main/resources)
 directory for the project. 
