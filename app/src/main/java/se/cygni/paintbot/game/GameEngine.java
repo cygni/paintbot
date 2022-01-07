@@ -129,7 +129,8 @@ public class GameEngine {
 
         InternalGameEvent gevent = new InternalGameEvent(
                 System.currentTimeMillis(),
-                message);
+                message,
+                this.gameFeatures.isTrainingGame());
         globalEventBus.post(gevent);
     }
 
@@ -304,7 +305,7 @@ public class GameEngine {
     }
 
     public void publishGameChanged() {
-        InternalGameEvent gevent = new InternalGameEvent(System.currentTimeMillis());
+        InternalGameEvent gevent = new InternalGameEvent(System.currentTimeMillis(), this.gameFeatures.isTrainingGame());
         gevent.onGameChanged(gameId);
         globalEventBus.post(gevent);
     }

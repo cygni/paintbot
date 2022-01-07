@@ -146,7 +146,7 @@ public class TournamentManager {
 
         InternalGameEvent gevent = new InternalGameEvent(
                 System.currentTimeMillis(),
-                tee);
+                tee, false);
         globalEventBus.post(gevent);
         globalEventBus.post(gevent.getGameMessage());
     }

@@ -90,7 +90,18 @@ public class GameHistoryCache {
                 gameId,
                 getPlayersForGame(gameId),
                 extractGameDate(gameId),
-                getGameMessagesForGame(gameId));
+                getGameMessagesForGame(gameId),
+                isTrainingGame(gameId));
+    }
+
+    private boolean isTrainingGame(String gameId) {
+        Optional<InternalGameEvent> firstMapUpdate = getFirstInternalGameEvent(gameId);
+
+        if(firstMapUpdate.isPresent()) {
+            return firstMapUpdate.get().isTraining();
+        }
+
+        return false;
     }
 
     private List<GameMessage> getGameMessagesForGame(String gameId) {

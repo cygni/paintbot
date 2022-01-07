@@ -95,7 +95,8 @@ public class GameManager {
         log.info("Registered new game, posting to GlobalEventBus...");
         globalEventBus.post(new InternalGameEvent(
                 System.currentTimeMillis(),
-                new GameCreatedEvent(game.getGameId())));
+                new GameCreatedEvent(game.getGameId()),
+                game.isTrainingGame()));
     }
 
     @Subscribe

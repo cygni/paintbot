@@ -7,13 +7,17 @@ public class InternalGameEvent {
     private final long tstamp;
     private GameMessage gameMessage;
 
-    public InternalGameEvent(long tstamp) {
+    private final boolean isTraining;
+
+    public InternalGameEvent(long tstamp, boolean isTraining) {
         this.tstamp = tstamp;
+        this.isTraining = isTraining;
     }
 
-    public InternalGameEvent(long tstamp, GameMessage gameMessage) {
+    public InternalGameEvent(long tstamp, GameMessage gameMessage, boolean isTraining) {
         this.tstamp = tstamp;
         this.gameMessage = gameMessage;
+        this.isTraining = isTraining;
     }
 
     public long getTstamp() {
@@ -30,5 +34,9 @@ public class InternalGameEvent {
 
     public void onGameChanged(String gameId) {
         this.gameMessage = GameMessageConverter.onGameChanged(gameId);
+    }
+
+    public boolean isTraining() {
+        return isTraining;
     }
 }

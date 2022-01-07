@@ -30,6 +30,7 @@ public class GameHistoryStorageInMemory implements GameHistoryStorage {
     private final EventBus eventBus;
 
     private List<GameHistory> gameHistories = Collections.synchronizedList(new ArrayList<>());
+    private List<GameHistory> tournamentHistories = Collections.synchronizedList(new ArrayList<>());
 
     @Autowired
     public GameHistoryStorageInMemory(EventBus eventBus) {
@@ -43,15 +44,28 @@ public class GameHistoryStorageInMemory implements GameHistoryStorage {
     @Subscribe
     public void addGameHistory(GameHistory gameHistory) {
         log.debug("Adding GameHistory to memory!");
-        gameHistories.add(gameHistory);
+        if (gameHistory.isTrainingGame()) {
+            gameHistories.add(gameHistory);
+        } else {
+            tournamentHistories.add(gameHistory);
+        }
     }
 
     @Override
     public Optional<GameHistory> getGameHistory(String gameId) {
-        return gameHistories
+        Optional<GameHistory> gh = gameHistories
                 .stream()
                 .filter(gameHistory -> gameHistory.getGameId().equals(gameId))
                 .findFirst();
+
+        if (gh.isEmpty()) {
+            return tournamentHistories
+                    .stream()
+                    .filter(gameHistory -> gameHistory.getGameId().equals(gameId))
+                    .findFirst();
+        }
+
+        return gh;
     }
 
     @Override
@@ -70,6 +84,20 @@ public class GameHistoryStorageInMemory implements GameHistoryStorage {
                 })
                 .collect(Collectors.toList());
 
+        if (items.isEmpty()) {
+            items = tournamentHistories
+                    .stream()
+                    .filter(gameHistory -> ArrayUtils.contains(gameHistory.getPlayerNames(), playerName))
+                    .map(gameHistory -> {
+                        return new GameHistorySearchItem(
+                                gameHistory.getGameId(),
+                                gameHistory.getPlayerNames(),
+                                gameHistory.getGameDate()
+                        );
+                    })
+                    .collect(Collectors.toList());
+        }
+
         result.setItems(items);
         return result;
     }
@@ -83,6 +111,17 @@ public class GameHistoryStorageInMemory implements GameHistoryStorage {
                         gameHistory.getPlayerNames(),
                         gameHistory.getGameDate()))
                 .collect(Collectors.toList()));
+
+        if (games.getItems().isEmpty()) {
+            games = new GameHistorySearchResult(
+                tournamentHistories.stream()
+                        .map(gameHistory -> new GameHistorySearchItem(
+                                gameHistory.getGameId(),
+                                gameHistory.getPlayerNames(),
+                                gameHistory.getGameDate()))
+                        .collect(Collectors.toList()));
+        }
+
         return games;
     }
 
@@ -90,6 +129,11 @@ public class GameHistoryStorageInMemory implements GameHistoryStorage {
     private void removeOldGames() {
         while (gameHistories.size() > MAX_NOOF_GAMES_IN_MEMORY - 1) {
             GameHistory gameHistory = gameHistories.remove(0);
+            log.debug("Removed gameId: {}", gameHistory.getGameId());
+        }
+
+        while (tournamentHistories.size() > MAX_NOOF_GAMES_IN_MEMORY - 1) {
+            GameHistory gameHistory = tournamentHistories.remove(0);
             log.debug("Removed gameId: {}", gameHistory.getGameId());
         }
     }

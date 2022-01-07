@@ -45,6 +45,18 @@ public class GameHistoryStorageElastic implements GameHistoryStorage {
     @Value("${paintbot.elastic.gamehistory.type}")
     private String gameHistoryType;
 
+    @Value("${paintbot.elastic.tournamenthistory.index}")
+    private String tournamentHistoryIndex;
+
+    @Value("${paintbot.elastic.tournamenthistory.type}")
+    private String tournamentHistoryType;
+
+    @Value("${paintbot.elastic.tournamentevent.index}")
+    private String tournamentEventIndex;
+
+    @Value("${paintbot.elastic.tournamentevent.type}")
+    private String tournamentEventType;
+
     @Value("${paintbot.elastic.gameevent.index}")
     private String gameEventIndex;
 
@@ -71,7 +83,14 @@ public class GameHistoryStorageElastic implements GameHistoryStorage {
 
                 String eventId = UUID.randomUUID().toString();
                 try {
-                    IndexRequest indexRequest = new IndexRequest(gameEventIndex, gameEventType, eventId);
+                    IndexRequest indexRequest;
+
+                    if (gameHistory.isTrainingGame()) {
+                        indexRequest = new IndexRequest(gameEventIndex, gameEventType, eventId);
+                    } else {
+                        indexRequest = new IndexRequest(tournamentEventIndex, tournamentEventType, eventId);
+                    }
+
                     String msg = GameMessageParser.encodeMessage(gameMessage);
                     indexRequest.source(msg, XContentType.JSON);
                     elasticClient.index(indexRequest);
@@ -83,10 +102,17 @@ public class GameHistoryStorageElastic implements GameHistoryStorage {
             GameHistoryPersisted ghp = new GameHistoryPersisted(
                     gameHistory.getGameId(),
                     gameHistory.getPlayerNames(),
-                    gameHistory.getGameDate()
+                    gameHistory.getGameDate(),
+                    gameHistory.isTrainingGame()
             );
 
-            IndexRequest indexRequest = new IndexRequest(gameHistoryIndex, gameHistoryType, gameHistory.getGameId());
+            IndexRequest indexRequest;
+            if (gameHistory.isTrainingGame()) {
+                indexRequest = new IndexRequest(gameHistoryIndex, gameHistoryType, gameHistory.getGameId());
+            } else {
+                indexRequest = new IndexRequest(tournamentHistoryIndex, tournamentHistoryType, gameHistory.getGameId());
+            }
+
             String msg = ApiMessageParser.encodeMessage(ghp);
             indexRequest.source(msg, XContentType.JSON);
             elasticClient.index(indexRequest);
@@ -104,6 +130,16 @@ public class GameHistoryStorageElastic implements GameHistoryStorage {
 
         try {
             SearchResponse esResponse = elasticClient.search(searchRequest);
+
+            if (esResponse.getHits().totalHits == 0) {
+                searchRequest = new SearchRequest(tournamentHistoryIndex);
+                searchSourceBuilder = new SearchSourceBuilder()
+                    .query(QueryBuilders.idsQuery(tournamentHistoryType).addIds(gameId));
+                searchRequest.source(searchSourceBuilder);
+
+                esResponse = elasticClient.search(searchRequest);
+            }
+
             if (esResponse.getHits().totalHits > 0) {
                 GameHistoryPersisted ghp = (GameHistoryPersisted) ApiMessageParser.decodeMessage(esResponse.getHits().getAt(0).getSourceAsString());
                 List<GameMessage> gameMessages = getGameEventsForGame(gameId);
@@ -112,7 +148,8 @@ public class GameHistoryStorageElastic implements GameHistoryStorage {
                         ghp.getGameId(),
                         ghp.getPlayerNames(),
                         ghp.getGameDate(),
-                        gameMessages
+                        gameMessages,
+                        ghp.isTrainingGame()
                 );
 
                 return Optional.of(gameHistory);
@@ -143,6 +180,21 @@ public class GameHistoryStorageElastic implements GameHistoryStorage {
             return messages;
         }
 
+        if (scrollResp.getHits().totalHits == 0) {
+            searchRequest = new SearchRequest(tournamentEventIndex)
+                    .scroll(new TimeValue(60000));
+            searchSourceBuilder = new SearchSourceBuilder()
+                    .query(qb)
+                    .size(200);
+            searchRequest.source(searchSourceBuilder);
+
+            try {
+                scrollResp = elasticClient.search(searchRequest);
+            } catch (IOException e) {
+                log.error("Failed to search ElasticSearch");
+                return messages;
+            }
+        }
 
         //Scroll until no hits are returned
         while (true) {
@@ -198,6 +250,12 @@ public class GameHistoryStorageElastic implements GameHistoryStorage {
         List<GameHistorySearchItem> items = new ArrayList<>();
         try {
             SearchResponse esResponse = elasticClient.search(searchRequest);
+            if (esResponse.getHits().totalHits == 0) {
+                searchRequest = new SearchRequest(tournamentHistoryIndex);
+                searchRequest.source(searchSourceBuilder);
+
+                esResponse = elasticClient.search(searchRequest);
+            }
 
             Iterator<SearchHit> searchHitIterator = esResponse.getHits().iterator();
             int counter = 0;

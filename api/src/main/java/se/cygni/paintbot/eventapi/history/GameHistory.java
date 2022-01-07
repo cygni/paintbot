@@ -22,16 +22,20 @@ public class GameHistory extends ApiMessage {
 
     private final List<GameMessage> messages;
 
+    private final boolean isTrainingGame;
     @JsonCreator
     public GameHistory(
             @JsonProperty("gameId") String gameId,
             @JsonProperty("playerNames") String[] playerNames,
             @JsonProperty("gameDate") LocalDateTime gameDate,
-            @JsonProperty("messages") List<GameMessage> messages) {
+            @JsonProperty("messages") List<GameMessage> messages,
+            @JsonProperty("isTrainingGame") boolean isTrainingGame) {
+
         this.gameId = gameId;
         this.playerNames = playerNames;
         this.gameDate = gameDate;
         this.messages = messages;
+        this.isTrainingGame = isTrainingGame;
     }
 
     public String getGameId() {
@@ -50,5 +54,9 @@ public class GameHistory extends ApiMessage {
 
     public List<GameMessage> getMessages() {
         return messages;
+    }
+
+    public boolean isTrainingGame() {
+        return isTrainingGame;
     }
 }

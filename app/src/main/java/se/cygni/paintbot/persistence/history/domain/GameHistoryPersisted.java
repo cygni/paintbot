@@ -18,15 +18,18 @@ public class GameHistoryPersisted extends ApiMessage {
 
     private final LocalDateTime gameDate;
 
+    private final boolean isTrainingGame;
     @JsonCreator
     public GameHistoryPersisted(
             @JsonProperty("gameId") String gameId,
             @JsonProperty("playerNames") String[] playerNames,
-            @JsonProperty("gameDate") LocalDateTime gameDate) {
+            @JsonProperty("gameDate") LocalDateTime gameDate,
+            @JsonProperty("isTrainingGame") boolean isTrainingGame) {
 
         this.gameId = gameId;
         this.playerNames = playerNames;
         this.gameDate = gameDate;
+        this.isTrainingGame = isTrainingGame;
     }
 
     public String getGameId() {
@@ -41,5 +44,9 @@ public class GameHistoryPersisted extends ApiMessage {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     public LocalDateTime getGameDate() {
         return gameDate;
+    }
+
+    public boolean isTrainingGame() {
+        return isTrainingGame;
     }
 }
