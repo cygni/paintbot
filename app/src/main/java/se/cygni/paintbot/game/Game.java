@@ -196,6 +196,10 @@ public class Game {
         return gameEngine.isGameComplete();
     }
 
+    public boolean isTrainingGame() {
+        return trainingGame;
+    }
+
     public GameResult getGameResult() {
         return gameEngine.getGameResult();
     }
@@ -233,14 +237,14 @@ public class Game {
         playerManager.clear();
         gameEngine.abort();
 
-        InternalGameEvent gevent = new InternalGameEvent(System.currentTimeMillis());
+        InternalGameEvent gevent = new InternalGameEvent(System.currentTimeMillis(), this.trainingGame);
         gevent.onGameAborted(getGameId());
         globalEventBus.post(gevent);
         globalEventBus.post(gevent.getGameMessage());
     }
 
     public void publishGameChanged() {
-        InternalGameEvent gevent = new InternalGameEvent(System.currentTimeMillis());
+        InternalGameEvent gevent = new InternalGameEvent(System.currentTimeMillis(), this.trainingGame);
         gevent.onGameChanged(getGameId());
         globalEventBus.post(gevent);
     }

@@ -26,7 +26,7 @@ public class GameHistoryTest {
         List<GameMessage> gameMessages = new ArrayList<>();
         gameMessages.add(new GameStartingEvent(gameId, 3, 46, 34, new GameSettings()));
 
-        GameHistory gh = new GameHistory(gameId, players, now, gameMessages);
+        GameHistory gh = new GameHistory(gameId, players, now, gameMessages, false);
 
         String msg = ApiMessageParser.encodeMessage(gh);
         System.out.println(msg);
