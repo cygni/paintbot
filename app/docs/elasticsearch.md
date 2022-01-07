@@ -7,8 +7,7 @@ each field and if there are any special index options.
 Generally for String types we have choosen the index: "not_analyzed". This
 means that words will not be split.
 
-There are three indexes in Elasticsearch: clientinfo, gamehistory and 
-gameevent.
+There are three indexes in Elasticsearch: clientinfo, tournamenthistory, tournamentevent, gamehistory and gameevent.
 
 Since it is not possible to change the mapping after it has been created
 it is important to define this before the server starts storing data. 
