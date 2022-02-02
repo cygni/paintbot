@@ -28,10 +28,12 @@ public class TournamentExplodingPaintPlayer extends BasePaintbotClient {
     Random random = new Random();
 
     private String name = "#explos_" + random.nextInt(1000);
+    private String protocol = "ws";
     private String host = "localhost";
     private int port = 8080;
-//    private String host = "paintbot.cygni.se";
-//    private int port = 80;
+//    private String protocol = "wss";
+//    private String host = "server.paintbot.cygni.se";
+//    private int port = 443;
     private GameMode gameMode = GameMode.TOURNAMENT;
 
     CharacterAction lastDirection;
@@ -205,6 +207,11 @@ public class TournamentExplodingPaintPlayer extends BasePaintbotClient {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String getProtocol() {
+        return protocol;
     }
 
     @Override

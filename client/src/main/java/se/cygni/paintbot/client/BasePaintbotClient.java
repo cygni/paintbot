@@ -119,7 +119,7 @@ public abstract class BasePaintbotClient extends TextWebSocketHandler implements
     }
 
     public ListenableFuture<WebSocketSession> connect() {
-        String uri = String.format("ws://%s:%d/%s", getServerHost(), getServerPort(), getGameMode().toString().toLowerCase());
+        String uri = String.format("%s://%s:%d/%s", getProtocol(), getServerHost(), getServerPort(), getGameMode().toString().toLowerCase());
         log.info("Connecting to {}", uri);
 
         WebSocketClient wsClient = new StandardWebSocketClient();
