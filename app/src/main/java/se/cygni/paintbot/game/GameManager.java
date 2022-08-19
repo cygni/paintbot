@@ -1,6 +1,5 @@
 package se.cygni.paintbot.game;
 
-
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
@@ -21,10 +20,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class GameManager {
-
     private static final Logger log = LoggerFactory.getLogger(GameManager.class);
-
-    EventBus globalEventBus;
+    private final EventBus globalEventBus;
 
     private Map<String, Game> activeGames = new ConcurrentHashMap<>(new HashMap<>());
 

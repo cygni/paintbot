@@ -8,15 +8,14 @@ import se.cygni.paintbot.game.GameManager;
 @Configuration
 public class ApplicationConfig {
 
-    @Bean
-    public GameManager gameManager() {
-        return new GameManager(globalEventBus());
-    }
+    // @Bean
+    // public GameManager gameManager() {
+    // return new GameManager(globalEventBus());
+    // }
 
     @Bean
     public EventBus globalEventBus() {
         return new EventBus("globalEventBus");
     }
-
 
 }

@@ -1,7 +1,5 @@
 buildscript {
-    ext {
-        springBootVersion = '2.0.5.RELEASE'
-    }
+
     repositories {
         mavenCentral()
         maven {
@@ -15,7 +13,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.springframework.boot' version '2.0.5.RELEASE'
+    id 'org.springframework.boot' version "$springBootVersion"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -24,7 +22,7 @@ apply plugin: "com.gorylenko.gradle-git-properties"
 
 // No need to upload this JAR, it is not a dependency to any other
 // Also, the repo does not allow files larger than 32MB
-uploadArchives.enabled = false
+// uploadArchives.enabled = false
 
 jar {
     baseName = 'app'
@@ -63,29 +61,30 @@ pitest {
 }
 
 dependencies {
-    compile project(':domain')
-    compile project(':api')
-    compile project(':client-util')
+    implementation project(':domain')
+    implementation project(':api')
+    implementation project(':client-util')
 
-    compile("ch.qos.logback:logback-classic:$logbackVersion")
-    compile("org.slf4j:slf4j-api:$slf4jVersion")
-    compile("org.slf4j:jcl-over-slf4j:$slf4jVersion")
-    compile("org.slf4j:log4j-over-slf4j:$slf4jVersion")
-    compile("org.slf4j:jul-to-slf4j:$slf4jVersion")
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+    implementation "org.slf4j:log4j-over-slf4j:$slf4jVersion"
+    implementation "org.slf4j:jul-to-slf4j:$slf4jVersion"
 
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-jersey')
-    compile('org.springframework.boot:spring-boot-starter-websocket')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-jetty')
-    compile('org.elasticsearch:elasticsearch:6.8.22')
-    compile('org.elasticsearch.client:elasticsearch-rest-high-level-client:6.8.22')
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-jersey"
+    implementation "org.springframework.boot:spring-boot-starter-websocket"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-jetty"
+    implementation "org.elasticsearch:elasticsearch:6.8.22"
+    implementation "org.elasticsearch.client:elasticsearch-rest-high-level-client:6.8.22"
 
-    compile("com.google.guava:guava:$guavaVersion")
-    compile("commons-beanutils:commons-beanutils:$commonsBeanutilsVersion")
+    implementation "com.google.guava:guava:$guavaVersion"
+    implementation "org.apache.commons:commons-lang3:$commonsLangVersion"
+    implementation "commons-beanutils:commons-beanutils:$commonsBeanutilsVersion"
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
-    testCompile('org.mockito:mockito-core:2.23.0')
-    testCompile("org.assertj:assertj-core:3.11.1")
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
+    testImplementation "org.mockito:mockito-core:2.23.0"
+    testImplementation "org.assertj:assertj-core:3.11.1"
 }
