@@ -1,9 +1,8 @@
 package se.cygni.paintbot.config;
 
-import com.google.common.eventbus.EventBus;
+//import com.google.common.eventbus.EventBus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import se.cygni.paintbot.game.GameManager;
 
 @Configuration
 public class ApplicationConfig {
@@ -14,8 +13,9 @@ public class ApplicationConfig {
     // }
 
     @Bean
-    public EventBus globalEventBus() {
-        return new EventBus("globalEventBus");
+    public Object globalEventBus() throws Exception {
+        throw new Exception("ay");
+//        return new EventBus("globalEventBus");
     }
 
 }

@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface GameHistoryStorage {
 
-    void addGameHistory(GameHistory gameHistory);
-
-    Optional<GameHistory> getGameHistory(String gameId);
-    GameHistorySearchResult listGamesWithPlayer(String playerName);
-    GameHistorySearchResult getHistoricGames();
+//    void addGameHistory(GameHistory gameHistory);
+//
+//    Optional<GameHistory> getGameHistory(String gameId);
+//    GameHistorySearchResult listGamesWithPlayer(String playerName);
+//    GameHistorySearchResult getHistoricGames();
 }

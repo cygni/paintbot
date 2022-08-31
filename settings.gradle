@@ -1,2 +1,6 @@
-include ":api", ":domain", ":app", ":client", ":client-util"
-rootProject.name = 'PaintbotServer'
+rootProject.name = 'PaintBot'
+include 'domain'
+include 'api'
+include 'client-util'
+include 'client'
+include 'server'

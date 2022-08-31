@@ -1,7 +1,3 @@
-jar {
-    baseName = 'client'
-}
-
 processResources {
     filesMatching("client.properties") {
         expand(project.properties)

@@ -8,11 +8,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "type"
 )
 public abstract class ApiMessage {
+    private final String type = this.getClass().getCanonicalName();
 
-//    private final String type = this.getClass().getCanonicalName();
-//
-//    public String getType() {
-//        return type;
-//    }
+    public String getType() {
+        return type;
+    }
 
 }

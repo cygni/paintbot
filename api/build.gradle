@@ -1,17 +1,9 @@
-jar {
-    baseName = 'api'
-}
-
 dependencies {
     implementation "org.springframework:spring-core:$springVersion"
     implementation "org.springframework:spring-context:$springVersion"
-    implementation "org.apache.karaf.shell:org.apache.karaf.shell.table:4.0.6"
+    implementation 'org.apache.karaf.shell:org.apache.karaf.shell.table:4.4.0'
     implementation "org.apache.commons:commons-lang3:$commonsLangVersion"
     implementation "ch.qos.logback:logback-classic:$logbackVersion"
-    implementation "org.slf4j:slf4j-api:$slf4jVersion"
-    implementation "org.slf4j:jcl-over-slf4j:$slf4jVersion"
-    implementation "org.slf4j:log4j-over-slf4j:$slf4jVersion"
-    implementation "org.slf4j:jul-to-slf4j:$slf4jVersion"
     implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
