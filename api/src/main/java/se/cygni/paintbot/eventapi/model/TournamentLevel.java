@@ -1,6 +1,7 @@
 package se.cygni.paintbot.eventapi.model;
 
 import java.util.List;
+import java.util.Set;
 
 public class TournamentLevel {
 

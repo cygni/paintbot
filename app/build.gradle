@@ -1,60 +1,96 @@
-buildscript {
-    ext {
-        springBootVersion = '2.0.5.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.5.2"
-    }
-}
+//buildscript {
+//
+//    repositories {
+//        mavenCentral()
+//        maven {
+//            url "https://plugins.gradle.org/m2/"
+//        }
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.5.2"
+//    }
+//}
 
 plugins {
-    id 'org.springframework.boot' version '2.0.5.RELEASE'
+    id 'java'
+    id "io.freefair.lombok" version "6.5.0.3"
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'info.solidsoft.pitest' version '1.9.0'
+//    id 'com.gorylenko.gradle-git-properties' version '2.4.1'
 }
 
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'info.solidsoft.pitest'
-apply plugin: "com.gorylenko.gradle-git-properties"
+repositories {
+    mavenCentral()
+}
+
+//apply plugin: 'io.spring.dependency-management'
+//apply plugin: 'info.solidsoft.pitest'
+//apply plugin: "com.gorylenko.gradle-git-properties"
 
 // No need to upload this JAR, it is not a dependency to any other
 // Also, the repo does not allow files larger than 32MB
-uploadArchives.enabled = false
+// uploadArchives.enabled = false
 
-jar {
-    baseName = 'app'
-}
+//jar {
+//    baseName = 'app'
+//}
 
-processResources {
-    filesMatching('**/*.properties') { expand(project.properties) }
+//processResources {
+//    filesMatching('**/*.properties') { expand(project.properties) }
 //    expand(project.properties)
-}
+//}
 
-configurations {
-    compile.exclude module: "spring-boot-starter-tomcat"
-}
+//configurations {
+//    compile.exclude module: "spring-boot-starter-tomcat"
+//}
 
-project.ext {
-    builddate = new Date()
-    buildnumber = "$System.env.BUILD_NUMBER"
-}
+//project.ext {
+//    builddate = new Date()
+//    buildnumber = "$System.env.BUILD_NUMBER"
+//}
 
-assemble.doLast {
-    copy {
-        from file("$buildDir/libs/app-${version}.jar")
-        into file("$buildDir/docker")
-    }
-    
-}
+//assemble.doLast {
+//    copy {
+//        from file("$buildDir/libs/app-${version}.jar")
+//        into file("$buildDir/docker")
+//    }
+//
+//}
 
 //springBoot {
 //    buildInfo()
 //}
+
+dependencies {
+//    implementation project(':domain')
+//    implementation project(':api')
+//    implementation project(':client-util')
+//    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+//    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+//    implementation "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+//    implementation "org.slf4j:log4j-over-slf4j:$slf4jVersion"
+//    implementation "org.slf4j:jul-to-slf4j:$slf4jVersion"
+//    implementation "org.springframework.boot:spring-boot-starter-actuator"
+//    implementation "org.springframework.boot:spring-boot-starter-jersey"
+//    implementation "org.springframework.boot:spring-boot-starter-websocket"
+//    implementation "org.springframework.boot:spring-boot-starter-web"
+//    implementation "org.springframework.boot:spring-boot-starter-jetty"
+////    implementation "org.elasticsearch:elasticsearch:6.8.22"
+////    implementation "org.elasticsearch.client:elasticsearch-rest-high-level-client:6.8.22"
+//    implementation "com.google.guava:guava:$guavaVersion"
+//    implementation "org.apache.commons:commons-lang3:$commonsLangVersion"
+//    implementation "commons-beanutils:commons-beanutils:$commonsBeanutilsVersion"
+//
+//    compileOnly "org.springframework.boot:spring-boot-devtools"
+//
+//    testImplementation "org.springframework.boot:spring-boot-starter-test"
+//    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:2.0.6.RELEASE"
+//    testImplementation "org.mockito:mockito-core:2.23.0"
+//    testImplementation "org.assertj:assertj-core:3.11.1"
+//    testImplementation "junit:junit:4.13.2"
+}
 
 pitest {
     targetClasses = ['se.cygni.paintbot.*']
@@ -62,30 +98,3 @@ pitest {
     outputFormats = ['XML', 'HTML']
 }
 
-dependencies {
-    compile project(':domain')
-    compile project(':api')
-    compile project(':client-util')
-
-    compile("ch.qos.logback:logback-classic:$logbackVersion")
-    compile("org.slf4j:slf4j-api:$slf4jVersion")
-    compile("org.slf4j:jcl-over-slf4j:$slf4jVersion")
-    compile("org.slf4j:log4j-over-slf4j:$slf4jVersion")
-    compile("org.slf4j:jul-to-slf4j:$slf4jVersion")
-
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-jersey')
-    compile('org.springframework.boot:spring-boot-starter-websocket')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-jetty')
-    compile('org.elasticsearch:elasticsearch:6.8.22')
-    compile('org.elasticsearch.client:elasticsearch-rest-high-level-client:6.8.22')
-
-    compile("com.google.guava:guava:$guavaVersion")
-    compile("commons-beanutils:commons-beanutils:$commonsBeanutilsVersion")
-
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
-    testCompile('org.mockito:mockito-core:2.23.0')
-    testCompile("org.assertj:assertj-core:3.11.1")
-}

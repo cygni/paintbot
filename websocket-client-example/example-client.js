@@ -55,8 +55,8 @@ const send = data => {
 
 const jsonSend = (data) => send(JSON.stringify(data));
 
-const recieve = (data) => {
-    console.log(`${timestamp()} Recieved: \t[${data}]`);
+const receive = (data) => {
+    console.log(`${timestamp()} Received: \t[${data}]`);
     const jsonData = JSON.parse(data);
     switch (jsonData.type) {
         case 'se.cygni.paintbot.api.response.PlayerRegistered':
@@ -76,7 +76,7 @@ ws.on('open', () => {
     jsonSend(registerPlayerData);
 });
 
-ws.on('message', recieve);
+ws.on('message', receive);
 
 ws.on('close', () => {
     console.log(`${timestamp()} connection closed`)

@@ -1,0 +1,16 @@
+<included>
+    <contextName>paint-bot-server</contextName>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%green(%date{HH:mm:ss.SSS}) %highlight(%-5level) %boldYellow(%logger{0}) - %highlight(%msg) %cyan([%t]) %n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="se" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</included>
+
