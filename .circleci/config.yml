@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/code
   docker:
-    - image: circleci/openjdk:17
+    - image: circleci/openjdk:17.0
 
 jobs:
   build:
