@@ -16,22 +16,12 @@ allprojects {
     targetCompatibility = 17
     compileJava.options.encoding = 'UTF-8'
 
-/*
-    // Enable this for compiler warnings
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-        }
-    }
-*/
-/*
     task downloadDependencies() {
         description 'Download all dependencies to the Gradle cache'
         doLast {
             configurations.findAll { it.canBeResolved }.files
         }
     }
- */
 }
 
 ext {
@@ -74,7 +64,7 @@ subprojects {
             }
         }
     }
-
+// TODO: the fate of below configuration i
     //    jacoco {
 //        toolVersion = "0.8.8"
 //    }
