@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/code
   docker:
-    - image: circleci/openjdk:11
+    - image: cimg/openjdk:17.0
 
 jobs:
   build:
@@ -44,44 +44,44 @@ jobs:
           name: Run build and tests
           command: ./gradlew build test
       
-      - run:
-          name: Publish artifacts
-          command: ./gradlew upload
-      
-      - run:
-          name: Login to DockerHub
-          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
-          
-      - run: 
-          name: Build image
-          command: cd app && docker build . -t paintbot/paintbot-server
-      
-      - run:
-          name: Push image
-          command: cd app && docker push paintbot/paintbot-server:latest
+#      - run:
+#          name: Publish artifacts
+#          command: ./gradlew upload
+#
+#      - run:
+#          name: Login to DockerHub
+#          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+#
+#      - run:
+#          name: Build image
+#          command: cd app && docker build . -t paintbot/paintbot-server
+#
+#      - run:
+#          name: Push image
+#          command: cd app && docker push paintbot/paintbot-server:latest
 
-  deploy:
-    docker:
-      - image: cibuilds/aws:1.16.1
-    steps:
-      - run:
-          name: New deployment
-          command: aws ecs update-service --cluster se-cygni --service paintbot-ecs-service --force-new-deployment
+#  deploy:
+#    docker:
+#      - image: cibuilds/aws:1.16.1
+#    steps:
+#      - run:
+#          name: New deployment
+#          command: aws ecs update-service --cluster se-cygni --service paintbot-ecs-service --force-new-deployment
 
 
 workflows:
   version: 2
-  build-test-and-deploy:
+  build-test:
     jobs:
       - build
-      - approve-deploy:
-          type: approval
-          requires: 
-            - build
-          filters:
-            branches:
-              only:
-                - develop
-      - deploy:
-          requires:
-            - approve-deploy
+#      - approve-deploy:
+#          type: approval
+#          requires:
+#            - build
+#          filters:
+#            branches:
+#              only:
+#                - develop
+#      - deploy:
+#          requires:
+#            - approve-deploy
